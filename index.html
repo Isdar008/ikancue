@@ -3,132 +3,151 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Premium VPN & Xray</title>
+    <title>XTRIMER TUNNELING - Premium Services</title>
     <style>
         /* --- CSS Dasar dan Gaya --- */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f0f2f5; /* Latar belakang abu-abu sangat muda */
+            background-color: #f0f2f5; 
             text-align: center;
         }
+        /* Gradient Header Baru: Lebih gelap dan berkelas */
         .header {
-            background-image: linear-gradient(to right, #4a148c, #6a1b9a); /* Gradient Ungu Premium */
+            background-image: linear-gradient(to right, #1a237e, #4527a0); /* Biru Tua & Ungu Tua */
             color: white;
-            padding: 40px 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 45px 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
         }
         .header h1 {
-            font-size: 2.2em;
+            font-size: 2.5em;
             margin-bottom: 5px;
+            font-weight: 700;
         }
         .header p {
             font-size: 1.1em;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
         }
-        /* --- Gaya Tombol Navigasi Utama --- */
-        .nav-buttons {
-            margin-top: 20px;
+        /* --- Gaya Tombol Layanan Utama --- */
+        .service-buttons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 20px 0;
+            gap: 10px; /* Jarak antar tombol */
         }
-        .nav-buttons a {
-            display: inline-block;
-            background-color: rgba(255, 255, 255, 0.2);
+        .service-buttons a {
+            flex-grow: 1;
+            max-width: 150px;
+            background-color: rgba(255, 255, 255, 0.1);
             color: white;
-            padding: 8px 15px;
-            margin: 5px;
-            border-radius: 20px;
+            padding: 10px 15px;
+            border-radius: 8px;
             text-decoration: none;
-            font-size: 0.9em;
-            font-weight: bold;
-            border: 1px solid rgba(255, 255, 255, 0.5);
+            font-size: 1em;
+            font-weight: 600;
+            transition: background-color 0.3s;
         }
-        /* --- Kotak Konten Trial --- */
+        .service-buttons a:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+        /* --- Kotak Konten Trial Baru --- */
         .content-box {
             max-width: 350px;
             margin: 30px auto;
             background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
             overflow: hidden;
         }
         .trial-header {
-            background-color: #007bff; /* Biru */
+            background-color: #ff6f00; /* Oranye Terang untuk Trial */
             color: white;
-            padding: 15px;
-            font-size: 1.2em;
+            padding: 18px;
+            font-size: 1.3em;
             font-weight: bold;
         }
         .trial-body {
-            padding: 20px;
+            padding: 25px;
         }
         .auto-generate-input {
-            background-color: #e9ecef; /* Latar belakang abu-abu input */
+            background-color: #e9ecef;
             color: #495057;
-            padding: 10px;
+            padding: 12px;
             border: none;
-            width: 90%;
+            width: 100%;
+            box-sizing: border-box;
             text-align: center;
             font-family: monospace;
-            font-size: 1.1em;
-            border-radius: 5px;
+            font-size: 1.2em;
+            border-radius: 6px;
             margin-bottom: 15px;
+            font-weight: bold;
         }
-        /* --- Icon Emoji Selamat Datang --- */
-        .welcome-icon {
-            font-size: 3em;
-            margin-top: 20px;
-        }
-        /* --- Gaya Developer --- */
         .developer-info {
-            font-size: 0.8em;
-            color: #888;
-            margin-top: 20px;
-            padding-bottom: 10px;
+            font-size: 0.85em;
+            color: #777;
+            margin-top: 30px;
+            padding-bottom: 20px;
+        }
+        /* --- Icon & Greeting --- */
+        .greeting {
+            font-size: 1.8em;
+            margin: 25px 0 10px 0;
+            color: #333;
+            font-weight: 600;
+        }
+        .social-media a {
+            font-size: 2.2em;
+            margin: 0 10px;
+            text-decoration: none;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+        .social-media a:hover {
+            opacity: 1;
         }
     </style>
 </head>
 <body>
     
     <div class="header">
-        <h1>UDP Custom & Xray Premium</h1>
-        <p>High-Speed Tunneling untuk Streaming & Secure Browsing</p>
+        <h1>XTRIMER PREMIUM TUNNELING</h1>
+        <p>Akses Cepat & Aman. Solusi Terbaik untuk Koneksi Anda.</p>
         
-        <div class="nav-buttons">
-            <a href="#">ZIVPN</a>
-            <a href="#">UDPCustom</a>
-            <a href="#">Vmess</a>
-            <a href="#">Vless</a>
-            <a href="#">Trojan</a>
+        <div class="service-buttons">
+            <a href="#">SSH TUNNEL</a>
+            <a href="#">VMESS</a>
+            <a href="#">VLESS</a>
+            <a href="#">TROJAN</a>
         </div>
     </div>
     
-    <div class="welcome-icon">
-        🙏 Selamat Datang 🙏
+    <div class="greeting">
+        🙏 Selamat Datang di Pusat Layanan 🙏
     </div>
     
     <div class="content-box">
         <div class="trial-header">
-            Trial ZIVPN
-            <div style="font-size: 0.8em; font-weight: normal;">Trial 90 menit</div>
+            Dapatkan Trial Akun Premium
+            <div style="font-size: 0.7em; font-weight: normal; margin-top: 5px;">Berlaku selama 60 Menit</div>
         </div>
         <div class="trial-body">
-            <p style="font-size: 0.9em; color: #6c757d; margin-top: 0;">Auto Generate</p>
+            <p style="font-size: 1em; color: #6c757d; margin-top: 0; margin-bottom: 10px;">Kode Akses Otomatis:</p>
             <div class="auto-generate-input">
-                trial-zivpn-001
+                XTR-TUNNEL-TRIAL-001
             </div>
-            <p style="text-align: left; font-weight: bold; margin-bottom: 5px;">ZIVPN UDP</p>
-            </div>
+            
+            <p style="text-align: left; font-weight: bold; margin-bottom: 15px; font-size: 0.9em;">*Klik salah satu layanan di atas untuk petunjuk konfigurasi.</p>
+        </div>
     </div>
     
-    <div style="margin-top: 40px; padding-bottom: 20px;">
-        <a href="#" style="margin: 0 10px; font-size: 2em; text-decoration: none;">📘</a>
-        <a href="#" style="margin: 0 10px; font-size: 2em; text-decoration: none;">📸</a>
-        <a href="#" style="margin: 0 10px; font-size: 2em; text-decoration: none;">🟢</a>
-    </div>
+    <div class="social-media">
+        <a href="#" style="color: #4267B2;">📘</a> <a href="#" style="color: #E1306C;">📸</a> <a href="#" style="color: #25D366;">🟢</a> </div>
 
     <div class="developer-info">
-        <p>Developed by XTRIMER TUNNELING</p>
+        <p>Developed & Managed by XTRIMER TUNNELING</p>
         <p>&copy; 2024. All rights reserved.</p>
     </div>
 
