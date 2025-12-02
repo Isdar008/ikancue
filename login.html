@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Area Pelanggan & Cek Status - GabutStore</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="container">
+            <a href="index.html" class="brand-logo">GabutStore VPN Tunnels</a>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">Beranda</a></li>
+                    <li><a href="pricing.html">💰 Pilih Paket</a></li>
+                    <li><a href="guide.html">⚙️ Cara Penggunaan</a></li>
+                    <li><a href="contact.html">📞 Kontak & Support</a></li>
+                </ul>
+            </nav>
+            <div class="nav-actions">
+                <a href="order.html" class="btn btn-primary">Beli Sekarang!</a>
+                <a href="login.html" class="btn btn-secondary">**Area Pelanggan**</a>
+            </div>
+            <button class="menu-toggle" id="menuToggle">☰</button>
+        </div>
+    </header>
+    <main class="login-section">
+        <div class="container">
+            <h2 class="section-title">Cek Status Akun atau Invoice</h2>
+            <p class="section-subtitle">Masukkan Username Akun SSH/VPN atau Invoice ID Anda.</p>
+
+            <form id="statusForm" class="status-form">
+                
+                <div class="form-group">
+                    <label for="query">Username atau Invoice ID</label>
+                    <input type="text" id="query" name="query" required placeholder="Contoh: akunkeren123 atau INV-1701234567">
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-large">
+                    <i class="fa-solid fa-search"></i> <span id="submitText">Cek Status</span>
+                    <i class="fa-solid fa-spinner fa-spin" style="display:none;" id="spinner"></i>
+                </button>
+                
+                <p id="message" class="message-box" style="display:none;"></p>
+            </form>
+
+            <div id="statusResult" class="result-box" style="display:none;">
+                <h4>Detail Status</h4>
+                <div id="statusDetails">
+                    </div>
+                <div class="action-buttons">
+                    </div>
+            </div>
+
+        </div>
+    </main>
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 GabutStore. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script src="script.js"></script>
+    <script src="login.js"></script>
+</body>
+</html>
