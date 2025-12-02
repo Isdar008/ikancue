@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top Up Saldo • Xtrimer VPN Tunnels</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .topup-card {
+            max-width: 520px;
+            margin: 0 auto;
+            padding: 20px;
+            background: radial-gradient(circle at top, #111827, #020617);
+            border: 1px solid #1f2937;
+            border-radius: 14px;
+            box-shadow: 0 18px 38px rgba(15, 23, 42, 0.8);
+        }
+        .topup-title {
+            margin: 0 0 6px;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        .topup-desc {
+            margin: 0 0 14px;
+            color: #9ca3af;
+            font-size: 0.88rem;
+        }
+        .amount-box {
+            background: #0b1120;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid #1f2937;
+            margin-bottom: 14px;
+            text-align: center;
+        }
+        .amount-value {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin: 4px 0;
+            color: #22c55e;
+        }
+        .summary-box {
+            padding: 12px;
+            border-radius: 10px;
+            background: #0a0f1f;
+            border: 1px solid #1f2937;
+            margin-top: 18px;
+        }
+        .summary-box p {
+            margin: 4px 0;
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="navbar">
+    <div class="container nav-inner">
+        <a href="index.html" class="brand-logo">GabutStore VPN Tunnels</a>
+
+        <nav class="main-nav" id="mainNav">
+            <ul>
+                <li><a href="index.html">Beranda</a></li>
+                <li><a href="topup-select.html" class="active">💰 Isi Saldo</a></li>
+                <li><a href="guide.html">⚙️ Cara Penggunaan</a></li>
+                <li><a href="contact.html">📞 Kontak & Support</a></li>
+            </ul>
+        </nav>
+
+        <button class="menu-toggle" id="menuToggle">☰</button>
+    </div>
+</header>
+
+<main class="pricing-page">
+    <div class="container">
+
+        <div class="topup-card">
+            <h2 class="topup-title">Konfirmasi Isi Saldo</h2>
+            <p class="topup-desc">
+                Masukkan User ID kamu dan lanjutkan untuk melakukan pembayaran.
+            </p>
+
+            <!-- Nominal (auto dari query) -->
+            <div class="amount-box">
+                <div>Nominal Saldo</div>
+                <div id="amount" class="amount-value">Rp 0</div>
+            </div>
+
+            <!-- Form user ID -->
+            <div class="field">
+                <label for="userid">User ID (di backend)</label>
+                <input type="number" id="userid" placeholder="contoh: 123456789">
+                <div class="note">Pastikan User ID sudah benar agar saldo langsung masuk.</div>
+            </div>
+
+            <!-- Summary -->
+            <div class="summary-box">
+                <p><strong>Detail Top Up:</strong></p>
+                <p>Nominal: <span id="sumAmount">Rp 0</span></p>
+                <p>Biaya Admin: <span>Rp 0</span> (gratis)</p>
+                <p>Total bayar: <strong><span id="totalAmount">Rp 0</span></strong></p>
+            </div>
+
+            <!-- Tombol bayar -->
+            <button class="btn btn-primary btn-full" id="payBtn">
+                Lanjut Pembayaran
+            </button>
+
+            <div id="status" class="note"></div>
+        </div>
+
+    </div>
+</main>
+
+<footer>
+    <div class="container">
+        <p>&copy; 2025 XtrimerStore. All rights reserved.</p>
+    </div>
+</footer>
+
+<script>
+    // ambil nominal dari URL
+    const params = new URLSearchParams(window.location.search);
+    const amount = Number(params.get("amount")) || 0;
+
+    // tampilkan ke user
+    document.getElementById("amount").textContent = "Rp " + amount.toLocaleString("id-ID");
+    document.getElementById("sumAmount").textContent = "Rp " + amount.toLocaleString("id-ID");
+    document.getElementById("totalAmount").textContent = "Rp " + amount.toLocaleString("id-ID");
+
+    // tombol bayar
+    document.getElementById("payBtn").addEventListener("click", () => {
+        const userid = document.getElementById("userid").value.trim();
+        const statusEl = document.getElementById("status");
+
+        if (!userid) {
+            statusEl.textContent = "User ID belum diisi.";
+            statusEl.style.color = "#f97316";
+            return;
+        }
+
+        // nanti ini diarahkan ke backend (QRIS / Manual)
+        alert("Top up belum dihubungkan ke backend.\nNominal: Rp " + amount.toLocaleString("id-ID") + "\nUser ID: " + userid);
+
+        statusEl.textContent = "Sistem pembayaran belum aktif. Menunggu integrasi backend.";
+        statusEl.style.color = "#22c55e";
+    });
+</script>
+
+</body>
+</html>
