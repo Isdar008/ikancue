@@ -477,3 +477,65 @@ body {
     font-weight: 600;
     margin-bottom: 20px;
 }
+/* --- 9. STYLING LOGIN/STATUS CHECKER --- */
+.login-section {
+    padding: 60px 0 80px 0;
+    text-align: center;
+}
+
+.status-form {
+    max-width: 500px;
+    margin: 30px auto;
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.result-box {
+    max-width: 650px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #f7f7ff;
+    border: 1px solid #c2ccff;
+    border-radius: 10px;
+    text-align: left;
+}
+
+.result-box h4 {
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    color: var(--primary-color);
+}
+
+#statusDetails p {
+    margin: 10px 0;
+    font-size: 1.1rem;
+    line-height: 1.5;
+}
+
+#statusDetails strong {
+    color: #333;
+}
+
+.status-label {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-weight: 700;
+    color: white;
+}
+
+.status-label.active { background-color: #28a745; } /* Hijau */
+.status-label.expired { background-color: #dc3545; } /* Merah */
+.status-label.pending { background-color: #ffc107; color: #333; } /* Kuning */
+.status-label.inactive { background-color: #6c757d; } /* Abu-abu */
+
+.action-buttons {
+    margin-top: 30px;
+    text-align: center;
+}
+.action-buttons .btn {
+    margin: 0 10px;
+}
