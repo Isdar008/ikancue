@@ -271,3 +271,109 @@ body {
     padding: 12px;
     font-size: 1rem;
 }
+/* --- 7. STYLING ORDER SECTION (FORMULIR) --- */
+.order-section {
+    padding: 60px 0 80px 0;
+}
+
+.order-form {
+    max-width: 600px;
+    margin: 30px auto;
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--text-dark);
+}
+
+.form-group input[type="text"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.form-group input[type="text"]:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+.form-group small {
+    display: block;
+    margin-top: 5px;
+    color: #888;
+    font-size: 0.85rem;
+}
+
+/* Ringkasan Paket */
+.summary-box {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 15px 25px;
+    background-color: #e6f3ff; /* Latar belakang biru muda */
+    border: 1px solid #b3d9ff;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+.summary-box h4 {
+    color: var(--primary-color);
+    margin-bottom: 5px;
+}
+
+/* Kotak Pesan dan Pembayaran */
+.message-box {
+    padding: 15px;
+    margin-top: 20px;
+    border-radius: 6px;
+    text-align: center;
+}
+
+.message-box.error {
+    background-color: #fdd;
+    color: #cc0000;
+}
+
+.message-box.success {
+    background-color: #ddf;
+    color: #0000cc;
+}
+
+.payment-box {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #f9f9f9;
+    border: 2px solid #28a745;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.payment-box h3 {
+    color: #28a745;
+    margin-bottom: 15px;
+}
+
+#invoiceDetails p {
+    margin: 10px 0;
+    font-size: 1.1rem;
+}
+
+#invoiceDetails img {
+    max-width: 250px;
+    height: auto;
+    border: 1px solid #ddd;
+    margin: 15px 0;
+}
