@@ -65,7 +65,7 @@
 
             <div class="pill-row">
                 <span class="pill" id="pill-proto">Protokol: VMESS</span>
-                <span class="pill">Bayar per akun (tanpa topup)</span>
+                <span class="pill" id="pill-durasi">Durasi: 30 Hari • Rp 8.000</span>
             </div>
 
             <div class="field">
@@ -89,22 +89,13 @@
             </div>
 
             <div class="field">
-                <label for="days">Durasi Hari</label>
+                <label for="days">Durasi</label>
                 <select id="days">
-                    <option value="7">7 Hari</option>
-                    <option value="15">15 Hari</option>
-                    <option value="30" selected>30 Hari</option>
-                    <option value="60">60 Hari</option>
+                    <option value="trial">Trial 60 menit (Rp 0)</option>
+                    <option value="15">15 Hari (Rp 5.000)</option>
+                    <option value="30" selected>30 Hari (Rp 8.000)</option>
+                    <option value="60">60 Hari (Rp 16.000)</option>
                 </select>
-            </div>
-
-            <div class="field">
-                <label for="user-id">User ID Telegram</label>
-                <input id="user-id" type="number" placeholder="contoh: 123456789" />
-                <div class="note">
-                    User ID ini sama dengan yang dipakai di bot Telegram.  
-                    Akun & notifikasi bisa dikirim lewat sana.
-                </div>
             </div>
 
             <button id="btn-order" class="btn btn-primary btn-full">
@@ -118,8 +109,8 @@
                 <label>Info Tagihan / Hasil</label>
                 <textarea id="result" readonly placeholder="Link pembayaran QRIS atau pesan error akan muncul di sini..."></textarea>
                 <div class="note">
-                    Setelah pembayaran berhasil, akun dibuat otomatis oleh backend.  
-                    Kamu bisa cek juga di bot Telegram.
+                    Harga di atas adalah patokan paket: Trial 0 • 15H = 5k • 30H = 8k • 60H = 16k.  
+                    Perhitungan final tetap mengikuti logika di backend.
                 </div>
             </div>
 
