@@ -15,6 +15,7 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      background: radial-gradient(circle at top, #020617, #000);
     }
     .container {
       max-width: 1100px;
@@ -22,11 +23,12 @@
       padding: 16px;
     }
     header {
-      padding: 16px 0;
+      padding: 16px 0 6px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 8px;
+      flex-wrap: wrap;
     }
     header h1 {
       margin: 0;
@@ -49,6 +51,15 @@
       font-size: 0.75rem;
       color: #9ca3af;
     }
+    .badge {
+      font-size: 0.7rem;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid #1f2937;
+      color: #9ca3af;
+    }
+
     main {
       flex: 1;
       display: grid;
@@ -60,23 +71,45 @@
         grid-template-columns: minmax(0, 1fr);
       }
     }
+
     .card {
       background: radial-gradient(circle at top, #111827, #020617);
-      border-radius: 12px;
+      border-radius: 16px;
       padding: 16px;
       border: 1px solid #111827;
-      box-shadow: 0 20px 40px rgba(15, 23, 42, 0.8);
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.85);
     }
+    .card h2 {
+      margin: 0 0 4px;
+      font-size: 1.05rem;
+    }
+    .subtitle {
+      font-size: 0.8rem;
+      color: #9ca3af;
+      margin-bottom: 10px;
+    }
+
     .servers-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
       gap: 12px;
     }
     .server-card {
-      border-radius: 10px;
+      border-radius: 12px;
       padding: 12px;
-      background: linear-gradient(to bottom right, #0b1120, #020617);
+      background: linear-gradient(to bottom right, #020617, #020617);
       border: 1px solid #1f2937;
+      cursor: pointer;
+      transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
+    }
+    .server-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 28px rgba(15, 23, 42, 0.8);
+      border-color: #22c55e;
+    }
+    .server-card.selected {
+      border-color: #22c55e;
+      box-shadow: 0 0 0 1px rgba(34, 197, 94, 0.4);
     }
     .server-name {
       font-weight: 600;
@@ -99,11 +132,13 @@
     }
     .status-ok { color: #22c55e; }
     .status-full { color: #ef4444; }
+
     .divider {
       height: 1px;
       background: linear-gradient(to right, transparent, #1f2937, transparent);
       margin: 12px 0;
     }
+
     label {
       display: block;
       font-size: 0.8rem;
@@ -124,6 +159,77 @@
       outline: none;
       box-sizing: border-box;
     }
+    input:focus, select:focus {
+      border-color: #22c55e;
+      box-shadow: 0 0 0 1px rgba(34, 197, 94, 0.35);
+    }
+    .field {
+      margin-bottom: 10px;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .pill {
+      font-size: 0.75rem;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid #1f2937;
+      background: #020617;
+      color: #9ca3af;
+    }
+
+    .tabs {
+      display: inline-flex;
+      padding: 3px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid #1f2937;
+      margin-bottom: 10px;
+    }
+    .tab-btn {
+      border: none;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      color: #9ca3af;
+      background: transparent;
+      cursor: pointer;
+    }
+    .tab-btn.active {
+      background: linear-gradient(to right, #22c55e, #06b6d4);
+      color: #020617;
+      font-weight: 600;
+    }
+
+    .protocol-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 8px 0 12px;
+    }
+    .protocol-btn {
+      flex: 1 1 70px;
+      min-width: 70px;
+      text-align: center;
+      font-size: 0.78rem;
+      padding: 6px 8px;
+      border-radius: 999px;
+      border: 1px solid #1f2937;
+      background: #020617;
+      color: #9ca3af;
+      cursor: pointer;
+    }
+    .protocol-btn.active {
+      border-color: #22c55e;
+      background: radial-gradient(circle at top, #0f172a, #022c22);
+      color: #e5e7eb;
+      font-weight: 600;
+    }
+
     button.primary {
       width: 100%;
       padding: 10px 12px;
@@ -133,9 +239,106 @@
       font-weight: 600;
       background: linear-gradient(to right, #22c55e, #06b6d4);
       color: #020617;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
     }
-    .error { color: #f97316; font-size: 0.8rem; }
-    .success { color: #22c55e; font-size: 0.8rem; }
+    button.primary:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+
+    .note {
+      font-size: 0.75rem;
+      color: #9ca3af;
+      margin-top: 4px;
+    }
+    .error {
+      color: #f97316;
+      font-size: 0.8rem;
+      margin-top: 4px;
+    }
+    .success {
+      color: #22c55e;
+      font-size: 0.8rem;
+      margin-top: 4px;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 140px;
+      border-radius: 10px;
+      padding: 10px;
+      border: 1px solid #1f2937;
+      background: #020617;
+      color: #e5e7eb;
+      resize: vertical;
+      box-sizing: border-box;
+      font-size: 0.78rem;
+      white-space: pre-wrap;
+    }
+
+    .result-card {
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 12px;
+      border: 1px solid #1f2937;
+      background: radial-gradient(circle at top, #020617, #020617);
+      font-size: 0.78rem;
+    }
+    .result-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 2px;
+      color: #9ca3af;
+    }
+    .result-row span:first-child {
+      opacity: 0.8;
+    }
+    .result-highlight {
+      font-weight: 600;
+      color: #e5e7eb;
+    }
+
+    .result-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+    .chip {
+      font-size: 0.7rem;
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid #1f2937;
+      background: #020617;
+      color: #9ca3af;
+    }
+    .chip-success {
+      border-color: #22c55e;
+      color: #22c55e;
+    }
+
+    .copy-btn {
+      font-size: 0.7rem;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid #1f2937;
+      background: #020617;
+      color: #e5e7eb;
+      cursor: pointer;
+    }
+    .copy-btn:hover {
+      border-color: #22c55e;
+    }
+
+    footer {
+      padding: 10px 16px 18px;
+      text-align: center;
+      font-size: 0.75rem;
+      color: #6b7280;
+    }
   </style>
 </head>
 <body>
@@ -143,7 +346,8 @@
     <header>
       <div>
         <h1>
-          ⚡ ExtrimerS Tunneling <span class="brand-pill">Simple Store</span>
+          ⚡ ExtrimerS Tunneling
+          <span class="brand-pill">Simple Store</span>
         </h1>
         <small>Koneksi cepat & stabil • Sistem otomatis • Config langsung jadi</small>
       </div>
@@ -153,32 +357,61 @@
     </header>
 
     <main>
-      <!-- SERVER LIST -->
+      <!-- KIRI: LIST SERVER -->
       <section class="card">
         <h2>📡 Pilih Server</h2>
+        <p class="subtitle">
+          Tap salah satu server untuk digunakan. Status penuh artinya batas pembuatan akun harian sudah tercapai.
+        </p>
         <div class="divider"></div>
         <div id="servers" class="servers-grid">
-          <p style="color:#9ca3af;font-size:0.85rem;">Mengambil data server…</p>
+          <p style="font-size:0.85rem;color:#9ca3af;">Mengambil data server…</p>
         </div>
       </section>
 
-      <!-- ORDER -->
+      <!-- KANAN: FORM ORDER -->
       <section class="card">
-        <h2>🧾 Buat Akun VMESS</h2>
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;">
+          <h2>🧾 Panel Akun</h2>
+          <div class="tabs">
+            <button class="tab-btn active" data-tab="regular">Akun Reguler</button>
+            <button class="tab-btn" data-tab="trial">Trial</button>
+          </div>
+        </div>
+        <p class="subtitle" id="mode-desc">
+          Mode reguler: saldo dipotong dari user_id backend sesuai harga & durasi.
+        </p>
 
+        <!-- PILIH PROTOKOL -->
+        <label style="font-size:0.8rem;color:#9ca3af;">Protokol</label>
+        <div class="protocol-row" id="protocol-row">
+          <button class="protocol-btn active" data-protocol="vmess">VMESS</button>
+          <button class="protocol-btn" data-protocol="vless">VLESS</button>
+          <button class="protocol-btn" data-protocol="trojan">TROJAN</button>
+          <button class="protocol-btn" data-protocol="ssh">SSH</button>
+        </div>
+
+        <!-- FORM -->
         <div class="field">
           <label for="server-select">Server</label>
           <select id="server-select">
-            <option value="">Pilih server…</option>
+            <option value="">Pilih server dari list kiri</option>
           </select>
+          <div class="note">Atau tap kartu server di sebelah kiri untuk memilih otomatis.</div>
         </div>
 
         <div class="field">
-          <label for="username">Username</label>
-          <input id="username" type="text" placeholder="contoh: extrimers01" />
+          <label for="username">Username (huruf & angka, 3–20)</label>
+          <input id="username" type="text" placeholder="contoh: extrimers01" autocomplete="off" />
         </div>
 
-        <div class="field">
+        <div class="field" id="password-field" style="display:none;">
+          <label for="password">Password SSH</label>
+          <input id="password" type="text" placeholder="Password untuk SSH" autocomplete="off" />
+          <div class="note">Hanya dipakai untuk protokol SSH.</div>
+        </div>
+
+        <div class="field" id="days-field">
           <label for="days">Durasi Hari</label>
           <select id="days">
             <option value="7">7 Hari</option>
@@ -187,31 +420,77 @@
           </select>
         </div>
 
+        <div class="field" id="trial-days-field" style="display:none;">
+          <label for="trial-days">Durasi Trial</label>
+          <select id="trial-days">
+            <option value="1" selected>1 Hari / 24 Jam</option>
+            <option value="3">3 Hari</option>
+          </select>
+          <div class="note">Pastikan backend mengatur logika trial (misal free / kuota terbatas).</div>
+        </div>
+
         <div class="field">
-          <label for="user-id">User ID backend</label>
+          <label for="user-id">User ID (ID di database backend)</label>
           <input id="user-id" type="number" value="123456789" />
         </div>
 
-        <button id="btn-order" class="primary">🚀 Buat Akun Sekarang</button>
+        <button id="btn-order" class="primary">
+          <span id="btn-label">🚀 Buat Akun Sekarang</span>
+        </button>
         <div id="status" class="note"></div>
 
-        <div class="field">
-          <label>Hasil / Config</label>
-          <textarea id="result" readonly></textarea>
+        <!-- HASIL -->
+        <div class="divider"></div>
+
+        <div>
+          <div class="result-header">
+            <span style="font-size:0.85rem;">Hasil Pembuatan Akun</span>
+            <button class="copy-btn" id="copy-btn">Copy Config</button>
+          </div>
+          <div class="result-card" id="result-card">
+            <div class="result-row">
+              <span>Status</span>
+              <span id="result-status" class="result-highlight">Belum ada permintaan.</span>
+            </div>
+            <div class="result-row">
+              <span>Protokol</span>
+              <span id="result-protocol">-</span>
+            </div>
+            <div class="result-row">
+              <span>Server</span>
+              <span id="result-server">-</span>
+            </div>
+            <div class="result-row">
+              <span>Durasi</span>
+              <span id="result-days">-</span>
+            </div>
+            <div class="result-row">
+              <span>Harga</span>
+              <span id="result-price">-</span>
+            </div>
+            <div class="result-row">
+              <span>Komisi</span>
+              <span id="result-komisi">-</span>
+            </div>
+          </div>
+
+          <div class="field" style="margin-top:8px;">
+            <label>Config / Detail Akun</label>
+            <textarea id="result" readonly placeholder="Config VMESS / VLESS / TROJAN / SSH akan muncul di sini setelah akun berhasil dibuat."></textarea>
+          </div>
         </div>
       </section>
     </main>
   </div>
 
-  <footer style="text-align:center;margin:12px;color:#6b7280;font-size:0.75rem;">
-    Powered by API <span id="api-label-footer"></span>
+  <footer>
+    ExtrimerS Tunneling • Powered by <span id="api-label-footer"></span>
   </footer>
 
   <script>
-    // ====================================
-    // AUTO DETECT ORIGIN (VERCEL PROXY)
-    // ====================================
-    const API_BASE = ""; // same-origin
+    // =====================
+    // KONFIGURASI FRONTEND
+    // =====================
     const serversEndpoint = "/api/web/servers";
     const orderEndpoint   = "/api/web/order";
 
@@ -221,38 +500,67 @@
     const serversDiv = document.getElementById("servers");
     const serverSelect = document.getElementById("server-select");
     const usernameInput = document.getElementById("username");
+    const passwordInput = document.getElementById("password");
     const daysSelect = document.getElementById("days");
+    const trialDaysSelect = document.getElementById("trial-days");
     const userIdInput = document.getElementById("user-id");
     const orderBtn = document.getElementById("btn-order");
-    const resultArea = document.getElementById("result");
+    const btnLabel = document.getElementById("btn-label");
     const statusEl = document.getElementById("status");
+    const modeDesc = document.getElementById("mode-desc");
+    const passwordField = document.getElementById("password-field");
+    const daysField = document.getElementById("days-field");
+    const trialDaysField = document.getElementById("trial-days-field");
 
-    // ===========================
-    // LOAD SERVER LIST
-    // ===========================
+    const resultArea = document.getElementById("result");
+    const resultStatus = document.getElementById("result-status");
+    const resultProtocol = document.getElementById("result-protocol");
+    const resultServer = document.getElementById("result-server");
+    const resultDays = document.getElementById("result-days");
+    const resultPrice = document.getElementById("result-price");
+    const resultKomisi = document.getElementById("result-komisi");
+    const copyBtn = document.getElementById("copy-btn");
+
+    const tabButtons = document.querySelectorAll(".tab-btn");
+    const protocolButtons = document.querySelectorAll(".protocol-btn");
+
+    let serverList = [];
+    let selectedProtocol = "vmess";
+    let mode = "regular"; // "regular" | "trial"
+
+    // ================
+    // LOAD SERVERS
+    // ================
     async function loadServers() {
       try {
         const res = await fetch(serversEndpoint);
         const data = await res.json();
 
         if (!data.success) {
-          serversDiv.innerHTML = "<p style='color:#f97316;'>Gagal mengambil server.</p>";
+          serversDiv.innerHTML = "<p style='color:#f97316;font-size:0.85rem;'>Gagal mengambil server: " +
+            (data.error || "error tidak diketahui") + "</p>";
+          return;
+        }
+
+        serverList = data.servers || [];
+        if (!serverList.length) {
+          serversDiv.innerHTML = "<p style='color:#9ca3af;font-size:0.85rem;'>Belum ada server terdaftar.</p>";
           return;
         }
 
         serversDiv.innerHTML = "";
         serverSelect.innerHTML = "<option value=''>Pilih server…</option>";
 
-        data.servers.forEach(s => {
+        serverList.forEach((s) => {
           const full = s.total_create_akun >= s.batas_create_akun;
-
           const card = document.createElement("div");
           card.className = "server-card";
+          card.dataset.id = s.id;
           card.innerHTML = `
             <div class="server-name">${s.nama_server}</div>
             <div class="location">${s.lokasi || "-"}</div>
             <div class="server-meta">
-              Harga / hari: <b>Rp${s.harga.toLocaleString("id-ID")}</b><br/>
+              Harga / hari: <b>Rp${(s.harga || 0).toLocaleString("id-ID")}</b><br/>
               Kuota / hari: <b>${s.quota} GB</b><br/>
               IP Limit: <b>${s.iplimit}</b><br/>
               Akun: <b>${s.total_create_akun}/${s.batas_create_akun}</b>
@@ -261,7 +569,13 @@
               ${full ? "❌ PENUH" : "✅ Tersedia"}
             </div>
           `;
-          card.onclick = () => serverSelect.value = s.id;
+          card.addEventListener("click", () => {
+            serverSelect.value = s.id;
+            document
+              .querySelectorAll(".server-card")
+              .forEach((c) => c.classList.remove("selected"));
+            card.classList.add("selected");
+          });
           serversDiv.appendChild(card);
 
           const opt = document.createElement("option");
@@ -269,70 +583,192 @@
           opt.textContent = `${s.nama_server} (${s.lokasi || "-"})`;
           serverSelect.appendChild(opt);
         });
-
-      } catch {
-        serversDiv.innerHTML = "<p style='color:#f97316;'>Tidak bisa connect ke API.</p>";
+      } catch (err) {
+        console.error(err);
+        serversDiv.innerHTML = "<p style='color:#f97316;font-size:0.85rem;'>Gagal konek ke API server. Cek domain API / proxy.</p>";
       }
     }
 
     loadServers();
 
-    // ===========================
-    // ORDER
-    // ===========================
+    // ======================
+    // PILIH PROTOKOL
+    // ======================
+    protocolButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        protocolButtons.forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        selectedProtocol = btn.dataset.protocol || "vmess";
+        // SSH butuh password
+        if (selectedProtocol === "ssh") {
+          passwordField.style.display = "block";
+        } else {
+          passwordField.style.display = "none";
+        }
+      });
+    });
+
+    // ======================
+    // TAB MODE (REGULER/TRIAL)
+    // ======================
+    tabButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        tabButtons.forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        mode = btn.dataset.tab || "regular";
+
+        if (mode === "regular") {
+          modeDesc.textContent = "Mode reguler: saldo akan dipotong dari user_id backend sesuai harga & durasi.";
+          daysField.style.display = "block";
+          trialDaysField.style.display = "none";
+          btnLabel.textContent = "🚀 Buat Akun Sekarang";
+        } else {
+          modeDesc.textContent = "Mode trial: gunakan untuk percobaan. Pastikan backend mengatur logika trial (misalnya gratis / batas kuota).";
+          daysField.style.display = "none";
+          trialDaysField.style.display = "block";
+          btnLabel.textContent = "🧪 Buat Akun Trial";
+        }
+      });
+    });
+
+    // ======================
+    // VALIDASI USERNAME
+    // ======================
+    function validateUsername(u) {
+      const re = /^[a-zA-Z0-9]{3,20}$/;
+      return re.test(u);
+    }
+
+    // ======================
+    // HANDLE ORDER
+    // ======================
     async function handleOrder() {
       statusEl.textContent = "";
+      statusEl.className = "note";
       resultArea.value = "";
 
       const serverId = serverSelect.value;
       const username = usernameInput.value.trim();
-      const days = parseInt(daysSelect.value);
-      const userId = parseInt(userIdInput.value);
+      const password = passwordInput.value.trim() || "123123"; // default
+      const userId = parseInt(userIdInput.value, 10);
 
-      if (!serverId) return statusEl.textContent = "Pilih server.";
-      if (!/^[a-zA-Z0-9]{3,20}$/.test(username))
-        return statusEl.textContent = "Username tidak valid.";
-      if (!userId) return statusEl.textContent = "User ID kosong.";
+      const days =
+        mode === "regular"
+          ? parseInt(daysSelect.value, 10)
+          : parseInt(trialDaysSelect.value, 10);
+
+      if (!serverId) {
+        statusEl.textContent = "Pilih server terlebih dahulu.";
+        statusEl.className = "error";
+        return;
+      }
+      if (!username || !validateUsername(username)) {
+        statusEl.textContent = "Username hanya boleh huruf & angka, 3–20 karakter, tanpa spasi/simbol.";
+        statusEl.className = "error";
+        return;
+      }
+      if (selectedProtocol === "ssh" && password.trim().length < 3) {
+        statusEl.textContent = "Password SSH minimal 3 karakter.";
+        statusEl.className = "error";
+        return;
+      }
+      if (!userId) {
+        statusEl.textContent = "User ID backend belum diisi.";
+        statusEl.className = "error";
+        return;
+      }
 
       orderBtn.disabled = true;
-      statusEl.textContent = "Menghubungi server…";
+      btnLabel.textContent = mode === "regular" ? "Memproses..." : "Memproses Trial...";
+      statusEl.textContent = "Menghubungi server...";
+      statusEl.className = "note";
 
       try {
+        const body = {
+          action: "create",
+          type: selectedProtocol,
+          user_id: userId,
+          server_id: Number(serverId),
+          username: username,
+          password: password,
+          days: days,
+        };
+
+        // flag tambahan supaya backend bisa bedakan trial kalau mau
+        if (mode === "trial") {
+          body.is_trial = true;
+        }
+
         const res = await fetch(orderEndpoint, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            action: "create",
-            type: "vmess",
-            user_id: userId,
-            server_id: Number(serverId),
-            username: username,
-            password: "123",
-            days: days
-          })
+          body: JSON.stringify(body),
         });
 
         const data = await res.json();
 
         if (!data.success) {
-          statusEl.textContent = "Gagal: " + data.error;
+          statusEl.textContent = "Gagal: " + (data.error || "error tidak diketahui");
           statusEl.className = "error";
+          resultStatus.textContent = "Gagal";
+          resultStatus.style.color = "#f97316";
           return;
         }
 
-        statusEl.textContent = "Berhasil!";
+        // STATUS TEXT
+        statusEl.textContent =
+          (mode === "trial" ? "Trial berhasil! " : "Berhasil! ") +
+          "Harga: Rp" +
+          (data.harga || 0).toLocaleString("id-ID") +
+          (data.komisi ? " • Komisi: Rp" + data.komisi.toLocaleString("id-ID") : "");
         statusEl.className = "success";
-        resultArea.value = data.message;
 
-      } catch {
-        statusEl.textContent = "Gagal terhubung ke API.";
+        // DETAIL RESULT
+        const server = serverList.find((s) => String(s.id) === String(serverId));
+
+        resultStatus.textContent = "Berhasil";
+        resultStatus.style.color = "#22c55e";
+        resultProtocol.textContent = selectedProtocol.toUpperCase() + (mode === "trial" ? " (TRIAL)" : "");
+        resultServer.textContent = server ? server.nama_server : "-";
+        resultDays.textContent = days + " hari";
+        resultPrice.textContent = "Rp" + (data.harga || 0).toLocaleString("id-ID");
+        resultKomisi.textContent = data.komisi
+          ? "Rp" + data.komisi.toLocaleString("id-ID")
+          : "-";
+
+        resultArea.value = data.message || "(Config tidak dikembalikan oleh server)";
+
+      } catch (err) {
+        console.error(err);
+        statusEl.textContent = "Gagal terhubung ke API. Cek jaringan / domain backend.";
         statusEl.className = "error";
+        resultStatus.textContent = "Error koneksi";
+        resultStatus.style.color = "#f97316";
+      } finally {
+        orderBtn.disabled = false;
+        btnLabel.textContent = mode === "regular" ? "🚀 Buat Akun Sekarang" : "🧪 Buat Akun Trial";
       }
-
-      orderBtn.disabled = false;
     }
 
-    orderBtn.onclick = handleOrder;
+    orderBtn.addEventListener("click", handleOrder);
+
+    // ======================
+    // COPY CONFIG
+    // ======================
+    copyBtn.addEventListener("click", async () => {
+      const text = resultArea.value.trim();
+      if (!text) {
+        alert("Belum ada config yang bisa di-copy.");
+        return;
+      }
+      try {
+        await navigator.clipboard.writeText(text);
+        copyBtn.textContent = "Tersalin!";
+        setTimeout(() => (copyBtn.textContent = "Copy Config"), 1200);
+      } catch {
+        alert("Gagal menyalin ke clipboard. Silakan pilih & copy manual.");
+      }
+    });
   </script>
 </body>
-</html>
+  </html>
