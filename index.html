@@ -5,12 +5,130 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>GabutStore VPN Tunnels</title>
 
+  <!-- Font & CSS utama -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
+
+  <style>
+    /* ====== HERO GLOBAL-STYLE ====== */
+    body {
+      background: #020617;
+      color: #e5e7eb;
+      font-family: "Poppins", system-ui, sans-serif;
+    }
+
+    .hero-home {
+      min-height: calc(100vh - 60px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      padding: 40px 0;
+      background:
+        radial-gradient(circle at bottom, rgba(15,23,42,0.9) 0, #020617 55%, #000 100%);
+    }
+
+    .hero-globe {
+      position: absolute;
+      inset: auto -20%;
+      bottom: -40%;
+      opacity: 0.25;
+      pointer-events: none;
+      border-radius: 999px;
+      box-shadow: 0 0 220px rgba(37,99,235,0.35);
+      border: 1px solid rgba(148,163,184,0.08);
+      height: 420px;
+    }
+
+    .hero-content {
+      position: relative;
+      max-width: 640px;
+      z-index: 1;
+    }
+
+    .hero-kicker {
+      font-size: 0.85rem;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: #60a5fa;
+      margin-bottom: 18px;
+    }
+
+    .hero-title {
+      font-size: clamp(2.2rem, 5.4vw, 3.4rem);
+      line-height: 1.05;
+      font-weight: 700;
+      margin: 0 0 16px;
+    }
+
+    .hero-subtitle {
+      margin: 0 0 26px;
+      font-size: 0.95rem;
+      color: #9ca3af;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+    }
+
+    .btn-outline,
+    .btn-solid {
+      min-width: 150px;
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: background .18s ease, color .18s ease, border-color .18s ease, transform .12s ease;
+    }
+
+    .btn-outline {
+      border: 1px solid #38bdf8;
+      color: #e5e7eb;
+      background: transparent;
+    }
+    .btn-outline:hover {
+      background: rgba(56,189,248,0.08);
+      transform: translateY(-1px);
+    }
+
+    .btn-solid {
+      border: 1px solid transparent;
+      background: #e5e7eb;
+      color: #020617;
+    }
+    .btn-solid:hover {
+      background: #f9fafb;
+      transform: translateY(-1px);
+    }
+
+    .hero-meta {
+      margin-top: 18px;
+      font-size: 0.8rem;
+      color: #6b7280;
+    }
+
+    @media (max-width: 768px) {
+      .hero-home {
+        padding: 32px 0 40px;
+      }
+      .hero-globe {
+        bottom: -55%;
+        height: 360px;
+      }
+    }
+  </style>
 </head>
 <body>
-
-  <!-- NAVBAR -->
+  <!-- ========== NAVBAR ========== -->
   <header class="navbar">
     <div class="container nav-inner">
       <a href="index.html" class="brand-logo">
@@ -22,98 +140,55 @@
           <li><a href="index.html" class="active">Beranda</a></li>
           <li><a href="pricing.html">💰 Paket</a></li>
           <li><a href="order.html">🧾 Buat Akun</a></li>
-          <li><a href="guide.html">⚙️ Cara Penggunaan</a></li>
-          <li><a href="contact.html">📞 Support</a></li>
+          <li><a href="trial.html">🧪 Trial</a></li>
         </ul>
       </nav>
 
       <div class="nav-actions">
-        <a href="order.html" class="btn btn-primary">Buat Akun</a>
-        <a href="pricing.html" class="btn btn-secondary">Lihat Paket</a>
+        <a href="trial.html" class="btn btn-secondary">Start for free</a>
+        <a href="pricing.html" class="btn btn-primary">View Pricing</a>
       </div>
 
       <button class="menu-toggle" id="menuToggle">☰</button>
     </div>
   </header>
 
-  <!-- HERO -->
-  <main class="hero-section">
-    <div class="container hero-inner">
-      <h1>
-        Tunneling Cepat & Stabil  
-        <span class="text-gradient">Untuk Kebutuhan Harianmu</span>
+  <!-- ========== HERO ala GlobalSSH ========== -->
+  <main class="hero-home">
+    <div class="hero-globe"></div>
+
+    <div class="container hero-content">
+      <div class="hero-kicker">GabutStore VPN</div>
+
+      <h1 class="hero-title">
+        The infrastructure<br />
+        for secure tunneling.
       </h1>
 
-      <p>
-        VMESS • VLESS • TROJAN • SSH  
-        Satu panel, satu alur, bayar pakai QRIS.
+      <p class="hero-subtitle">
+        Panel ringan untuk akun VMESS, VLESS, Trojan & SSH. 
+        Dibuat otomatis dari API yang sama dengan bot Telegram kamu.
       </p>
 
       <div class="hero-actions">
-        <a href="order.html" class="btn btn-primary btn-large">
-          🚀 Buat Akun Sekarang
+        <a href="trial.html" class="btn-outline">
+          Start for free
         </a>
-        <a href="pricing.html" class="btn btn-ghost btn-large">
-          💰 Cek Harga
+        <a href="pricing.html" class="btn-solid">
+          View Pricing
         </a>
       </div>
 
-      <!-- highlight singkat -->
-      <div style="margin-top:18px;font-size:0.8rem;color:#9ca3af;display:flex;flex-wrap:wrap;gap:10px;">
-        <span>✅ Auto create akun</span>
-        <span>•</span>
-        <span>✅ Bayar QRIS</span>
-        <span>•</span>
-        <span>✅ Trial 60 menit</span>
+      <div class="hero-meta">
+        No panel ribet. No manual input. Hanya scan & connect.
       </div>
     </div>
   </main>
 
-  <!-- SECTION FITUR RINGKAS -->
-  <section style="padding:26px 0 32px;">
-    <div class="container">
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;">
-        
-        <div class="card-order" style="padding:14px;border-radius:14px;">
-          <h3 style="margin:0 0 6px;font-size:0.95rem;">⚡ Simple</h3>
-          <p class="note" style="margin:0;">
-            Tinggal pilih server, pilih durasi, bayar, akun langsung jadi.
-          </p>
-        </div>
-
-        <div class="card-order" style="padding:14px;border-radius:14px;">
-          <h3 style="margin:0 0 6px;font-size:0.95rem;">🛡️ Aman</h3>
-          <p class="note" style="margin:0;">
-            Login pakai protokol modern dengan enkripsi penuh.
-          </p>
-        </div>
-
-        <div class="card-order" style="padding:14px;border-radius:14px;">
-          <h3 style="margin:0 0 6px;font-size:0.95rem;">💸 Terjangkau</h3>
-          <p class="note" style="margin:0;">
-            Mulai 5k, cocok dipakai harian ataupun bulanan.
-          </p>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA BAWAH -->
-  <section style="padding:0 0 28px;">
-    <div class="container" style="text-align:center;">
-      <p style="margin:0 0 10px;font-size:0.9rem;color:#9ca3af;">
-        Siap dipakai kapan saja, tanpa ribet chat admin.
-      </p>
-      <a href="order.html" class="btn btn-primary btn-large">
-        Mulai dari Trial Gratis
-      </a>
-    </div>
-  </section>
-
+  <!-- ========== FOOTER ========== -->
   <footer>
     <div class="container">
-      <p>&copy; 2025 GabutStore VPN Tunnels. All rights reserved.</p>
+      <p>© 2025 GabutStore. All rights reserved.</p>
     </div>
   </footer>
 
