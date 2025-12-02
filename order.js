@@ -206,7 +206,7 @@ async function handleOrder() {
   statusEl.className = "note";
 
   try {
-    // body harus sesuai dengan app.js:
+    // body HARUS sama dengan yang dibaca app.js:
     // const { protocol, server_id, username, duration } = req.body;
     const payload = {
       protocol: proto,              // vmess / vless / trojan / ssh
@@ -221,12 +221,32 @@ async function handleOrder() {
       body: JSON.stringify(payload)
     });
 
-    const data = await res.json();
+    // Baca raw text DULU
+    const rawText = await res.text();
+    const contentType = res.headers.get("content-type") || "";
+
+    let data = null;
+    if (contentType.includes("application/json")) {
+      try {
+        data = JSON.parse(rawText);
+      } catch (e) {
+        statusEl.textContent = "Respon JSON tidak valid dari backend.";
+        statusEl.className = "error";
+        resultArea.value = rawText;
+        return;
+      }
+    } else {
+      // BUKAN JSON → tampilkan apa adanya (biar ketahuan error aslinya)
+      statusEl.textContent = `Respon bukan JSON (status ${res.status}).`;
+      statusEl.className = "error";
+      resultArea.value = rawText || "(kosong)";
+      return;
+    }
 
     if (!data.success) {
       statusEl.textContent = "Gagal buat tagihan: " + (data.message || "error tidak diketahui");
       statusEl.className = "error";
-      resultArea.value = data.message || "";
+      resultArea.value = data.message || rawText;
       return;
     }
 
@@ -237,14 +257,14 @@ async function handleOrder() {
     const qrisUrl = data.qris_url || data.checkout_url || "";
     if (qrisUrl) {
       resultArea.value = "Link pembayaran QRIS:\n" + qrisUrl;
-      // kalau mau langsung buka link:
+      // kalau mau langsung auto-redirect:
       // window.location.href = qrisUrl;
     } else {
-      resultArea.value = JSON.stringify(data, null, 2);
+      resultArea.value = rawText;
     }
   } catch (err) {
     console.error(err);
-    statusEl.textContent = "Gagal terhubung ke API. Cek jaringan / domain backend.";
+    statusEl.textContent = "Gagal terhubung ke API (network / CORS).";
     statusEl.className = "error";
   } finally {
     orderBtn.disabled = false;
