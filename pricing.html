@@ -1,0 +1,232 @@
+/* RESET DASAR */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #020617;
+    color: #e5e7eb;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* LAYOUT UMUM */
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 16px;
+}
+
+/* NAVBAR */
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: rgba(2, 6, 23, 0.95);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid #111827;
+}
+
+.nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 0;
+}
+
+.brand-logo {
+    font-weight: 700;
+    font-size: 1rem;
+    text-decoration: none;
+    color: #e5e7eb;
+    white-space: nowrap;
+}
+
+/* NAV MENU */
+.main-nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.main-nav a {
+    text-decoration: none;
+    font-size: 0.85rem;
+    color: #9ca3af;
+    padding: 4px 8px;
+    border-radius: 999px;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+.main-nav a:hover,
+.main-nav a.active {
+    color: #e5e7eb;
+    background: #111827;
+}
+
+/* NAV ACTIONS */
+.nav-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+/* BUTTONS */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    border: 1px solid transparent;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.btn-primary {
+    background: linear-gradient(to right, #22c55e, #06b6d4);
+    color: #020617;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(to right, #4ade80, #22d3ee);
+}
+
+.btn-secondary {
+    border-color: #374151;
+    background: #020617;
+    color: #e5e7eb;
+}
+
+.btn-secondary:hover {
+    background: #111827;
+}
+
+.btn-large {
+    padding: 10px 18px;
+    font-size: 0.9rem;
+}
+
+.btn-ghost {
+    border-color: #4b5563;
+    background: transparent;
+    color: #e5e7eb;
+}
+
+.btn-ghost:hover {
+    background: #111827;
+}
+
+/* HAMBURGER MENU (MOBILE) */
+.menu-toggle {
+    display: none;
+    border: none;
+    background: #111827;
+    color: #e5e7eb;
+    font-size: 1rem;
+    padding: 6px 10px;
+    border-radius: 8px;
+}
+
+/* HERO SECTION */
+.hero-section {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    padding: 40px 0 50px;
+    background: radial-gradient(circle at top, #020617 0, #020617 40%, #000 100%);
+}
+
+.hero-inner {
+    max-width: 620px;
+}
+
+.hero-inner h1 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: clamp(1.9rem, 4.5vw, 2.6rem);
+    line-height: 1.1;
+}
+
+.hero-inner p {
+    margin-top: 0;
+    margin-bottom: 18px;
+    font-size: 0.95rem;
+    color: #9ca3af;
+    line-height: 1.6;
+}
+
+.hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+/* FOOTER */
+footer {
+    border-top: 1px solid #111827;
+    background: #020617;
+}
+
+footer .container {
+    padding: 10px 16px 14px;
+    font-size: 0.75rem;
+    color: #9ca3af;
+    text-align: center;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+    .nav-inner {
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+    .main-nav {
+        display: none;
+        width: 100%;
+    }
+
+    .main-nav.open {
+        display: block;
+    }
+
+    .main-nav ul {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 8px 0;
+    }
+
+    .nav-actions {
+        display: none;
+    }
+
+    .menu-toggle {
+        display: inline-flex;
+        margin-left: auto;
+    }
+
+    .hero-section {
+        padding: 30px 0 40px;
+    }
+
+    .hero-inner {
+        text-align: left;
+    }
+}
