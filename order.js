@@ -1,24 +1,25 @@
-// Sesuaikan dengan domain API kamu
+// === SESUAIKAN DOMAIN API DENGAN BACKEND ===
 const API_BASE = "https://api.rmpremium.cloud";
-const SERVERS_ENDPOINT = API_BASE + "/api/web/servers";
-const ORDER_ENDPOINT   = API_BASE + "/api/web/order";
 
-const serversDiv    = document.getElementById("servers");
-const serverSelect  = document.getElementById("server-select");
+const SERVERS_ENDPOINT    = API_BASE + "/api/web/servers";
+const ORDER_QRIS_ENDPOINT = API_BASE + "/api/web/order/qris";
+
+const serversDiv     = document.getElementById("servers");
+const serverSelect   = document.getElementById("server-select");
 const protocolSelect = document.getElementById("protocol");
-const pillProto     = document.getElementById("pill-proto");
-const usernameInput = document.getElementById("username");
-const passwordInput = document.getElementById("password");
-const fieldPassword = document.getElementById("field-password");
-const daysSelect    = document.getElementById("days");
-const userIdInput   = document.getElementById("user-id");
-const orderBtn      = document.getElementById("btn-order");
-const resultArea    = document.getElementById("result");
-const statusEl      = document.getElementById("status");
+const pillProto      = document.getElementById("pill-proto");
+const usernameInput  = document.getElementById("username");
+const passwordInput  = document.getElementById("password");
+const fieldPassword  = document.getElementById("field-password");
+const daysSelect     = document.getElementById("days");
+const userIdInput    = document.getElementById("user-id");
+const orderBtn       = document.getElementById("btn-order");
+const resultArea     = document.getElementById("result");
+const statusEl       = document.getElementById("status");
 
 let serverList = [];
 
-// ========= LOAD SERVER =========
+// ========= LOAD SERVER DARI BACKEND =========
 async function loadServers() {
   try {
     const res = await fetch(SERVERS_ENDPOINT);
@@ -82,22 +83,16 @@ function validateUsername(u) {
   return /^[a-zA-Z0-9]{3,20}$/.test(u);
 }
 
-// ========= UPDATE PROTOKOL UI =========
+// ========= UPDATE UI PROTOKOL =========
 function updateProtocolUI() {
   const proto = protocolSelect.value;
   pillProto.textContent = "Protokol: " + proto.toUpperCase();
-
-  // SSH butuh password
-  if (proto === "ssh") {
-    fieldPassword.style.display = "block";
-  } else {
-    fieldPassword.style.display = "none";
-  }
+  fieldPassword.style.display = proto === "ssh" ? "block" : "none";
 }
 
 protocolSelect.addEventListener("change", updateProtocolUI);
 
-// ========= HANDLE ORDER =========
+// ========= HANDLE ORDER (BUAT TAGIHAN QRIS) =========
 async function handleOrder() {
   statusEl.textContent = "";
   statusEl.className = "note";
@@ -108,7 +103,7 @@ async function handleOrder() {
   const days = parseInt(daysSelect.value, 10);
   const userId = parseInt(userIdInput.value, 10);
   const proto = protocolSelect.value;
-  const password = passwordInput.value.trim() || "123123"; // default
+  const password = passwordInput.value.trim() || "123123";
 
   if (!serverId) {
     statusEl.textContent = "Pilih server terlebih dahulu.";
@@ -122,7 +117,7 @@ async function handleOrder() {
     return;
   }
   if (!userId) {
-    statusEl.textContent = "User ID backend belum diisi.";
+    statusEl.textContent = "User ID Telegram belum diisi.";
     statusEl.className = "error";
     return;
   }
@@ -133,51 +128,53 @@ async function handleOrder() {
   }
 
   orderBtn.disabled = true;
-  orderBtn.textContent = "Memproses...";
-  statusEl.textContent = "Menghubungi server...";
+  orderBtn.textContent = "Membuat tagihan...";
+  statusEl.textContent = "Membuat tagihan QRIS dari server...";
   statusEl.className = "note";
 
   try {
-    const res = await fetch(ORDER_ENDPOINT, {
+    const res = await fetch(ORDER_QRIS_ENDPOINT, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         action: "create",
-        type: proto,          // <— vmess / vless / trojan / ssh
+        type: proto,          // vmess / vless / trojan / ssh
         user_id: userId,
         server_id: Number(serverId),
-        username: username,
-        password: password,
-        days: days
+        username,
+        password,
+        days
       })
     });
 
     const data = await res.json();
 
     if (!data.success) {
-      statusEl.textContent =
-        "Gagal: " + (data.error || "error tidak diketahui");
+      statusEl.textContent = "Gagal buat tagihan: " + (data.error || "error tidak diketahui");
       statusEl.className = "error";
-      resultArea.value = data.error || "";
       return;
     }
 
-    statusEl.textContent =
-      "Berhasil! Harga: Rp" +
-      (data.harga || 0).toLocaleString("id-ID") +
-      (data.komisi
-        ? " • Komisi: Rp" + data.komisi.toLocaleString("id-ID")
-        : "");
+    const payUrl = data.payment_url;
+
+    statusEl.textContent = "✅ Tagihan berhasil dibuat. Kamu akan diarahkan ke halaman pembayaran QRIS.";
     statusEl.className = "success";
-    resultArea.value = data.message || "";
+
+    resultArea.value =
+      "Link Pembayaran QRIS:\n" +
+      payUrl +
+      "\n\nSetelah pembayaran berhasil, akun akan dibuat otomatis.";
+
+    // Auto redirect ke halaman pembayaran
+    window.location.href = payUrl;
+
   } catch (err) {
     console.error(err);
-    statusEl.textContent =
-      "Gagal terhubung ke API. Cek jaringan / domain backend.";
+    statusEl.textContent = "Gagal terhubung ke API. Cek jaringan / domain backend.";
     statusEl.className = "error";
   } finally {
     orderBtn.disabled = false;
-    orderBtn.textContent = "🚀 Buat Akun Sekarang";
+    orderBtn.textContent = "🚀 Buat Akun & Buat Tagihan QRIS";
   }
 }
 
