@@ -19,7 +19,7 @@
         <nav class="main-nav" id="mainNav">
             <ul>
                 <li><a href="index.html">Beranda</a></li>
-                <li><a href="pricing.html">💰 Isi Saldo</a></li>
+                <li><a href="pricing.html">💰 Paket</a></li>
                 <li><a href="order.html" class="active">🧾 Buat Akun</a></li>
                 <li><a href="guide.html">⚙️ Cara Penggunaan</a></li>
                 <li><a href="contact.html">📞 Kontak & Support</a></li>
@@ -47,9 +47,9 @@
 
         <!-- Kanan: form order -->
         <section class="card-order">
-            <h2>🧾 Buat Akun Tunneling</h2>
+            <h2>🧾 Buat Akun & Bayar via QRIS</h2>
             <p class="order-subtext">
-                Saldo dan transaksi tetap pakai database yang sama dengan bot Telegram.
+                Akun akan otomatis dibuat setelah pembayaran QRIS dinyatakan sukses oleh sistem Pakasir.
             </p>
 
             <!-- PILIH PROTOKOL -->
@@ -65,7 +65,7 @@
 
             <div class="pill-row">
                 <span class="pill" id="pill-proto">Protokol: VMESS</span>
-                <span class="pill">Saldo diambil dari User ID backend</span>
+                <span class="pill">Bayar per akun (tanpa topup)</span>
             </div>
 
             <div class="field">
@@ -99,27 +99,27 @@
             </div>
 
             <div class="field">
-                <label for="user-id">User ID backend (Telegram)</label>
+                <label for="user-id">User ID Telegram</label>
                 <input id="user-id" type="number" placeholder="contoh: 123456789" />
                 <div class="note">
-                    Ini adalah user_id di database backend (sama dengan user_id di bot).
-                    Nanti bisa dihubungkan dengan sistem login.
+                    User ID ini sama dengan yang dipakai di bot Telegram.  
+                    Akun & notifikasi bisa dikirim lewat sana.
                 </div>
             </div>
 
             <button id="btn-order" class="btn btn-primary btn-full">
-                🚀 Buat Akun Sekarang
+                🚀 Buat Akun & Buat Tagihan QRIS
             </button>
             <div id="status" class="note"></div>
 
             <div class="divider"></div>
 
             <div class="field">
-                <label>Hasil / Config</label>
-                <textarea id="result" readonly placeholder="Config atau pesan akan muncul di sini..."></textarea>
+                <label>Info Tagihan / Hasil</label>
+                <textarea id="result" readonly placeholder="Link pembayaran QRIS atau pesan error akan muncul di sini..."></textarea>
                 <div class="note">
-                    Jika berhasil, copy config dan kirim ke customer.  
-                    Harga & pemotongan saldo ditentukan dari backend.
+                    Setelah pembayaran berhasil, akun dibuat otomatis oleh backend.  
+                    Kamu bisa cek juga di bot Telegram.
                 </div>
             </div>
 
