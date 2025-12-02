@@ -1,68 +1,154 @@
-<!-- Paket VMESS -->
-<article class="pricing-card">
-    <div class="pricing-label">Paling hemat</div>
-    <h2>Paket VMESS</h2>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Isi Saldo • Xtrimer VPN Tunnels</title>
 
-    <p class="pricing-desc">VMESS stabil dengan latency rendah, cocok untuk sosial media dan browsing.</p>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-    <ul class="pricing-features">
-        <li>1 Akun VMESS</li>
-        <li>Lokasi: SG / ID</li>
-        <li>Kuota fair-use</li>
-        <li>Limit 1–2 device</li>
-    </ul>
+<header class="navbar">
+    <div class="container nav-inner">
+        <a href="index.html" class="brand-logo">
+            GabutStore VPN Tunnels
+        </a>
 
-    <div class="price-options">
-        <div class="price-box">
-            <div class="price-top">15 Hari</div>
-            <div class="price-amount">Rp 5.000</div>
-            <a href="order.html?paket=vmess15" class="btn btn-primary btn-full">Pilih Paket</a>
+        <nav class="main-nav" id="mainNav">
+            <ul>
+                <li><a href="index.html">Beranda</a></li>
+                <li><a href="pricing.html" class="active">💰 Isi Saldo</a></li>
+                <li><a href="guide.html">⚙️ Cara Penggunaan</a></li>
+                <li><a href="contact.html">📞 Kontak & Support</a></li>
+            </ul>
+        </nav>
+
+        <div class="nav-actions">
+            <a href="order.html" class="btn btn-primary">
+                Buat Akun
+            </a>
+            <a href="login.html" class="btn btn-secondary">
+                Area Pelanggan
+            </a>
         </div>
-
-        <div class="price-box">
-            <div class="price-top">30 Hari</div>
-            <div class="price-amount">Rp 8.000</div>
-            <a href="order.html?paket=vmess30" class="btn btn-primary btn-full">Pilih Paket</a>
-        </div>
-
-        <div class="price-box">
-            <div class="price-top">60 Hari</div>
-            <div class="price-amount">Rp 16.000</div>
-            <a href="order.html?paket=vmess60" class="btn btn-primary btn-full">Pilih Paket</a>
-        </div>
+        
+        <button class="menu-toggle" id="menuToggle">☰</button>
     </div>
-</article>
-<!-- Paket VLESS -->
-<article class="pricing-card">
-    <div class="pricing-label">Stabil & Ringan</div>
-    <h2>Paket VLESS</h2>
+</header>
 
-    <p class="pricing-desc">Protocol VLESS dengan performa ringan, cocok untuk streaming dan sosial media.</p>
+<main class="pricing-page">
+    <div class="container">
 
-    <ul class="pricing-features">
-        <li>1 Akun VLESS</li>
-        <li>Lokasi: SG / ID</li>
-        <li>Super ringan</li>
-        <li>Limit 1–2 device</li>
-    </ul>
+        <header class="pricing-header">
+            <h1>Pilih Nominal Saldo Tunneling</h1>
+            <p>
+                Isi saldo dulu, nanti bisa dipakai untuk beli akun 
+                VMESS / VLESS / Trojan / SSH langsung dari bot atau panel web.
+            </p>
+        </header>
 
-    <div class="price-options">
-        <div class="price-box">
-            <div class="price-top">15 Hari</div>
-            <div class="price-amount">Rp 5.000</div>
-            <a href="order.html?paket=vless15" class="btn btn-primary btn-full">Pilih Paket</a>
-        </div>
+        <!-- GRID TOP UP SALDO -->
+        <section class="pricing-grid">
 
-        <div class="price-box">
-            <div class="price-top">30 Hari</div>
-            <div class="price-amount">Rp 8.000</div>
-            <a href="order.html?paket=vless30" class="btn btn-primary btn-full">Pilih Paket</a>
-        </div>
+            <!-- 5K -->
+            <article class="pricing-card">
+                <div class="pricing-label">Coba dulu</div>
+                <h2>Saldo Rp 5.000</h2>
 
-        <div class="price-box">
-            <div class="price-top">60 Hari</div>
-            <div class="price-amount">Rp 16.000</div>
-            <a href="order.html?paket=vless60" class="btn btn-primary btn-full">Pilih Paket</a>
-        </div>
+                <p class="pricing-desc">
+                    Cocok untuk tes server, pakai sebentar, atau akun durasi pendek.
+                </p>
+
+                <ul class="pricing-features">
+                    <li>Saldo masuk ke akun kamu</li>
+                    <li>Bisa dipakai beli semua protokol</li>
+                    <li>Transaksi tercatat di backend</li>
+                    <li>Top up bisa diulang kapan saja</li>
+                </ul>
+
+                <div class="price-options">
+                    <div class="price-box">
+                        <div class="price-top">Nominal</div>
+                        <div class="price-amount">Rp 5.000</div>
+                        <!-- nanti bisa diarahkan ke halaman top up -->
+                        <a href="topup.html?amount=5000" class="btn btn-primary btn-full">
+                            Isi Saldo Rp 5.000
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- 8K -->
+            <article class="pricing-card pricing-card-highlight">
+                <div class="pricing-label hot">Paling laris</div>
+                <h2>Saldo Rp 8.000</h2>
+
+                <p class="pricing-desc">
+                    Pas untuk 1 akun durasi normal atau beberapa akun trial.
+                </p>
+
+                <ul class="pricing-features">
+                    <li>Saldo serbaguna</li>
+                    <li>Bisa kombinasikan beberapa akun</li>
+                    <li>Cocok untuk pemakaian reguler</li>
+                    <li>Proses isi saldo otomatis (target)</li>
+                </ul>
+
+                <div class="price-options">
+                    <div class="price-box">
+                        <div class="price-top">Nominal</div>
+                        <div class="price-amount">Rp 8.000</div>
+                        <a href="topup.html?amount=8000" class="btn btn-primary btn-full">
+                            Isi Saldo Rp 8.000
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- 16K -->
+            <article class="pricing-card">
+                <div class="pricing-label">Untuk rajin pakai</div>
+                <h2>Saldo Rp 16.000</h2>
+
+                <p class="pricing-desc">
+                    Buat kamu yang sering gonta-ganti akun atau butuh durasi lebih panjang.
+                </p>
+
+                <ul class="pricing-features">
+                    <li>Saldo lebih lega</li>
+                    <li>Bisa untuk beberapa akun sekaligus</li>
+                    <li>Semua protokol pakai saldo yang sama</li>
+                    <li>Cocok untuk langganan rutin</li>
+                </ul>
+
+                <div class="price-options">
+                    <div class="price-box">
+                        <div class="price-top">Nominal</div>
+                        <div class="price-amount">Rp 16.000</div>
+                        <a href="topup.html?amount=16000" class="btn btn-primary btn-full">
+                            Isi Saldo Rp 16.000
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+        </section>
+
+        <p class="pricing-note">
+            * Nominal di atas contoh dasar. Nanti bisa ditambah paket lain (25K, 50K, 100K, dll) 
+            dan disambungkan ke sistem top up (QRIS, transfer, atau saldo manual).
+        </p>
     </div>
-</article>
+</main>
+
+<footer>
+    <div class="container">
+        <p>&copy; 2025 XtrimerStore. All rights reserved.</p>
+    </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+    </html>
