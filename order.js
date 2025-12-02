@@ -1,158 +1,169 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const orderForm = document.getElementById('orderForm');
-    const packageSummary = document.getElementById('packageSummary');
-    const packageIdInput = document.getElementById('packageId');
-    const messageBox = document.getElementById('message');
-    const paymentResult = document.getElementById('paymentResult');
-    const invoiceDetails = document.getElementById('invoiceDetails');
-    const submitText = document.getElementById('submitText');
-    const spinner = document.getElementById('spinner');
+// Pakai origin sekarang, karena domain frontend = domain API (api.rmpremium.cloud)
+const API_BASE = window.location.origin;
+// Kalau mau paksa:
+// const API_BASE = "https://api.rmpremium.cloud";
 
-    // --- KONFIGURASI API ---
-    const API_PACKAGES_ENDPOINT = '/api/packages'; // Untuk ambil data paket
-    const API_ORDER_ENDPOINT = '/api/order';       // Endpoint untuk kirim pesanan
-    
-    // Fungsi utilitas (Ambil dari pricing.js agar tidak perlu load 2x)
-    const formatRupiah = (number) => {
-        return new Intl.NumberFormat('id-ID', {
-            style: 'currency',
-            currency: 'IDR',
-            minimumFractionDigits: 0
-        }).format(number);
-    };
+const serversEndpoint = API_BASE + "/api/web/servers";
+const orderEndpoint   = API_BASE + "/api/web/order";
 
-    // Fungsi untuk mendapatkan ID paket dari URL (?package=...)
-    const getPackageIdFromUrl = () => {
-        const urlParams = new URLSearchParams(window.location.search);
-        return urlParams.get('package');
-    };
+const serversDiv   = document.getElementById("servers");
+const serverSelect = document.getElementById("server-select");
+const usernameInput = document.getElementById("username");
+const daysSelect   = document.getElementById("days");
+const userIdInput  = document.getElementById("user-id");
+const orderBtn     = document.getElementById("btn-order");
+const resultArea   = document.getElementById("result");
+const statusEl     = document.getElementById("status");
+const apiLabel     = document.getElementById("api-label");
 
-    // --- 1. MEMUAT DETAIL PAKET ---
-    const loadPackageDetails = async (packageId) => {
-        if (!packageId) {
-            packageSummary.innerHTML = `<p style="color: red;">❌ ERROR: Paket tidak dipilih. Silakan kembali ke <a href="pricing.html">Halaman Harga</a>.</p>`;
-            return null;
+let serverList = [];
+
+if (apiLabel) {
+    apiLabel.textContent = API_BASE;
+}
+
+// ambil server dari API
+async function loadServers() {
+    try {
+        const res = await fetch(serversEndpoint);
+        const data = await res.json();
+
+        if (!data.success) {
+            serversDiv.innerHTML =
+                "<p class='error'>Gagal mengambil server: " +
+                (data.error || "error tidak diketahui") +
+                "</p>";
+            return;
         }
 
-        try {
-            const response = await fetch(API_PACKAGES_ENDPOINT);
-            if (!response.ok) throw new Error('Gagal mengambil daftar paket dari server.');
-            
-            const packages = await response.json();
-            const selectedPackage = packages.find(pkg => pkg.id === packageId);
-
-            if (selectedPackage) {
-                // Tampilkan ringkasan paket
-                packageSummary.innerHTML = `
-                    <h4>Ringkasan Pesanan</h4>
-                    <p>Paket: <strong>${selectedPackage.name}</strong></p>
-                    <p>Harga: <strong>${formatRupiah(selectedPackage.price)}</strong> / ${selectedPackage.duration || '30 Hari'}</p>
-                `;
-                packageIdInput.value = selectedPackage.id; // Set hidden input
-                return selectedPackage;
-            } else {
-                packageSummary.innerHTML = `<p style="color: red;">❌ ERROR: Paket ID "${packageId}" tidak ditemukan.</p>`;
-                return null;
-            }
-
-        } catch (error) {
-            console.error('Error loading package details:', error);
-            packageSummary.innerHTML = `<p style="color: red;">❌ Gagal memuat data paket. Cek koneksi API Anda.</p>`;
-            return null;
+        serverList = data.servers || [];
+        if (!serverList.length) {
+            serversDiv.innerHTML =
+                "<p class='muted'>Belum ada server terdaftar.</p>";
+            return;
         }
-    };
-    
-    // Panggil saat halaman dimuat
-    const packageId = getPackageIdFromUrl();
-    loadPackageDetails(packageId);
 
+        serversDiv.innerHTML = "";
+        serverSelect.innerHTML = "<option value=''>Pilih server…</option>";
 
-    // --- 2. SUBMIT FORMULIR PEMESANAN ---
-    orderForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        
-        // Sembunyikan pesan sebelumnya
-        messageBox.style.display = 'none';
-        paymentResult.style.display = 'none';
+        serverList.forEach((s) => {
+            const full = s.total_create_akun >= s.batas_create_akun;
 
-        // Tampilkan loading spinner
-        submitText.style.display = 'none';
-        spinner.style.display = 'inline-block';
-        orderForm.querySelector('button[type="submit"]').disabled = true;
-
-        const username = document.getElementById('username').value;
-        const contact = document.getElementById('contact').value;
-        const packageId = document.getElementById('packageId').value;
-        
-        // Data yang akan dikirim ke backend (sesuaikan dengan kebutuhan API Anda)
-        const orderData = {
-            package_id: packageId,
-            username: username,
-            contact: contact,
-        };
-
-        try {
-            const response = await fetch(API_ORDER_ENDPOINT, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(orderData),
+            const card = document.createElement("div");
+            card.className = "server-card";
+            card.innerHTML = `
+                <div class="server-name">${s.nama_server}</div>
+                <div class="location">${s.lokasi || "-"}</div>
+                <div class="server-meta">
+                    Harga / hari: <b>Rp${(s.harga || 0).toLocaleString("id-ID")}</b><br/>
+                    Kuota / hari: <b>${s.quota} GB</b><br/>
+                    IP Limit: <b>${s.iplimit}</b><br/>
+                    Akun terbuat: <b>${s.total_create_akun}/${s.batas_create_akun}</b>
+                </div>
+                <div class="server-status ${full ? "status-full" : "status-ok"}">
+                    ${full ? "❌ PENUH" : "✅ Tersedia"}
+                </div>
+            `;
+            card.addEventListener("click", () => {
+                serverSelect.value = s.id;
             });
+            serversDiv.appendChild(card);
 
-            const result = await response.json();
+            const opt = document.createElement("option");
+            opt.value = s.id;
+            opt.textContent = `${s.nama_server} (${s.lokasi || "-"})`;
+            serverSelect.appendChild(opt);
+        });
+    } catch (err) {
+        console.error(err);
+        serversDiv.innerHTML =
+            "<p class='error'>Gagal konek ke API server. Cek domain API / CORS.</p>";
+    }
+}
 
-            // Cek status respons dari backend (misalnya status 200 OK)
-            if (response.ok) {
-                // Berhasil membuat pesanan
-                
-                // Pastikan result memiliki data yang dibutuhkan (misalnya invoice, QRIS, total, dll.)
-                if (result.invoice_id && result.total_amount) {
-                    
-                    // Sembunyikan form dan tampilkan hasil pembayaran
-                    orderForm.style.display = 'none';
-                    paymentResult.style.display = 'block';
+function validateUsername(u) {
+    return /^[a-zA-Z0-9]{3,20}$/.test(u);
+}
 
-                    // Tampilkan detail invoice dan QRIS (asumsi backend memberikan URL QR)
-                    invoiceDetails.innerHTML = `
-                        <p>Invoice ID: <strong>${result.invoice_id}</strong></p>
-                        <p>Total Bayar: <span style="font-size: 1.5rem; color: #cc0000; font-weight: 700;">${formatRupiah(result.total_amount)}</span></p>
-                        <p>Batas Pembayaran: <strong>${result.expiry_time || '30 Menit'}</strong></p>
-                        
-                        ${result.qris_url ? `
-                            <p>Scan QRIS di bawah ini:</p>
-                            <img src="${result.qris_url}" alt="QRIS Code">
-                        ` : '<p>Silakan transfer ke rekening yang tertera (Cek WA/Kontak).</p>'}
-                        
-                        <a href="login.html?invoice=${result.invoice_id}" class="btn btn-primary btn-large" style="margin-top: 20px;">Cek Status Pembayaran</a>
-                    `;
+async function handleOrder() {
+    statusEl.textContent = "";
+    statusEl.className = "note";
+    resultArea.value = "";
 
-                } else {
-                    // Berhasil, tapi format respons tidak sesuai
-                    messageBox.className = 'message-box error';
-                    messageBox.innerHTML = `✅ Pesanan berhasil dibuat, tapi detail invoice tidak lengkap. Cek WA/Kontak Anda.`;
-                    messageBox.style.display = 'block';
-                }
+    const serverId = serverSelect.value;
+    const username = usernameInput.value.trim();
+    const days = parseInt(daysSelect.value, 10);
+    const userId = parseInt(userIdInput.value, 10);
 
-            } else {
-                // Gagal membuat pesanan (Error dari server, misalnya username sudah dipakai)
-                messageBox.className = 'message-box error';
-                messageBox.innerHTML = `❌ Gagal memproses pesanan: ${result.message || 'Terjadi kesalahan pada server.'}`;
-                messageBox.style.display = 'block';
-            }
+    if (!serverId) {
+        statusEl.textContent = "Pilih server terlebih dahulu.";
+        statusEl.className = "error";
+        return;
+    }
+    if (!username || !validateUsername(username)) {
+        statusEl.textContent =
+            "Username hanya boleh huruf & angka, 3–20 karakter, tanpa spasi/simbol.";
+        statusEl.className = "error";
+        return;
+    }
+    if (!userId) {
+        statusEl.textContent = "User ID backend belum diisi.";
+        statusEl.className = "error";
+        return;
+    }
 
-        } catch (error) {
-            // Gagal koneksi ke API
-            console.error('Submission Error:', error);
-            messageBox.className = 'message-box error';
-            messageBox.innerHTML = `❌ Gagal terhubung ke server API. Cek koneksi internet Anda atau hubungi admin.`;
-            messageBox.style.display = 'block';
-        } finally {
-            // Sembunyikan loading spinner
-            submitText.style.display = 'inline';
-            spinner.style.display = 'none';
-            orderForm.querySelector('button[type="submit"]').disabled = false;
+    orderBtn.disabled = true;
+    orderBtn.textContent = "Memproses...";
+    statusEl.textContent = "Menghubungi server...";
+    statusEl.className = "note";
+
+    try {
+        const res = await fetch(orderEndpoint, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                action: "create",
+                type: "vmess",
+                user_id: userId,
+                server_id: Number(serverId),
+                username: username,
+                password: "123123", // tidak dipakai VMESS
+                days: days
+            })
+        });
+
+        const data = await res.json();
+
+        if (!data.success) {
+            statusEl.textContent =
+                "Gagal: " + (data.error || "error tidak diketahui");
+            statusEl.className = "error";
+            resultArea.value = data.error || "";
+            return;
         }
-    });
 
-});
+        statusEl.textContent =
+            "Berhasil! Harga: Rp" +
+            (data.harga || 0).toLocaleString("id-ID") +
+            (data.komisi
+                ? " • Komisi: Rp" + data.komisi.toLocaleString("id-ID")
+                : "");
+        statusEl.className = "success";
+        resultArea.value = data.message || "";
+    } catch (err) {
+        console.error(err);
+        statusEl.textContent =
+            "Gagal terhubung ke API. Cek jaringan / domain backend.";
+        statusEl.className = "error";
+    } finally {
+        orderBtn.disabled = false;
+        orderBtn.textContent = "🚀 Buat Akun Sekarang";
+    }
+}
+
+if (orderBtn) {
+    orderBtn.addEventListener("click", handleOrder);
+}
+
+// jalankan saat halaman dibuka
+loadServers();
