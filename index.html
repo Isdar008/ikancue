@@ -1,346 +1,206 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GabutStore VPN Tunnels</title>
-
-  <!-- Font & CSS utama -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-
-  <!-- Styling tambahan khusus halaman ini -->
-  <style>
-    body {
-      background: radial-gradient(circle at top, #020617 0, #020617 40%, #000 100%);
-      color: #e5e7eb;
-      font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .hero-shell {
-      padding: 40px 0 50px;
-    }
-
-    .hero-layout {
-      display: grid;
-      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
-      gap: 24px;
-      align-items: center;
-    }
-
-    @media (max-width: 900px) {
-      .hero-layout {
-        grid-template-columns: minmax(0, 1fr);
-      }
-    }
-
-    .hero-title {
-      font-size: clamp(2rem, 4.5vw, 2.8rem);
-      line-height: 1.1;
-      margin: 0 0 12px;
-    }
-
-    .hero-sub {
-      margin: 0 0 20px;
-      font-size: 0.95rem;
-      color: #9ca3af;
-      max-width: 420px;
-    }
-
-    .hero-badges {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 14px;
-      font-size: 0.8rem;
-    }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 4px 10px;
-      border-radius: 999px;
-      background: #020617;
-      border: 1px solid #1f2937;
-      color: #9ca3af;
-    }
-
-    .badge span {
-      font-size: 0.95rem;
-    }
-
-    .hero-cta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 20px;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 9px 16px;
-      border-radius: 999px;
-      font-size: 0.9rem;
-      font-weight: 600;
-      text-decoration: none;
-      border: 1px solid transparent;
-      cursor: pointer;
-      white-space: nowrap;
-    }
-
-    .btn-primary {
-      background: linear-gradient(to right, #22c55e, #06b6d4);
-      color: #020617;
-    }
-
-    .btn-primary:hover {
-      background: linear-gradient(to right, #4ade80, #22d3ee);
-    }
-
-    .btn-ghost {
-      border-color: #374151;
-      background: #020617;
-      color: #e5e7eb;
-    }
-
-    .btn-ghost:hover {
-      background: #111827;
-    }
-
-    /* Card welcome / login */
-    .auth-card {
-      background: radial-gradient(circle at top, #111827, #020617);
-      border-radius: 16px;
-      padding: 18px 18px 16px;
-      border: 1px solid #111827;
-      box-shadow: 0 20px 40px rgba(15, 23, 42, 0.85);
-      font-size: 0.9rem;
-    }
-
-    .auth-card h2 {
-      margin: 0 0 6px;
-      font-size: 1.15rem;
-    }
-
-    .auth-desc {
-      margin: 0 0 14px;
-      color: #9ca3af;
-      font-size: 0.85rem;
-    }
-
-    .field {
-      margin-bottom: 10px;
-    }
-
-    .field label {
-      display: block;
-      font-size: 0.8rem;
-      color: #9ca3af;
-      margin-bottom: 4px;
-    }
-
-    .field input {
-      width: 100%;
-      padding: 8px 10px;
-      border-radius: 10px;
-      border: 1px solid #1f2937;
-      background: #020617;
-      color: #e5e7eb;
-      font-size: 0.9rem;
-      outline: none;
-    }
-
-    .field input:focus {
-      border-color: #22c55e;
-      box-shadow: 0 0 0 1px rgba(34, 197, 94, 0.35);
-    }
-
-    .auth-actions {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      margin-top: 6px;
-    }
-
-    .btn-full {
-      width: 100%;
-      justify-content: center;
-    }
-
-    .auth-note {
-      font-size: 0.75rem;
-      color: #9ca3af;
-    }
-
-    #auth-status {
-      margin-top: 6px;
-      font-size: 0.8rem;
-    }
-
-    #auth-status.success {
-      color: #22c55e;
-    }
-
-    #auth-status.error {
-      color: #f97316;
-    }
-
-    /* Section kecil fitur */
-    .features {
-      padding-bottom: 32px;
-    }
-
-    .feature-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 12px;
-    }
-
-    .feature-item {
-      border-radius: 12px;
-      padding: 12px 14px;
-      border: 1px solid #111827;
-      background: radial-gradient(circle at top, #020617, #020617);
-      font-size: 0.85rem;
-    }
-
-    .feature-title {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-weight: 600;
-      margin-bottom: 4px;
-    }
-  </style>
+  <meta charset="UTF-8" />
+  <title>TunVPN Store - Jual SSH, VMess, VLess, Trojan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
-  <!-- NAVBAR SEDERHANA -->
   <header class="navbar">
     <div class="container nav-inner">
-      <a href="index.html" class="brand-logo">
-        GabutStore VPN Tunnels
-      </a>
-
-      <nav class="main-nav" id="mainNav">
-        <ul>
-          <li><a href="index.html" class="active">Beranda</a></li>
-          <li><a href="pricing.html">💰 Paket</a></li>
-          <li><a href="order.html">🧾 Buat Akun</a></li>
-          <li><a href="trial.html">✨ Trial</a></li>
-          <li><a href="contact.html">📞 Kontak</a></li>
-        </ul>
+      <div class="logo">TunVPN<span>Store</span></div>
+      <nav class="nav-links">
+        <a href="#paket">Paket</a>
+        <a href="#fitur">Fitur</a>
+        <a href="#order">Order</a>
+        <a href="#faq">FAQ</a>
       </nav>
-
-      <button class="menu-toggle" id="menuToggle">☰</button>
     </div>
   </header>
 
-  <!-- HERO + WELCOME -->
-  <main class="hero-shell">
-    <div class="container hero-layout">
-
-      <!-- KIRI: HERO TEXT -->
-      <section>
-        <h1 class="hero-title">
-          Tunneling Cepat & Stabil<br />Dalam Satu Panel.
-        </h1>
-        <p class="hero-sub">
-          VMESS • VLESS • TROJAN • SSH.  
-          Buat akun sendiri, bayar via QRIS, tanpa ribet chat admin.
+  <section class="hero">
+    <div class="container hero-inner">
+      <div class="hero-text">
+        <h1>VPN & SSH Premium<br />Cepat, Stabil, Anti Lag</h1>
+        <p>
+          Jual akun <b>SSH, VMess, VLess, Trojan</b> dengan kualitas premium.
+          Cocok untuk game, streaming, dan harian. Support banyak operator.
         </p>
-
-        <div class="hero-cta">
-          <a href="order.html" class="btn btn-primary">
-            🚀 Buat Akun Sekarang
-          </a>
-          <a href="pricing.html" class="btn btn-ghost">
-            💰 Lihat Harga
-          </a>
+        <div class="hero-actions">
+          <a href="#paket" class="btn primary">Lihat Paket</a>
+          <a href="#order" class="btn ghost">Order Sekarang</a>
         </div>
-
         <div class="hero-badges">
-          <div class="badge">✅ Auto create akun</div>
-          <div class="badge">✅ Bayar QRIS</div>
-          <div class="badge">✅ Trial 60 menit</div>
+          <span>✔ Low PING</span>
+          <span>✔ Anti DC</span>
+          <span>✔ Support All Device</span>
         </div>
-      </section>
-
-      <!-- KANAN: WELCOME / REGISTER -->
-      <section class="auth-card">
-        <h2>Selamat Datang</h2>
-        <p class="auth-desc">
-          Masukkan email & password bebas.  
-          Data ini dipakai untuk area pelanggan dan history pembelian.
-        </p>
-
-        <form id="auth-form">
-          <div class="field">
-            <label for="email">Email</label>
-            <input id="email" type="email" placeholder="contoh: kamu@mail.com" autocomplete="email" required>
-          </div>
-
-          <div class="field">
-            <label for="password">Password</label>
-            <input id="password" type="password" placeholder="minimal 4 karakter" autocomplete="new-password" required>
-          </div>
-
-          <div class="auth-actions">
-            <button type="submit" class="btn btn-primary btn-full" id="auth-btn">
-              Simpan & Lanjut
-            </button>
-            <div class="auth-note">
-              Bisa pakai email & password apa saja.  
-              Password akan disimpan dalam bentuk terenkripsi di server.
-            </div>
-            <div id="auth-status"></div>
-
-            <div class="auth-note">
-              Sudah pernah isi?  
-              Langsung saja ke <a href="order.html">halaman buat akun</a> atau <a href="trial.html">coba trial</a>.
-            </div>
-          </div>
-        </form>
-      </section>
-
-    </div>
-
-    <!-- SECTION FITUR RINGKAS -->
-    <section class="container features">
-      <div class="feature-list">
-        <article class="feature-item">
-          <div class="feature-title">⚡ Simple</div>
-          <p>Tinggal pilih server, durasi, bayar. Akun langsung jadi.</p>
-        </article>
-        <article class="feature-item">
-          <div class="feature-title">🛡️ Aman</div>
-          <p>Pakai protokol modern dan API yang sama dengan bot Telegram.</p>
-        </article>
-        <article class="feature-item">
-          <div class="feature-title">💸 Terjangkau</div>
-          <p>Mulai 5k, cocok untuk harian maupun bulanan.</p>
-        </article>
       </div>
-    </section>
-  </main>
+      <div class="hero-card">
+        <h3>Status Server</h3>
+        <div id="status-box" class="status-box">
+          Mengecek status...
+        </div>
+        <small>*Auto cek dari API backend kamu</small>
+      </div>
+    </div>
+  </section>
 
-  <footer>
+  <section id="paket" class="section">
     <div class="container">
-      <p style="font-size:0.8rem; color:#9ca3af; text-align:center;">
-        © 2025 GabutStore • Powered by tun.xtrimer.cloud
+      <h2>Paket Populer</h2>
+      <p class="section-desc">Pilih paket sesuai kebutuhan kamu.</p>
+
+      <div class="card-grid">
+        <div class="card">
+          <h3>SSH Premium</h3>
+          <p class="price">Rp 15.000 <span>/30 hari</span></p>
+          <ul>
+            <li>Lokasi: SG / US / ID</li>
+            <li>Support TCP/UDP</li>
+            <li>Unlimited Bandwidth (Fair Use)</li>
+          </ul>
+          <button class="btn small" data-paket="SSH Premium">Pilih Paket</button>
+        </div>
+
+        <div class="card featured">
+          <div class="tag">Favorit</div>
+          <h3>VMess / VLess</h3>
+          <p class="price">Rp 20.000 <span>/30 hari</span></p>
+          <ul>
+            <li>Server Premium</li>
+            <li>Support TLS, WS</li>
+            <li>Cocok untuk game & streaming</li>
+          </ul>
+          <button class="btn small" data-paket="VMess / VLess">Pilih Paket</button>
+        </div>
+
+        <div class="card">
+          <h3>Trojan</h3>
+          <p class="price">Rp 25.000 <span>/30 hari</span></p>
+          <ul>
+            <li>Enkripsi kuat</li>
+            <li>Stabil & kencang</li>
+            <li>Support multi device</li>
+          </ul>
+          <button class="btn small" data-paket="Trojan">Pilih Paket</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="fitur" class="section section-alt">
+    <div class="container">
+      <h2>Kenapa Pilih Kami?</h2>
+      <div class="features-grid">
+        <div class="feature">
+          <h3>Server Premium</h3>
+          <p>Menggunakan server berkualitas tinggi dengan uptime tinggi.</p>
+        </div>
+        <div class="feature">
+          <h3>Full Support</h3>
+          <p>Bantuan via Telegram/WhatsApp jika ada kendala.</p>
+        </div>
+        <div class="feature">
+          <h3>Konfigurasi Mudah</h3>
+          <p>Disertai config siap pakai untuk berbagai aplikasi.</p>
+        </div>
+        <div class="feature">
+          <h3>Harga Bersahabat</h3>
+          <p>Paket terjangkau untuk harian sampai bulanan.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="order" class="section">
+    <div class="container">
+      <h2>Form Order</h2>
+      <p class="section-desc">
+        Isi data di bawah ini. Setelah submit, admin akan hubungi kamu untuk proses pembayaran & pengiriman akun.
       </p>
+
+      <form id="order-form" class="order-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Nama</label>
+            <input type="text" name="name" placeholder="Nama lengkap" required />
+          </div>
+          <div class="form-group">
+            <label>Kontak (Telegram/WhatsApp)</label>
+            <input type="text" name="contact" placeholder="@username atau nomor" required />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Paket</label>
+            <select name="paket" id="paket-select" required>
+              <option value="">-- pilih paket --</option>
+              <option value="SSH Premium">SSH Premium</option>
+              <option value="VMess / VLess">VMess / VLess</option>
+              <option value="Trojan">Trojan</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Durasi</label>
+            <select name="duration" required>
+              <option value="7 hari">7 hari</option>
+              <option value="30 hari" selected>30 hari</option>
+              <option value="60 hari">60 hari</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Metode Pembayaran</label>
+            <select name="method" required>
+              <option value="QRIS">QRIS</option>
+              <option value="Dana">Dana</option>
+              <option value="OVO">OVO</option>
+              <option value="Pulsa">Pulsa</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Catatan (opsional)</label>
+          <textarea name="note" rows="3" placeholder="Contoh: butuh server SG, untuk game ML."></textarea>
+        </div>
+
+        <button type="submit" class="btn primary full">Kirim Order</button>
+        <div id="order-message" class="form-message"></div>
+      </form>
+    </div>
+  </section>
+
+  <section id="faq" class="section section-alt">
+    <div class="container">
+      <h2>FAQ</h2>
+      <div class="faq-item">
+        <h3>Pengiriman akun berapa lama?</h3>
+        <p>Normalnya 1-10 menit setelah pembayaran terkonfirmasi.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Akun bisa dipakai di device apa saja?</h3>
+        <p>Android, iOS, Windows, dan lain-lain selama support aplikasi VPN terkait.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Kalau akun bermasalah bagaimana?</h3>
+        <p>Hubungi admin, kami bantu cek dan ganti jika masalah dari server kami.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <p>© <span id="year"></span> TunVPN Store. All rights reserved.</p>
+      <p>Contact: <a href="https://t.me/username_admin" target="_blank">Telegram Admin</a></p>
     </div>
   </footer>
 
-  <!-- Script navbar lama -->
-  <script src="script.js"></script>
-  <!-- Script welcome/login baru -->
-  <script src="welcome.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
