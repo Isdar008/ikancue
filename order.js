@@ -8,16 +8,37 @@ const serversDiv     = document.getElementById("servers");
 const serverSelect   = document.getElementById("server-select");
 const protocolSelect = document.getElementById("protocol");
 const pillProto      = document.getElementById("pill-proto");
+const pillDurasi     = document.getElementById("pill-durasi");
 const usernameInput  = document.getElementById("username");
 const passwordInput  = document.getElementById("password");
 const fieldPassword  = document.getElementById("field-password");
 const daysSelect     = document.getElementById("days");
-const userIdInput    = document.getElementById("user-id");
 const orderBtn       = document.getElementById("btn-order");
 const resultArea     = document.getElementById("result");
 const statusEl       = document.getElementById("status");
 
 let serverList = [];
+
+const DURASI_LABEL = {
+  trial: "Trial 60 menit • Rp 0",
+  15: "15 Hari • Rp 5.000",
+  30: "30 Hari • Rp 8.000",
+  60: "60 Hari • Rp 16.000"
+};
+
+// ========= BACA PARAM DARI URL (misal ?days=15 / ?mode=trial) =========
+(function initFromQuery() {
+  const params = new URLSearchParams(window.location.search);
+  const mode = params.get("mode");
+  const d = params.get("days");
+
+  if (mode === "trial") {
+    daysSelect.value = "trial";
+  } else if (d && daysSelect) {
+    const opt = Array.from(daysSelect.options).find(o => o.value === d);
+    if (opt) daysSelect.value = d;
+  }
+})();
 
 // ========= LOAD SERVER DARI BACKEND =========
 async function loadServers() {
@@ -83,14 +104,21 @@ function validateUsername(u) {
   return /^[a-zA-Z0-9]{3,20}$/.test(u);
 }
 
-// ========= UPDATE UI PROTOKOL =========
+// ========= UPDATE UI PROTOKOL & DURASI =========
 function updateProtocolUI() {
   const proto = protocolSelect.value;
   pillProto.textContent = "Protokol: " + proto.toUpperCase();
   fieldPassword.style.display = proto === "ssh" ? "block" : "none";
 }
 
+function updateDurasiUI() {
+  const val = daysSelect.value;
+  const label = DURASI_LABEL[val] || "";
+  pillDurasi.textContent = "Durasi: " + label;
+}
+
 protocolSelect.addEventListener("change", updateProtocolUI);
+daysSelect.addEventListener("change", updateDurasiUI);
 
 // ========= HANDLE ORDER (BUAT TAGIHAN QRIS) =========
 async function handleOrder() {
@@ -100,10 +128,12 @@ async function handleOrder() {
 
   const serverId = serverSelect.value;
   const username = usernameInput.value.trim();
-  const days = parseInt(daysSelect.value, 10);
-  const userId = parseInt(userIdInput.value, 10);
+  let daysValue = daysSelect.value;
   const proto = protocolSelect.value;
   const password = passwordInput.value.trim() || "123123";
+
+  // user_id fix untuk web (bisa diganti ke sistem login nanti)
+  const userId = 999999;
 
   if (!serverId) {
     statusEl.textContent = "Pilih server terlebih dahulu.";
@@ -116,11 +146,21 @@ async function handleOrder() {
     statusEl.className = "error";
     return;
   }
-  if (!userId) {
-    statusEl.textContent = "User ID Telegram belum diisi.";
+
+  // untuk trial kita kirim days = 1 (backend yang atur jadi 60 menit / free)
+  let daysForBackend;
+  if (daysValue === "trial") {
+    daysForBackend = 1;
+  } else {
+    daysForBackend = parseInt(daysValue, 10);
+  }
+
+  if (!daysForBackend || daysForBackend <= 0) {
+    statusEl.textContent = "Durasi belum dipilih.";
     statusEl.className = "error";
     return;
   }
+
   if (proto === "ssh" && passwordInput.value.trim().length < 3) {
     statusEl.textContent = "Password SSH minimal 3 karakter.";
     statusEl.className = "error";
@@ -139,11 +179,13 @@ async function handleOrder() {
       body: JSON.stringify({
         action: "create",
         type: proto,          // vmess / vless / trojan / ssh
-        user_id: userId,
+        user_id: userId,      // fix sementara untuk web
         server_id: Number(serverId),
         username,
         password,
-        days
+        days: daysForBackend,
+        // flag trial dikirim, backend boleh abaikan kalau belum dipakai
+        is_trial: daysValue === "trial"
       })
     });
 
@@ -182,4 +224,5 @@ orderBtn.addEventListener("click", handleOrder);
 
 // jalankan saat halaman dibuka
 updateProtocolUI();
+updateDurasiUI();
 loadServers();
