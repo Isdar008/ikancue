@@ -67,18 +67,6 @@
       border: 1px solid #111827;
       box-shadow: 0 20px 40px rgba(15, 23, 42, 0.8);
     }
-    .card h2 {
-      margin-top: 0;
-      font-size: 1.1rem;
-    }
-    .badge {
-      font-size: 0.7rem;
-      padding: 2px 8px;
-      border-radius: 999px;
-      background: rgba(15, 23, 42, 0.9);
-      border: 1px solid #1f2937;
-      color: #9ca3af;
-    }
     .servers-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
@@ -109,12 +97,8 @@
       font-size: 0.75rem;
       font-weight: 600;
     }
-    .status-ok {
-      color: #22c55e;
-    }
-    .status-full {
-      color: #ef4444;
-    }
+    .status-ok { color: #22c55e; }
+    .status-full { color: #ef4444; }
     .divider {
       height: 1px;
       background: linear-gradient(to right, transparent, #1f2937, transparent);
@@ -140,13 +124,6 @@
       outline: none;
       box-sizing: border-box;
     }
-    input:focus, select:focus {
-      border-color: #22c55e;
-      box-shadow: 0 0 0 1px rgba(34, 197, 94, 0.35);
-    }
-    .field {
-      margin-bottom: 10px;
-    }
     button.primary {
       width: 100%;
       padding: 10px 12px;
@@ -156,63 +133,9 @@
       font-weight: 600;
       background: linear-gradient(to right, #22c55e, #06b6d4);
       color: #020617;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
     }
-    button.primary:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
-    .note {
-      font-size: 0.75rem;
-      color: #9ca3af;
-      margin-top: 6px;
-    }
-    textarea {
-      width: 100%;
-      min-height: 140px;
-      border-radius: 10px;
-      padding: 10px;
-      border: 1px solid #1f2937;
-      background: #020617;
-      color: #e5e7eb;
-      resize: vertical;
-      box-sizing: border-box;
-      font-size: 0.78rem;
-      white-space: pre-wrap;
-    }
-    .pill-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 10px;
-    }
-    .pill {
-      font-size: 0.75rem;
-      padding: 4px 10px;
-      border-radius: 999px;
-      border: 1px solid #1f2937;
-      background: #020617;
-      color: #9ca3af;
-    }
-    footer {
-      padding: 10px 16px 18px;
-      text-align: center;
-      font-size: 0.75rem;
-      color: #6b7280;
-    }
-    .error {
-      color: #f97316;
-      font-size: 0.8rem;
-      margin-top: 4px;
-    }
-    .success {
-      color: #22c55e;
-      font-size: 0.8rem;
-      margin-top: 4px;
-    }
+    .error { color: #f97316; font-size: 0.8rem; }
+    .success { color: #22c55e; font-size: 0.8rem; }
   </style>
 </head>
 <body>
@@ -220,8 +143,7 @@
     <header>
       <div>
         <h1>
-          <span>⚡ ExtrimerS Tunneling</span>
-          <span class="brand-pill">Simple Store</span>
+          ⚡ ExtrimerS Tunneling <span class="brand-pill">Simple Store</span>
         </h1>
         <small>Koneksi cepat & stabil • Sistem otomatis • Config langsung jadi</small>
       </div>
@@ -231,38 +153,29 @@
     </header>
 
     <main>
-      <!-- Kiri: List Server -->
+      <!-- SERVER LIST -->
       <section class="card">
         <h2>📡 Pilih Server</h2>
-        <p style="font-size:0.84rem;color:#9ca3af;margin-top:4px;">
-          Pilih server yang tersedia untuk membuat akun VMESS.  
-          Status penuh artinya server sudah mencapai batas pembuatan akun harian.
-        </p>
         <div class="divider"></div>
         <div id="servers" class="servers-grid">
-          <p style="font-size:0.85rem;color:#9ca3af;">Mengambil data server…</p>
+          <p style="color:#9ca3af;font-size:0.85rem;">Mengambil data server…</p>
         </div>
       </section>
 
-      <!-- Kanan: Form Order -->
+      <!-- ORDER -->
       <section class="card">
         <h2>🧾 Buat Akun VMESS</h2>
-        <div class="pill-row">
-          <span class="pill">Protokol: VMESS</span>
-          <span class="pill">Saldo diambil dari user_id backend</span>
-        </div>
 
         <div class="field">
           <label for="server-select">Server</label>
           <select id="server-select">
-            <option value="">Pilih server dari list kiri</option>
+            <option value="">Pilih server…</option>
           </select>
         </div>
 
         <div class="field">
-          <label for="username">Username (huruf & angka saja)</label>
-          <input id="username" type="text" placeholder="contoh: extrimers01" autocomplete="off" />
-          <div class="note">Tanpa spasi & simbol. Minimal 3 karakter, maksimal 20.</div>
+          <label for="username">Username</label>
+          <input id="username" type="text" placeholder="contoh: extrimers01" />
         </div>
 
         <div class="field">
@@ -275,44 +188,35 @@
         </div>
 
         <div class="field">
-          <label for="user-id">User ID (sementara fixed untuk test)</label>
+          <label for="user-id">User ID backend</label>
           <input id="user-id" type="number" value="123456789" />
-          <div class="note">Ini adalah user_id di database backend. Nanti bisa diganti sistem login.</div>
         </div>
 
-        <button id="btn-order" class="primary">
-          <span>🚀 Buat Akun Sekarang</span>
-        </button>
+        <button id="btn-order" class="primary">🚀 Buat Akun Sekarang</button>
         <div id="status" class="note"></div>
-
-        <div class="divider"></div>
 
         <div class="field">
           <label>Hasil / Config</label>
-          <textarea id="result" readonly placeholder="Config VMESS atau pesan error akan muncul di sini..."></textarea>
-          <div class="note">
-            Jika sudah berhasil, copy config dan kirim ke customer.  
-            Semua transaksi tetap tercatat di bot & database yang sama.
-          </div>
+          <textarea id="result" readonly></textarea>
         </div>
       </section>
     </main>
   </div>
 
-  <footer>
-    ExtrimerS Tunneling • Powered by API <span id="api-label-footer"></span>
+  <footer style="text-align:center;margin:12px;color:#6b7280;font-size:0.75rem;">
+    Powered by API <span id="api-label-footer"></span>
   </footer>
 
   <script>
-    // =====================
-    // KONFIGURASI FRONTEND
-    // =====================
-    const API_BASE = "http://41.216.178.185:50123";/ backend abang
-    const orderEndpoint = API_BASE + "/api/web/order";
-    const serversEndpoint = API_BASE + "/api/web/servers";
+    // ====================================
+    // AUTO DETECT ORIGIN (VERCEL PROXY)
+    // ====================================
+    const API_BASE = ""; // same-origin
+    const serversEndpoint = "/api/web/servers";
+    const orderEndpoint   = "/api/web/order";
 
-    document.getElementById("api-label").textContent = API_BASE;
-    document.getElementById("api-label-footer").textContent = API_BASE;
+    document.getElementById("api-label").textContent = window.location.origin;
+    document.getElementById("api-label-footer").textContent = window.location.origin;
 
     const serversDiv = document.getElementById("servers");
     const serverSelect = document.getElementById("server-select");
@@ -323,98 +227,75 @@
     const resultArea = document.getElementById("result");
     const statusEl = document.getElementById("status");
 
-    let serverList = [];
-
-    // Load server di awal
+    // ===========================
+    // LOAD SERVER LIST
+    // ===========================
     async function loadServers() {
       try {
         const res = await fetch(serversEndpoint);
         const data = await res.json();
 
         if (!data.success) {
-          serversDiv.innerHTML = "<p style='color:#f97316;font-size:0.85rem;'>Gagal mengambil server: " + (data.error || "error tidak diketahui") + "</p>";
+          serversDiv.innerHTML = "<p style='color:#f97316;'>Gagal mengambil server.</p>";
           return;
         }
 
-        serverList = data.servers || [];
-        if (!serverList.length) {
-          serversDiv.innerHTML = "<p style='color:#9ca3af;font-size:0.85rem;'>Belum ada server terdaftar.</p>";
-          return;
-        }
-
-        // Render grid kartu server
         serversDiv.innerHTML = "";
         serverSelect.innerHTML = "<option value=''>Pilih server…</option>";
 
-        serverList.forEach(s => {
+        data.servers.forEach(s => {
           const full = s.total_create_akun >= s.batas_create_akun;
-          const serverCard = document.createElement("div");
-          serverCard.className = "server-card";
-          serverCard.innerHTML = `
+
+          const card = document.createElement("div");
+          card.className = "server-card";
+          card.innerHTML = `
             <div class="server-name">${s.nama_server}</div>
             <div class="location">${s.lokasi || "-"}</div>
             <div class="server-meta">
-              Harga / hari: <b>Rp${(s.harga || 0).toLocaleString("id-ID")}</b><br/>
+              Harga / hari: <b>Rp${s.harga.toLocaleString("id-ID")}</b><br/>
               Kuota / hari: <b>${s.quota} GB</b><br/>
               IP Limit: <b>${s.iplimit}</b><br/>
-              Akun terbuat: <b>${s.total_create_akun}/${s.batas_create_akun}</b>
+              Akun: <b>${s.total_create_akun}/${s.batas_create_akun}</b>
             </div>
             <div class="server-status ${full ? "status-full" : "status-ok"}">
               ${full ? "❌ PENUH" : "✅ Tersedia"}
             </div>
           `;
-          serverCard.addEventListener("click", () => {
-            serverSelect.value = s.id;
-          });
-          serversDiv.appendChild(serverCard);
+          card.onclick = () => serverSelect.value = s.id;
+          serversDiv.appendChild(card);
 
           const opt = document.createElement("option");
           opt.value = s.id;
           opt.textContent = `${s.nama_server} (${s.lokasi || "-"})`;
           serverSelect.appendChild(opt);
         });
-      } catch (err) {
-        console.error(err);
-        serversDiv.innerHTML = "<p style='color:#f97316;font-size:0.85rem;'>Gagal konek ke API server. Cek domain API / CORS.</p>";
+
+      } catch {
+        serversDiv.innerHTML = "<p style='color:#f97316;'>Tidak bisa connect ke API.</p>";
       }
     }
 
-    // Validasi username: hanya huruf dan angka, 3–20 karakter
-    function validateUsername(u) {
-      const re = /^[a-zA-Z0-9]{3,20}$/;
-      return re.test(u);
-    }
+    loadServers();
 
+    // ===========================
+    // ORDER
+    // ===========================
     async function handleOrder() {
       statusEl.textContent = "";
-      statusEl.className = "note";
       resultArea.value = "";
 
       const serverId = serverSelect.value;
       const username = usernameInput.value.trim();
-      const days = parseInt(daysSelect.value, 10);
-      const userId = parseInt(userIdInput.value, 10);
+      const days = parseInt(daysSelect.value);
+      const userId = parseInt(userIdInput.value);
 
-      if (!serverId) {
-        statusEl.textContent = "Pilih server terlebih dahulu.";
-        statusEl.className = "error";
-        return;
-      }
-      if (!username || !validateUsername(username)) {
-        statusEl.textContent = "Username hanya boleh huruf & angka, 3–20 karakter, tanpa spasi/simbol.";
-        statusEl.className = "error";
-        return;
-      }
-      if (!userId) {
-        statusEl.textContent = "User ID backend belum diisi.";
-        statusEl.className = "error";
-        return;
-      }
+      if (!serverId) return statusEl.textContent = "Pilih server.";
+      if (!/^[a-zA-Z0-9]{3,20}$/.test(username))
+        return statusEl.textContent = "Username tidak valid.";
+      if (!userId) return statusEl.textContent = "User ID kosong.";
 
       orderBtn.disabled = true;
-      orderBtn.textContent = "Memproses...";
-      statusEl.textContent = "Menghubungi server...";
-      statusEl.className = "note";
+      statusEl.textContent = "Menghubungi server…";
 
       try {
         const res = await fetch(orderEndpoint, {
@@ -426,7 +307,7 @@
             user_id: userId,
             server_id: Number(serverId),
             username: username,
-            password: "123123", // tidak dipakai untuk VMESS, aman diisi statis
+            password: "123",
             days: days
           })
         });
@@ -434,30 +315,24 @@
         const data = await res.json();
 
         if (!data.success) {
-          statusEl.textContent = "Gagal: " + (data.error || "error tidak diketahui");
+          statusEl.textContent = "Gagal: " + data.error;
           statusEl.className = "error";
-          resultArea.value = data.error || "";
           return;
         }
 
-        statusEl.textContent = "Berhasil! Harga: Rp" + (data.harga || 0).toLocaleString("id-ID") +
-          (data.komisi ? (" • Komisi: Rp" + data.komisi.toLocaleString("id-ID")) : "");
+        statusEl.textContent = "Berhasil!";
         statusEl.className = "success";
-        resultArea.value = data.message || "";
-      } catch (err) {
-        console.error(err);
-        statusEl.textContent = "Gagal terhubung ke API. Cek jaringan / domain backend.";
+        resultArea.value = data.message;
+
+      } catch {
+        statusEl.textContent = "Gagal terhubung ke API.";
         statusEl.className = "error";
-      } finally {
-        orderBtn.disabled = false;
-        orderBtn.textContent = "🚀 Buat Akun Sekarang";
       }
+
+      orderBtn.disabled = false;
     }
 
-    orderBtn.addEventListener("click", handleOrder);
-
-    // Load server saat halaman dibuka
-    loadServers();
+    orderBtn.onclick = handleOrder;
   </script>
 </body>
 </html>
