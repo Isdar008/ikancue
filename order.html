@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulir Pemesanan - XTRIMER TUNNELING</title>
+    <style>
+        /* CSS Konsisten dengan Desain Sebelumnya */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5; 
+            text-align: center;
+        }
+        .header {
+            background-image: linear-gradient(to right, #1a237e, #4527a0);
+            color: white;
+            padding: 25px 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        .header h1 {
+            font-size: 1.8em;
+            margin: 0;
+            font-weight: 600;
+        }
+        .form-container {
+            max-width: 400px;
+            margin: 30px auto;
+            padding: 25px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+        .form-container h2 {
+            text-align: center;
+            color: #1a237e;
+            margin-bottom: 25px;
+        }
+        /* Style Input dan Label */
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #555;
+        }
+        .form-group input, 
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box; /* Agar padding tidak menambah lebar */
+            font-size: 1em;
+        }
+        /* Style Tombol Submit */
+        .submit-button {
+            width: 100%;
+            background-color: #ff6f00; /* Oranye */
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 15px;
+        }
+        .submit-button:hover {
+            background-color: #e65100;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #1a237e;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="header">
+        <h1>FORMULIR PEMESANAN</h1>
+    </div>
+
+    <a href="pricing.html" class="back-link">← Kembali ke Pilihan Paket</a>
+    
+    <div class="form-container">
+        <h2>Buat Akun Premium</h2>
+        
+        <form id="orderForm">
+            
+            <div class="form-group">
+                <label for="service">Layanan yang Dipilih</label>
+                <input type="text" id="service" name="service" value="Paket Premium 1 Bulan" readonly> 
+            </div>
+            
+            <div class="form-group">
+                <label for="username">Username Akun</label>
+                <input type="text" id="username" name="username" placeholder="Masukkan Username (misal: xtrimerku)" required>
+                <small style="color: #888;">Hanya huruf dan angka, tanpa spasi.</small>
+            </div>
+            
+            <div class="form-group">
+                <label for="contact">Nomor Kontak (WhatsApp)</label>
+                <input type="tel" id="contact" name="contact" placeholder="08XXXXXXXXXX" required>
+            </div>
+
+            <button type="submit" class="submit-button">Lanjutkan Pembayaran</button>
+        </form>
+    </div>
+    
+</body>
+</html>
