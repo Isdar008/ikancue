@@ -1,85 +1,144 @@
-<section class="pricing-grid">
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paket Tunneling • GabutStore VPN Tunnels</title>
 
-    <!-- Paket 15 Hari -->
-    <article class="pricing-card">
-        <div class="pricing-label">Coba dulu</div>
-        <h2>Paket 15 Hari</h2>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-        <p class="pricing-desc">
-            Cocok untuk tes server, pemakaian sebentar, atau akun cadangan.
+<header class="navbar">
+    <div class="container nav-inner">
+        <a href="index.html" class="brand-logo">
+            GabutStore VPN Tunnels
+        </a>
+
+        <nav class="main-nav" id="mainNav">
+            <ul>
+                <li><a href="index.html">Beranda</a></li>
+                <li><a href="pricing.html" class="active">💰 Paket</a></li>
+                <li><a href="order.html">🧾 Buat Akun</a></li>
+                <li><a href="guide.html">⚙️ Cara Penggunaan</a></li>
+                <li><a href="contact.html">📞 Kontak & Support</a></li>
+            </ul>
+        </nav>
+
+        <button class="menu-toggle" id="menuToggle">☰</button>
+    </div>
+</header>
+
+<main class="pricing-page">
+    <div class="container">
+
+        <header class="pricing-header">
+            <h1>Paket Tunneling untuk Semua Protokol</h1>
+            <p>
+                Pilih durasi & harga paket. Di halaman berikutnya kamu bisa pilih
+                protokol (VMESS / VLESS / TROJAN / SSH) dan server yang diinginkan.
+            </p>
+        </header>
+
+        <section class="pricing-grid">
+
+            <!-- Paket 15 Hari -->
+            <article class="pricing-card">
+                <div class="pricing-label">Coba dulu</div>
+                <h2>Paket 15 Hari</h2>
+
+                <p class="pricing-desc">
+                    Cocok untuk tes server, pemakaian sebentar, atau akun cadangan.
+                </p>
+
+                <ul class="pricing-features">
+                    <li>Berlaku untuk semua protokol (VMESS / VLESS / TROJAN / SSH)</li>
+                    <li>Durasi total: 15 hari</li>
+                    <li>1 akun per pembelian</li>
+                    <li>Transaksi tercatat di backend</li>
+                </ul>
+
+                <div class="price-options">
+                    <div class="price-box">
+                        <div class="price-top">Harga paket</div>
+                        <div class="price-amount">Rp 5.000</div>
+                        <a href="order.html?days=15" class="btn btn-primary btn-full">
+                            Pilih Paket 15 Hari
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Paket 30 Hari -->
+            <article class="pricing-card pricing-card-highlight">
+                <div class="pricing-label hot">Paling laris</div>
+                <h2>Paket 30 Hari</h2>
+
+                <p class="pricing-desc">
+                    Pas untuk pemakaian harian reguler sebulan penuh.
+                </p>
+
+                <ul class="pricing-features">
+                    <li>Berlaku untuk semua protokol</li>
+                    <li>Durasi total: 30 hari</li>
+                    <li>1 akun per pembelian</li>
+                    <li>Harga sama di semua protokol</li>
+                </ul>
+
+                <div class="price-options">
+                    <div class="price-box">
+                        <div class="price-top">Harga paket</div>
+                        <div class="price-amount">Rp 8.000</div>
+                        <a href="order.html?days=30" class="btn btn-primary btn-full">
+                            Pilih Paket 30 Hari
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Paket 60 Hari -->
+            <article class="pricing-card">
+                <div class="pricing-label">Untuk pemakaian lama</div>
+                <h2>Paket 60 Hari</h2>
+
+                <p class="pricing-desc">
+                    Buat yang ingin tenang 2 bulan tanpa ribet perpanjang tiap minggu.
+                </p>
+
+                <ul class="pricing-features">
+                    <li>Berlaku untuk semua protokol</li>
+                    <li>Durasi total: 60 hari</li>
+                    <li>1 akun per pembelian</li>
+                    <li>Lebih hemat untuk jangka panjang</li>
+                </ul>
+
+                <div class="price-options">
+                    <div class="price-box">
+                        <div class="price-top">Harga paket</div>
+                        <div class="price-amount">Rp 16.000</div>
+                        <a href="order.html?days=60" class="btn btn-primary btn-full">
+                            Pilih Paket 60 Hari
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+        </section>
+
+        <p class="pricing-note">
+            * Harga berlaku untuk semua protokol. Pembayaran dilakukan per akun melalui QRIS, 
+            dan akun akan dibuat otomatis setelah pembayaran berhasil.
         </p>
+    </div>
+</main>
 
-        <ul class="pricing-features">
-            <li>Berlaku untuk semua protokol (VMESS / VLESS / TROJAN / SSH)</li>
-            <li>Durasi total: 15 hari</li>
-            <li>1 akun per pembelian</li>
-            <li>Transaksi tercatat di backend</li>
-        </ul>
+<footer>
+    <div class="container">
+        <p>&copy; 2025 XtrimerStore. All rights reserved.</p>
+    </div>
+</footer>
 
-        <div class="price-options">
-            <div class="price-box">
-                <div class="price-top">Harga paket</div>
-                <div class="price-amount">Rp 5.000</div>
-                <!-- langsung ke order.html, nanti bisa kita buat auto isi days=15 -->
-                <a href="order.html?days=15" class="btn btn-primary btn-full">
-                    Pilih Paket 15 Hari
-                </a>
-            </div>
-        </div>
-    </article>
-
-    <!-- Paket 30 Hari -->
-    <article class="pricing-card pricing-card-highlight">
-        <div class="pricing-label hot">Paling laris</div>
-        <h2>Paket 30 Hari</h2>
-
-        <p class="pricing-desc">
-            Pas untuk pemakaian harian reguler sebulan penuh.
-        </p>
-
-        <ul class="pricing-features">
-            <li>Berlaku untuk semua protokol</li>
-            <li>Durasi total: 30 hari</li>
-            <li>1 akun per pembelian</li>
-            <li>Harga tetap sama di semua protokol</li>
-        </ul>
-
-        <div class="price-options">
-            <div class="price-box">
-                <div class="price-top">Harga paket</div>
-                <div class="price-amount">Rp 8.000</div>
-                <a href="order.html?days=30" class="btn btn-primary btn-full">
-                    Pilih Paket 30 Hari
-                </a>
-            </div>
-        </div>
-    </article>
-
-    <!-- Paket 60 Hari -->
-    <article class="pricing-card">
-        <div class="pricing-label">Untuk pemakaian lama</div>
-        <h2>Paket 60 Hari</h2>
-
-        <p class="pricing-desc">
-            Buat yang ingin tenang 2 bulan tanpa ribet perpanjang tiap minggu.
-        </p>
-
-        <ul class="pricing-features">
-            <li>Berlaku untuk semua protokol</li>
-            <li>Durasi total: 60 hari</li>
-            <li>1 akun per pembelian</li>
-            <li>Lebih hemat untuk jangka panjang</li>
-        </ul>
-
-        <div class="price-options">
-            <div class="price-box">
-                <div class="price-top">Harga paket</div>
-                <div class="price-amount">Rp 16.000</div>
-                <a href="order.html?days=60" class="btn btn-primary btn-full">
-                    Pilih Paket 60 Hari
-                </a>
-            </div>
-        </div>
-    </article>
-
-</section>
+<script src="script.js"></script>
+</body>
+</html>
