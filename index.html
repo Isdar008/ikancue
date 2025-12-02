@@ -2,205 +2,456 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <title>TunVPN Store - Jual SSH, VMess, VLess, Trojan</title>
+  <title>TunXtrimer VPN Store</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="style.css" />
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    body {
+      min-height: 100vh;
+      background: radial-gradient(circle at top, #020617, #020617 40%, #020617 100%);
+      color: #e5e7eb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+    .wrapper {
+      width: 100%;
+      max-width: 960px;
+      background: rgba(15,23,42,0.95);
+      border-radius: 24px;
+      padding: 22px 20px;
+      border: 1px solid rgba(148,163,184,0.35);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.85);
+      backdrop-filter: blur(18px);
+    }
+    @media (max-width: 768px) {
+      .wrapper {
+        padding: 18px 14px;
+        border-radius: 20px;
+      }
+    }
+    .header {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(34,197,94,0.12);
+      border: 1px solid rgba(34,197,94,0.5);
+      color: #4ade80;
+      width: fit-content;
+    }
+    .title {
+      font-size: 22px;
+      font-weight: 700;
+      color: #f9fafb;
+    }
+    .subtitle {
+      font-size: 13px;
+      color: #9ca3af;
+      max-width: 580px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.8fr) minmax(0, 1.3fr);
+      gap: 18px;
+    }
+    @media (max-width: 780px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .card {
+      background: rgba(15,23,42,0.9);
+      border-radius: 18px;
+      padding: 16px 14px 18px;
+      border: 1px solid rgba(55,65,81,0.9);
+    }
+    .card h2 {
+      font-size: 15px;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+    .card p {
+      font-size: 12px;
+      color: #9ca3af;
+      margin-bottom: 12px;
+    }
+    .form-group {
+      margin-bottom: 10px;
+    }
+    label {
+      font-size: 12px;
+      color: #e5e7eb;
+      display: block;
+      margin-bottom: 4px;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 10px;
+      border: 1px solid rgba(55,65,81,0.9);
+      background: rgba(15,23,42,0.96);
+      color: #e5e7eb;
+      font-size: 13px;
+      outline: none;
+      transition: border 0.15s, box-shadow 0.15s, background 0.15s;
+    }
+    input::placeholder, textarea::placeholder {
+      color: #6b7280;
+    }
+    input:focus, select:focus, textarea:focus {
+      border-color: #6366f1;
+      box-shadow: 0 0 0 1px rgba(129,140,248,0.7);
+      background: #020617;
+    }
+    textarea {
+      resize: vertical;
+      min-height: 60px;
+      max-height: 120px;
+    }
+    .btn {
+      width: 100%;
+      border: none;
+      border-radius: 999px;
+      padding: 10px 14px;
+      margin-top: 4px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: linear-gradient(135deg, #6366f1, #22c55e);
+      color: white;
+      box-shadow: 0 12px 30px rgba(79,70,229,0.5);
+      transition: transform 0.1s, box-shadow 0.1s, filter 0.1s;
+    }
+    .btn:active {
+      transform: translateY(1px);
+      box-shadow: 0 7px 20px rgba(79,70,229,0.45);
+      filter: brightness(0.96);
+    }
+    .btn[disabled] {
+      opacity: 0.6;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+    .alert {
+      font-size: 12px;
+      border-radius: 999px;
+      padding: 7px 11px;
+      margin-top: 8px;
+      display: none;
+    }
+    .alert.success {
+      background: rgba(22,163,74,0.15);
+      color: #4ade80;
+      border: 1px solid rgba(22,163,74,0.5);
+    }
+    .alert.error {
+      background: rgba(220,38,38,0.15);
+      color: #fca5a5;
+      border: 1px solid rgba(220,38,38,0.5);
+    }
+    .pill {
+      font-size: 11px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: rgba(15,23,42,0.95);
+      border: 1px solid rgba(55,65,81,0.9);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .pill-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 0 4px rgba(34,197,94,0.25);
+    }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin: 10px 0 12px;
+    }
+    .stat-card {
+      border-radius: 14px;
+      padding: 9px 10px;
+      background: radial-gradient(circle at top left, rgba(129,140,248,0.13), rgba(15,23,42,0.95));
+      border: 1px solid rgba(55,65,81,0.9);
+      font-size: 11px;
+    }
+    .stat-label {
+      color: #9ca3af;
+      margin-bottom: 4px;
+    }
+    .stat-value {
+      font-size: 16px;
+      font-weight: 700;
+      color: #e5e7eb;
+    }
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 6px;
+      margin-bottom: 8px;
+    }
+    .chip {
+      font-size: 11px;
+      padding: 4px 7px;
+      border-radius: 999px;
+      border: 1px solid rgba(75,85,99,0.95);
+      color: #9ca3af;
+    }
+    .proto {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 4px;
+    }
+    .proto span {
+      font-size: 10px;
+      padding: 3px 7px;
+      border-radius: 999px;
+      border: 1px solid rgba(75,85,99,0.9);
+    }
+    .footer {
+      margin-top: 14px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(31,41,55,0.9);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 6px;
+      font-size: 11px;
+      color: #6b7280;
+    }
+    .footer a {
+      color: #a5b4fc;
+      text-decoration: none;
+    }
+    .footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
-  <header class="navbar">
-    <div class="container nav-inner">
-      <div class="logo">TunVPN<span>Store</span></div>
-      <nav class="nav-links">
-        <a href="#paket">Paket</a>
-        <a href="#fitur">Fitur</a>
-        <a href="#order">Order</a>
-        <a href="#faq">FAQ</a>
-      </nav>
+<div class="wrapper">
+  <div class="header">
+    <div class="badge">
+      <span>⚡</span>
+      <span id="store-name">TunXtrimer VPN Store</span>
     </div>
-  </header>
-
-  <section class="hero">
-    <div class="container hero-inner">
-      <div class="hero-text">
-        <h1>VPN & SSH Premium<br />Cepat, Stabil, Anti Lag</h1>
-        <p>
-          Jual akun <b>SSH, VMess, VLess, Trojan</b> dengan kualitas premium.
-          Cocok untuk game, streaming, dan harian. Support banyak operator.
-        </p>
-        <div class="hero-actions">
-          <a href="#paket" class="btn primary">Lihat Paket</a>
-          <a href="#order" class="btn ghost">Order Sekarang</a>
-        </div>
-        <div class="hero-badges">
-          <span>✔ Low PING</span>
-          <span>✔ Anti DC</span>
-          <span>✔ Support All Device</span>
-        </div>
-      </div>
-      <div class="hero-card">
-        <h3>Status Server</h3>
-        <div id="status-box" class="status-box">
-          Mengecek status...
-        </div>
-        <small>*Auto cek dari API backend kamu</small>
-      </div>
+    <div class="title">Internet Lancar untuk Game, Streaming & Harian</div>
+    <div class="subtitle">
+      SSH • VMESS • VLESS • TROJAN premium, auto terhubung ke bot Telegram. Isi data di bawah, admin/bot
+      akan proses dan kirim info pembayaran.
     </div>
-  </section>
+  </div>
 
-  <section id="paket" class="section">
-    <div class="container">
-      <h2>Paket Populer</h2>
-      <p class="section-desc">Pilih paket sesuai kebutuhan kamu.</p>
-
-      <div class="card-grid">
-        <div class="card">
-          <h3>SSH Premium</h3>
-          <p class="price">Rp 15.000 <span>/30 hari</span></p>
-          <ul>
-            <li>Lokasi: SG / US / ID</li>
-            <li>Support TCP/UDP</li>
-            <li>Unlimited Bandwidth (Fair Use)</li>
-          </ul>
-          <button class="btn small" data-paket="SSH Premium">Pilih Paket</button>
-        </div>
-
-        <div class="card featured">
-          <div class="tag">Favorit</div>
-          <h3>VMess / VLess</h3>
-          <p class="price">Rp 20.000 <span>/30 hari</span></p>
-          <ul>
-            <li>Server Premium</li>
-            <li>Support TLS, WS</li>
-            <li>Cocok untuk game & streaming</li>
-          </ul>
-          <button class="btn small" data-paket="VMess / VLess">Pilih Paket</button>
-        </div>
-
-        <div class="card">
-          <h3>Trojan</h3>
-          <p class="price">Rp 25.000 <span>/30 hari</span></p>
-          <ul>
-            <li>Enkripsi kuat</li>
-            <li>Stabil & kencang</li>
-            <li>Support multi device</li>
-          </ul>
-          <button class="btn small" data-paket="Trojan">Pilih Paket</button>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="fitur" class="section section-alt">
-    <div class="container">
-      <h2>Kenapa Pilih Kami?</h2>
-      <div class="features-grid">
-        <div class="feature">
-          <h3>Server Premium</h3>
-          <p>Menggunakan server berkualitas tinggi dengan uptime tinggi.</p>
-        </div>
-        <div class="feature">
-          <h3>Full Support</h3>
-          <p>Bantuan via Telegram/WhatsApp jika ada kendala.</p>
-        </div>
-        <div class="feature">
-          <h3>Konfigurasi Mudah</h3>
-          <p>Disertai config siap pakai untuk berbagai aplikasi.</p>
-        </div>
-        <div class="feature">
-          <h3>Harga Bersahabat</h3>
-          <p>Paket terjangkau untuk harian sampai bulanan.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="order" class="section">
-    <div class="container">
+  <div class="grid">
+    <!-- FORM -->
+    <div class="card">
       <h2>Form Order</h2>
-      <p class="section-desc">
-        Isi data di bawah ini. Setelah submit, admin akan hubungi kamu untuk proses pembayaran & pengiriman akun.
-      </p>
+      <p>Masukkan email/kontak dan password bebas untuk identitas akun VPN kamu.</p>
 
-      <form id="order-form" class="order-form">
-        <div class="form-row">
-          <div class="form-group">
-            <label>Nama</label>
-            <input type="text" name="name" placeholder="Nama lengkap" required />
-          </div>
-          <div class="form-group">
-            <label>Kontak (Telegram/WhatsApp)</label>
-            <input type="text" name="contact" placeholder="@username atau nomor" required />
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label>Paket</label>
-            <select name="paket" id="paket-select" required>
-              <option value="">-- pilih paket --</option>
-              <option value="SSH Premium">SSH Premium</option>
-              <option value="VMess / VLess">VMess / VLess</option>
-              <option value="Trojan">Trojan</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Durasi</label>
-            <select name="duration" required>
-              <option value="7 hari">7 hari</option>
-              <option value="30 hari" selected>30 hari</option>
-              <option value="60 hari">60 hari</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label>Metode Pembayaran</label>
-            <select name="method" required>
-              <option value="QRIS">QRIS</option>
-              <option value="Dana">Dana</option>
-              <option value="OVO">OVO</option>
-              <option value="Pulsa">Pulsa</option>
-            </select>
-          </div>
+      <form id="order-form">
+        <div class="form-group">
+          <label for="email">Email / Kontak</label>
+          <input
+            type="text"
+            id="email"
+            name="email"
+            placeholder="email@domain.com / @username / No.WA"
+            required
+          />
         </div>
 
         <div class="form-group">
-          <label>Catatan (opsional)</label>
-          <textarea name="note" rows="3" placeholder="Contoh: butuh server SG, untuk game ML."></textarea>
+          <label for="password">Password Bebas</label>
+          <input
+            type="text"
+            id="password"
+            name="password"
+            placeholder="bebas, contoh: nama+angka"
+            required
+          />
         </div>
 
-        <button type="submit" class="btn primary full">Kirim Order</button>
-        <div id="order-message" class="form-message"></div>
+        <div class="form-group">
+          <label for="paket">Paket</label>
+          <select id="paket" name="paket">
+            <option value="SSH 30 Hari">SSH 30 Hari</option>
+            <option value="VMESS 30 Hari">VMESS 30 Hari</option>
+            <option value="VLESS 30 Hari">VLESS 30 Hari</option>
+            <option value="TROJAN 30 Hari">TROJAN 30 Hari</option>
+            <option value="Combo All Protocol 30 Hari">Combo All Protocol 30 Hari</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="note">Catatan Tambahan (opsional)</label>
+          <textarea
+            id="note"
+            name="note"
+            placeholder="contoh: prioritas Telkomsel / untuk game / dsb"
+          ></textarea>
+        </div>
+
+        <button type="submit" class="btn" id="submit-btn">
+          <span>🛒 Kirim Order</span>
+        </button>
+
+        <div class="alert success" id="alert-success"></div>
+        <div class="alert error" id="alert-error"></div>
       </form>
     </div>
-  </section>
 
-  <section id="faq" class="section section-alt">
-    <div class="container">
-      <h2>FAQ</h2>
-      <div class="faq-item">
-        <h3>Pengiriman akun berapa lama?</h3>
-        <p>Normalnya 1-10 menit setelah pembayaran terkonfirmasi.</p>
+    <!-- INFO BOT / STATUS -->
+    <div class="card">
+      <div class="pill">
+        <div class="pill-dot"></div>
+        <span>Bot Telegram Online</span>
       </div>
-      <div class="faq-item">
-        <h3>Akun bisa dipakai di device apa saja?</h3>
-        <p>Android, iOS, Windows, dan lain-lain selama support aplikasi VPN terkait.</p>
+
+      <div class="stats">
+        <div class="stat-card">
+          <div class="stat-label">Total User Bot</div>
+          <div class="stat-value" id="stat-users">-</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Server Aktif</div>
+          <div class="stat-value" id="stat-servers">-</div>
+        </div>
       </div>
-      <div class="faq-item">
-        <h3>Kalau akun bermasalah bagaimana?</h3>
-        <p>Hubungi admin, kami bantu cek dan ganti jika masalah dari server kami.</p>
+
+      <h2>Keunggulan</h2>
+      <div class="chips">
+        <span class="chip">🔒 Enkripsi full</span>
+        <span class="chip">🚀 Anti lemot</span>
+        <span class="chip">📲 Support semua operator</span>
+        <span class="chip">🤖 Integrasi bot Telegram</span>
       </div>
+
+      <div class="proto">
+        <span>SSH</span>
+        <span>VMESS</span>
+        <span>VLESS</span>
+        <span>TROJAN</span>
+      </div>
+
+      <p style="margin-top: 10px; font-size: 12px;">
+        Setelah order terkirim, cek pesan dari bot/admin untuk detail pembayaran & akun.
+      </p>
     </div>
-  </section>
+  </div>
 
-  <footer class="footer">
-    <div class="container footer-inner">
-      <p>© <span id="year"></span> TunVPN Store. All rights reserved.</p>
-      <p>Contact: <a href="https://t.me/username_admin" target="_blank">Telegram Admin</a></p>
-    </div>
-  </footer>
+  <div class="footer">
+    <span>© <span id="year"></span> TunXtrimer VPN Store</span>
+    <span>Order via bot: <a href="#" id="bot-link">@BotVPNAnda</a></span>
+  </div>
+</div>
 
-  <script src="app.js"></script>
+<script>
+  const yearEl = document.getElementById('year');
+  const statUsersEl = document.getElementById('stat-users');
+  const statServersEl = document.getElementById('stat-servers');
+  const storeNameEl = document.getElementById('store-name');
+  const botLinkEl = document.getElementById('bot-link');
+  const alertSuccess = document.getElementById('alert-success');
+  const alertError = document.getElementById('alert-error');
+  const submitBtn = document.getElementById('submit-btn');
+
+  yearEl.textContent = new Date().getFullYear();
+
+  function showAlert(type, message) {
+    const target = type === 'success' ? alertSuccess : alertError;
+    const other = type === 'success' ? alertError : alertSuccess;
+    other.style.display = 'none';
+    target.textContent = message;
+    target.style.display = 'block';
+  }
+
+  async function loadStatus() {
+    try {
+      const res = await fetch('/api/web/status');
+      if (!res.ok) return;
+      const data = await res.json().catch(() => ({}));
+      if (data && data.ok) {
+        if (data.store) {
+          storeNameEl.textContent = data.store + ' VPN Store';
+        }
+        statUsersEl.textContent = (data.totalUser || 0).toLocaleString('id-ID');
+        statServersEl.textContent = (data.totalServer || 0).toLocaleString('id-ID');
+        if (data.botLink) {
+          botLinkEl.textContent = data.botLink;
+          botLinkEl.href = 'https://t.me/' + data.botLink.replace('@', '');
+        }
+      }
+    } catch (e) {
+      // boleh diabaikan kalau error
+    }
+  }
+  loadStatus();
+
+  document.getElementById('order-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    alertSuccess.style.display = 'none';
+    alertError.style.display = 'none';
+
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value.trim();
+    const paket = document.getElementById('paket').value;
+    const note = document.getElementById('note').value.trim();
+
+    if (!email || !password) {
+      showAlert('error', 'Email/kontak dan password wajib diisi.');
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = 'Mengirim order...';
+
+    try {
+      const res = await fetch('/api/web/order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password, paket, note })
+      });
+
+      const data = await res.json().catch(() => ({}));
+
+      if (res.ok && data.ok) {
+        showAlert('success', data.message || 'Order berhasil dikirim, silakan cek Telegram.');
+        document.getElementById('order-form').reset();
+      } else {
+        showAlert('error', data.message || 'Gagal mengirim order, coba lagi.');
+      }
+    } catch (err) {
+      showAlert('error', 'Terjadi kesalahan koneksi, coba lagi.');
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = '<span>🛒 Kirim Order</span>';
+    }
+  });
+</script>
 </body>
 </html>
