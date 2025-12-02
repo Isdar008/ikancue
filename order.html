@@ -3,29 +3,177 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buat Akun Tunneling • GabutStore</title>
+    <title>Buat Akun • GabutStore VPN</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="style.css">
+
+    <style>
+        body {
+            background: linear-gradient(180deg, #0f172a, #1e293b);
+            color: white;
+            font-family: "Poppins", sans-serif;
+        }
+
+        .order-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 26px;
+            margin-top: 25px;
+        }
+
+        @media(max-width: 900px) {
+            .order-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Card styling baru */
+        .card-order {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 22px;
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+        }
+
+        .card-order h2 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .divider {
+            margin: 16px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.15);
+        }
+
+        /* Server Card */
+        .server-card {
+            background: rgba(255,255,255,0.06);
+            padding: 18px;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.08);
+            transition: 0.25s;
+            cursor: pointer;
+        }
+
+        .server-card:hover {
+            transform: translateY(-4px);
+            border-color: #22c55e;
+            background: rgba(34,197,94,0.1);
+        }
+
+        .servers-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .server-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .server-status {
+            margin-top: 10px;
+            font-weight: 600;
+            padding: 6px 12px;
+            border-radius: 8px;
+            display: inline-block;
+        }
+
+        .status-ok {
+            color: #22c55e;
+            background: rgba(34,197,94,0.2);
+        }
+
+        .status-full {
+            color: #ef4444;
+            background: rgba(239,68,68,0.2);
+        }
+
+        /* Form modern */
+        .field {
+            margin-bottom: 16px;
+        }
+
+        .field label {
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        select, input, textarea {
+            width: 100%;
+            padding: 12px;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.08);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.15);
+            margin-top: 6px;
+            font-size: 0.95rem;
+        }
+
+        textarea {
+            height: 180px;
+            resize: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, #10b981, #0ea5e9);
+            padding: 14px;
+            border: none;
+            width: 100%;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: 0.25s;
+        }
+
+        .btn-primary:hover {
+            opacity: 0.9;
+        }
+
+        .note {
+            font-size: 0.85rem;
+            opacity: 0.8;
+            margin-top: 6px;
+        }
+
+        .success { color: #22c55e; }
+        .error { color: #ef4444; }
+
+        /* QR BOX */
+        #qris-box {
+            margin-top: 20px;
+            padding: 18px;
+            text-align: center;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 16px;
+            display: none;
+        }
+
+        #qris-box img {
+            margin-top: 14px;
+            width: 260px;
+            border-radius: 10px;
+        }
+
+        #qris-meta {
+            margin-top: 10px;
+            font-weight: 600;
+        }
+    </style>
 </head>
 <body>
 
 <header class="navbar">
     <div class="container nav-inner">
-        <a href="index.html" class="brand-logo">
-            GabutStore VPN Tunnels
-        </a>
-
-        <nav class="main-nav" id="mainNav">
-            <ul>
-                <li><a href="index.html">Beranda</a></li>
-                <li><a href="pricing.html">💰 Paket</a></li>
-                <li><a href="order.html" class="active">🧾 Buat Akun</a></li>
-                <li><a href="guide.html">⚙️ Cara Penggunaan</a></li>
-                <li><a href="contact.html">📞 Kontak & Support</a></li>
-            </ul>
-        </nav>
-
+        <a href="index.html" class="brand-logo">GabutStore VPN Tunnels</a>
         <button class="menu-toggle" id="menuToggle">☰</button>
     </div>
 </header>
@@ -33,26 +181,21 @@
 <main class="order-page">
     <div class="container order-grid">
 
-        <!-- Kiri: list server -->
+        <!-- ================== SERVER LIST =================== -->
         <section class="card-order">
             <h2>📡 Pilih Server</h2>
-            <p class="order-subtext">
-                Pilih server yang tersedia. Status penuh artinya server sudah mencapai batas pembuatan akun harian.
-            </p>
+            <p class="order-subtext">Pilih server yang tersedia.</p>
             <div class="divider"></div>
             <div id="servers" class="servers-grid">
                 <p class="muted">Mengambil data server…</p>
             </div>
         </section>
 
-        <!-- Kanan: form order -->
+        <!-- ================== ORDER FORM =================== -->
         <section class="card-order">
             <h2>🧾 Buat Akun & Bayar via QRIS</h2>
-            <p class="order-subtext">
-                Akun akan otomatis dibuat setelah pembayaran QRIS dinyatakan sukses oleh sistem Pakasir.
-            </p>
+            <p class="order-subtext">Akun otomatis aktif setelah pembayaran.</p>
 
-            <!-- PILIH PROTOKOL -->
             <div class="field">
                 <label for="protocol">Protokol</label>
                 <select id="protocol">
@@ -63,77 +206,59 @@
                 </select>
             </div>
 
-            <div class="pill-row">
-                <span class="pill" id="pill-proto">Protokol: VMESS</span>
-                <span class="pill" id="pill-durasi">Durasi: 30 Hari • Rp 8.000</span>
-            </div>
-
             <div class="field">
                 <label for="server-select">Server</label>
                 <select id="server-select">
-                    <option value="">Pilih server dari list kiri</option>
+                    <option value="">Memuat server…</option>
                 </select>
             </div>
 
             <div class="field">
-                <label for="username">Username (huruf & angka saja)</label>
-                <input id="username" type="text" placeholder="contoh: extrimers01" autocomplete="off" />
-                <div class="note">Tanpa spasi & simbol. Minimal 3 karakter, maksimal 20.</div>
+                <label for="username">Username</label>
+                <input id="username" type="text" placeholder="contoh: extrimers01">
             </div>
 
-            <!-- PASSWORD hanya untuk SSH -->
             <div class="field" id="field-password" style="display:none;">
-                <label for="password">Password (SSH saja)</label>
+                <label for="password">Password (SSH)</label>
                 <input id="password" type="text" placeholder="contoh: 123456">
-                <div class="note">Password hanya dipakai untuk protokol SSH.</div>
             </div>
 
             <div class="field">
                 <label for="days">Durasi</label>
                 <select id="days">
-                    <option value="trial">Trial 60 menit (Rp 0)</option>
-                    <option value="15">15 Hari (Rp 5.000)</option>
-                    <option value="30" selected>30 Hari (Rp 8.000)</option>
-                    <option value="60">60 Hari (Rp 16.000)</option>
+                    <option value="trial">Trial 60 menit (0)</option>
+                    <option value="15">15 Hari (5.000)</option>
+                    <option value="30" selected>30 Hari (8.000)</option>
+                    <option value="60">60 Hari (16.000)</option>
                 </select>
             </div>
 
-            <button id="btn-order" class="btn btn-primary btn-full">
-                🚀 Buat Akun & Buat Tagihan QRIS
-            </button>
+            <button id="btn-order" class="btn-primary">🚀 Buat Akun & Tagihan QRIS</button>
+
             <div id="status" class="note"></div>
+
+            <div id="qris-box">
+                <div id="qris-meta"></div>
+                <img id="qris-img" src="">
+            </div>
 
             <div class="divider"></div>
 
             <div class="field">
-                <label>Info Tagihan / Hasil</label>
-                <textarea id="result" readonly placeholder="Link pembayaran QRIS atau pesan error akan muncul di sini..."></textarea>
-                <div class="note">
-                    Harga di atas adalah patokan paket: Trial 0 • 15H = 5k • 30H = 8k • 60H = 16k.  
-                    Perhitungan final tetap mengikuti logika di backend.
-                </div>
+                <label>Hasil</label>
+                <textarea id="result" readonly></textarea>
             </div>
-
-            <!-- BOX QRIS (langsung bisa discan) -->
-            <div id="qris-box" class="qris-box" style="display:none;margin-top:10px;text-align:center;">
-                <p class="note">Scan QRIS di bawah ini untuk melakukan pembayaran:</p>
-                <img id="qris-img" alt="QRIS"
-                     style="width:260px;height:260px;border-radius:12px;border:1px solid #111827;display:block;margin:6px auto 8px;">
-                <p class="note" id="qris-meta"></p>
-            </div>
-
         </section>
 
     </div>
 </main>
 
-<footer>
-    <div class="container">
-        <p>&copy; 2025 XtrimerStore. All rights reserved.</p>
-    </div>
+<footer style="text-align:center; margin-top:30px; opacity:0.5;">
+    © 2025 GabutStore • All rights reserved.
 </footer>
 
 <script src="script.js"></script>
 <script src="order.js"></script>
+
 </body>
 </html>
