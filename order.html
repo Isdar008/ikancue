@@ -3,79 +3,129 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulir Pemesanan VPS - GabutStore</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Order Akun Tunneling - Xtrimer VPN Tunnels</title>
+
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <header class="navbar">
-        <div class="container">
-            <a href="index.html" class="brand-logo">GabutStore VPN Tunnels</a>
-            <nav class="main-nav">
-                <ul>
-                    <li><a href="index.html">Beranda</a></li>
-                    <li><a href="pricing.html">💰 Pilih Paket</a></li>
-                    <li><a href="guide.html">⚙️ Cara Penggunaan</a></li>
-                    <li><a href="contact.html">📞 Kontak & Support</a></li>
-                </ul>
-            </nav>
-            <div class="nav-actions">
-                <a href="order.html" class="btn btn-primary">Beli Sekarang!</a>
-                <a href="login.html" class="btn btn-secondary">Area Pelanggan</a>
-            </div>
-            <button class="menu-toggle" id="menuToggle">☰</button>
+<header class="navbar">
+    <div class="container nav-inner">
+        <a href="index.html" class="brand-logo">
+            GabutStore VPN Tunnels
+        </a>
+
+        <nav class="main-nav" id="mainNav">
+            <ul>
+                <li><a href="index.html">Beranda</a></li>
+                <li><a href="pricing.html">💰 Pilih Paket</a></li>
+                <li><a href="guide.html">⚙️ Cara Penggunaan</a></li>
+                <li><a href="contact.html">📞 Kontak & Support</a></li>
+            </ul>
+        </nav>
+
+        <div class="nav-actions">
+            <a href="order.html" class="btn btn-primary">
+                Buat Akun
+            </a>
+            <a href="login.html" class="btn btn-secondary">
+                Area Pelanggan
+            </a>
         </div>
-    </header>
-    <main class="order-section">
-        <div class="container">
-            <h2 class="section-title">Formulir Pemesanan VPS Tunneling</h2>
-            <p class="section-subtitle">Mohon isi data dengan benar. Pesanan akan diproses setelah pembayaran terverifikasi.</p>
+        
+        <button class="menu-toggle" id="menuToggle">☰</button>
+    </div>
+</header>
 
-            <div id="packageSummary" class="summary-box">
-                <p>Memuat detail paket...</p>
+<main class="order-page">
+    <div class="container order-grid">
+
+        <!-- Kiri: List server -->
+        <section class="card card-order">
+            <h2>📡 Pilih Server</h2>
+            <p class="order-subtext">
+                Pilih server yang tersedia untuk membuat akun VMESS.  
+                Status penuh artinya server sudah mencapai batas pembuatan akun harian.
+            </p>
+            <div class="divider"></div>
+            <div id="servers" class="servers-grid">
+                <p class="muted">Mengambil data server…</p>
+            </div>
+        </section>
+
+        <!-- Kanan: Form order -->
+        <section class="card card-order">
+            <h2>🧾 Buat Akun VMESS</h2>
+            <p class="order-subtext">
+                Saldo dan transaksi tetap pakai database backend yang sama dengan bot.
+            </p>
+
+            <div class="pill-row">
+                <span class="pill">Protokol: VMESS</span>
+                <span class="pill">Akun berbayar</span>
             </div>
 
-            <form id="orderForm" class="order-form">
-                
-                <div class="form-group">
-                    <label for="username">Username Akun SSH/VPN</label>
-                    <input type="text" id="username" name="username" required minlength="4" maxlength="15" placeholder="Masukkan username unik Anda (min. 4 karakter)">
+            <div class="field">
+                <label for="server-select">Server</label>
+                <select id="server-select">
+                    <option value="">Pilih server dari list kiri</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label for="username">Username (huruf & angka saja)</label>
+                <input id="username" type="text" placeholder="contoh: extrimers01" autocomplete="off" />
+                <div class="note">Tanpa spasi & simbol. Minimal 3 karakter, maksimal 20.</div>
+            </div>
+
+            <div class="field">
+                <label for="days">Durasi Hari</label>
+                <select id="days">
+                    <option value="7">7 Hari</option>
+                    <option value="15">15 Hari</option>
+                    <option value="30" selected>30 Hari</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label for="user-id">User ID backend</label>
+                <input id="user-id" type="number" value="123456789" />
+                <div class="note">Ini user_id di database backend (sama seperti di bot).</div>
+            </div>
+
+            <button id="btn-order" class="btn btn-primary btn-full">
+                🚀 Buat Akun Sekarang
+            </button>
+            <div id="status" class="note"></div>
+
+            <div class="divider"></div>
+
+            <div class="field">
+                <label>Hasil / Config</label>
+                <textarea id="result" readonly placeholder="Config VMESS atau pesan error akan muncul di sini..."></textarea>
+                <div class="note">
+                    Jika sudah berhasil, copy config dan kirim ke customer.  
+                    Semua transaksi tercatat di sistem backend.
                 </div>
-                
-                <div class="form-group">
-                    <label for="contact">Nomor WhatsApp/Telegram ID</label>
-                    <input type="text" id="contact" name="contact" required placeholder="Contoh: 08123456789 (WA) atau @telegramID">
-                    <small>Kami akan mengirim detail akun dan notifikasi ke kontak ini.</small>
-                </div>
-                
-                <input type="hidden" id="packageId" name="packageId">
-
-                <button type="submit" class="btn btn-primary btn-large">
-                    <span id="submitText">Proses Pesanan & Buat Invoice</span>
-                    <i class="fa-solid fa-spinner fa-spin" style="display:none;" id="spinner"></i>
-                </button>
-                
-                <p id="message" class="message-box" style="display:none;"></p>
-            </form>
-
-            <div id="paymentResult" class="payment-box" style="display:none;">
-                <h3>✅ Pesanan Berhasil Dibuat!</h3>
-                <p>Invoice Anda telah dibuat. Segera lakukan pembayaran sebelum masa berlaku habis.</p>
-                <div id="invoiceDetails">
-                    </div>
             </div>
 
-        </div>
-    </main>
-    <footer>
-        <div class="container">
-            <p>&copy; 2025 GabutStore. All rights reserved.</p>
-        </div>
-    </footer>
-    
-    <script src="script.js"></script>
-    <script src="order.js"></script>
+            <div class="api-info">
+                <span class="muted">Backend API:</span>
+                <code id="api-label"></code>
+            </div>
+        </section>
+
+    </div>
+</main>
+
+<footer>
+    <div class="container">
+        <p>&copy; 2025 XtrimerStore. All rights reserved.</p>
+    </div>
+</footer>
+
+<script src="script.js"></script>
+<script src="order.js"></script>
 </body>
 </html>
