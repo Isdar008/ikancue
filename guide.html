@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panduan Penggunaan VPS Tunneling - GabutStore</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="container">
+            <a href="index.html" class="brand-logo">GabutStore VPN Tunnels</a>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">Beranda</a></li>
+                    <li><a href="pricing.html">💰 Pilih Paket</a></li>
+                    <li><a href="guide.html">⚙️ **Cara Penggunaan**</a></li>
+                    <li><a href="contact.html">📞 Kontak & Support</a></li>
+                </ul>
+            </nav>
+            <div class="nav-actions">
+                <a href="order.html" class="btn btn-primary">Beli Sekarang!</a>
+                <a href="login.html" class="btn btn-secondary">Area Pelanggan</a>
+            </div>
+            <button class="menu-toggle" id="menuToggle">☰</button>
+        </div>
+    </header>
+    <main class="guide-section">
+        <div class="container">
+            <h2 class="section-title">Panduan Lengkap Penggunaan VPS Tunneling</h2>
+            <p class="section-subtitle">Ikuti panduan langkah demi langkah di bawah ini sesuai dengan metode koneksi yang Anda inginkan.</p>
+
+            <div class="accordion-container" id="guideAccordion">
+                
+                <div class="accordion-item">
+                    <button class="accordion-header">
+                        <h3>1. Cara Menggunakan SSH Tunneling (Bitvise/Termius) <i class="fa-solid fa-chevron-down"></i></h3>
+                    </button>
+                    <div class="accordion-content">
+                        <h4>A. Persiapan:</h4>
+                        <ol>
+                            <li>Pastikan Anda sudah menerima detail akun (Username, Password, IP Server) dari kami.</li>
+                            <li>Download dan install aplikasi **Bitvise SSH Client** (untuk Windows) atau **Termius** (untuk Android/iOS/Mac).</li>
+                        </ol>
+                        <h4>B. Langkah Koneksi:</h4>
+                        <p>1. Buka aplikasi SSH Client Anda.</p>
+                        <p>2. Masukkan **Host** (IP Server Anda), **Port** (biasanya 22 atau 443), dan **Username** Anda.</p>
+                        <p>3. Di bagian 'Login', masukkan **Password** yang sudah diberikan.</p>
+                        <p>4. Klik tombol **Connect/Login**. Selesai!</p>
+                        <p class="note"><strong>Catatan:</strong> Untuk menggunakan fitur SSH Tunneling/Proxy, pastikan Anda mengatur SOCKS proxy di browser/aplikasi Anda ke **localhost:Port_Lokal** (Port lokal default Bitvise adalah 1080).</p>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <button class="accordion-header">
+                        <h3>2. Cara Setting OpenVPN di Android/Windows <i class="fa-solid fa-chevron-down"></i></h3>
+                    </button>
+                    <div class="accordion-content">
+                        <h4>A. Persiapan:</h4>
+                        <ol>
+                            <li>Download aplikasi **OpenVPN Connect** dari Play Store/App Store.</li>
+                            <li>Download file konfigurasi (file `.ovpn`) dari Area Pelanggan kami (link akan kami berikan).</li>
+                        </ol>
+                        <h4>B. Langkah Koneksi:</h4>
+                        <p>1. Buka OpenVPN Connect, lalu pilih **Import Profile**.</p>
+                        <p>2. Pilih file `.ovpn` yang sudah Anda download.</p>
+                        <p>3. Masukkan **Username** dan **Password** akun Anda saat diminta.</p>
+                        <p>4. Geser tombol **Connect**. Jika berhasil, ikon kunci akan muncul di status bar Anda.</p>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <button class="accordion-header">
+                        <h3>3. Panduan Koneksi WireGuard <i class="fa-solid fa-chevron-down"></i></h3>
+                    </button>
+                    <div class="accordion-content">
+                        <p>Panduan ini membutuhkan file konfigurasi WireGuard (`.conf`).</p>
+                        <p>1. Install aplikasi WireGuard di perangkat Anda.</p>
+                        <p>2. Import file konfigurasi yang didapatkan dari Area Pelanggan.</p>
+                        <p>3. Tekan tombol **Aktifkan**. Selesai!</p>
+                    </div>
+                </div>
+
+            </div>
+            
+            <div class="help-cta">
+                <p>Masih mengalami kendala? Tim Support kami siap membantu 24 jam!</p>
+                <a href="contact.html" class="btn btn-primary btn-large">Hubungi Support Sekarang</a>
+            </div>
+
+        </div>
+    </main>
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 GabutStore. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script src="script.js"></script>
+    <script src="guide.js"></script>
+</body>
+</html>
