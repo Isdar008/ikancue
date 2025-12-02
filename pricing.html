@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pilih Paket - XTRIMER TUNNELING</title>
+    <style>
+        /* --- CSS Dasar dan Gaya --- */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5; 
+            text-align: center;
+        }
+        /* Header: Biru Tua & Ungu Tua */
+        .header {
+            background-image: linear-gradient(to right, #1a237e, #4527a0);
+            color: white;
+            padding: 25px 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        .header h1 {
+            font-size: 1.8em;
+            margin: 0;
+            font-weight: 600;
+        }
+        /* Card Harga */
+        .pricing-grid {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            padding: 30px 10px;
+            gap: 25px;
+        }
+        .price-card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 300px;
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+        .price-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+        .card-header {
+            background-color: #4527a0; /* Warna Ungu */
+            color: white;
+            padding: 20px 0;
+            font-size: 1.4em;
+            font-weight: bold;
+        }
+        .card-price {
+            padding: 15px 0;
+            font-size: 2.5em;
+            font-weight: 700;
+            color: #1a237e; /* Warna Biru Tua */
+        }
+        .card-price small {
+            font-size: 0.5em;
+            color: #777;
+            font-weight: 400;
+        }
+        .card-features {
+            list-style: none;
+            padding: 0 20px;
+            margin: 0;
+            text-align: left;
+        }
+        .card-features li {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            color: #555;
+            font-size: 0.95em;
+        }
+        .card-features li:last-child {
+            border-bottom: none;
+        }
+        .card-footer {
+            padding: 20px;
+        }
+        .order-button {
+            display: block;
+            background-color: #ff6f00; /* Warna Oranye Trial */
+            color: white;
+            padding: 12px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        .order-button:hover {
+            background-color: #e65100;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #1a237e;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="header">
+        <h1>PILIH PAKET LAYANAN</h1>
+    </div>
+
+    <a href="index.html" class="back-link">← Kembali ke Halaman Utama</a>
+    
+    <div class="pricing-grid">
+        
+        <div class="price-card">
+            <div class="card-header" style="background-color: #007bff;">AKUN TRIAL</div>
+            <div class="card-price">
+                GRATIS
+                <small>/ 60 Menit</small>
+            </div>
+            <ul class="card-features">
+                <li>✅ Akses Penuh ke Server Uji</li>
+                <li>✅ Kecepatan Standard</li>
+                <li>❌ Tanpa Jaminan Kualitas</li>
+                <li>❌ Perpanjangan Otomatis</li>
+            </ul>
+            <div class="card-footer">
+                <a href="#" class="order-button">Coba Sekarang!</a>
+            </div>
+        </div>
+        
+        <div class="price-card">
+            <div class="card-header">PREMIUM 1 BULAN</div>
+            <div class="card-price">
+                Rp 25.000
+                <small>/ bulan</small>
+            </div>
+            <ul class="card-features">
+                <li>✅ Akses Semua Server Premium</li>
+                <li>✅ Kecepatan Tinggi (Full Speed)</li>
+                <li>✅ Garansi Uptime 99.9%</li>
+                <li>✅ Support 24/7</li>
+            </ul>
+            <div class="card-footer">
+                <a href="#" class="order-button">Beli Sekarang!</a>
+            </div>
+        </div>
+
+        <div class="price-card">
+            <div class="card-header" style="background-color: #ff6f00;">PREMIUM 3 BULAN</div>
+            <div class="card-price">
+                Rp 60.000
+                <small>/ 3 bulan</small>
+            </div>
+            <ul class="card-features">
+                <li>✅ **Paling Hemat 20%**</li>
+                <li>✅ Akses Semua Server Premium</li>
+                <li>✅ Kecepatan Tinggi (Full Speed)</li>
+                <li>✅ Garansi Uptime 99.9%</li>
+                <li>✅ Support Prioritas</li>
+            </ul>
+            <div class="card-footer">
+                <a href="#" class="order-button">Pesan Sekarang!</a>
+            </div>
+        </div>
+
+    </div>
+    
+</body>
+</html>
