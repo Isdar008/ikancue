@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Order Akun Tunneling - Xtrimer VPN Tunnels</title>
+    <title>Buat Akun Tunneling • GabutStore</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
@@ -19,21 +19,13 @@
         <nav class="main-nav" id="mainNav">
             <ul>
                 <li><a href="index.html">Beranda</a></li>
-                <li><a href="pricing.html">💰 Pilih Paket</a></li>
+                <li><a href="pricing.html">💰 Isi Saldo</a></li>
+                <li><a href="order.html" class="active">🧾 Buat Akun</a></li>
                 <li><a href="guide.html">⚙️ Cara Penggunaan</a></li>
                 <li><a href="contact.html">📞 Kontak & Support</a></li>
             </ul>
         </nav>
 
-        <div class="nav-actions">
-            <a href="order.html" class="btn btn-primary">
-                Buat Akun
-            </a>
-            <a href="login.html" class="btn btn-secondary">
-                Area Pelanggan
-            </a>
-        </div>
-        
         <button class="menu-toggle" id="menuToggle">☰</button>
     </div>
 </header>
@@ -41,12 +33,11 @@
 <main class="order-page">
     <div class="container order-grid">
 
-        <!-- Kiri: List server -->
-        <section class="card card-order">
+        <!-- Kiri: list server -->
+        <section class="card-order">
             <h2>📡 Pilih Server</h2>
             <p class="order-subtext">
-                Pilih server yang tersedia untuk membuat akun VMESS.  
-                Status penuh artinya server sudah mencapai batas pembuatan akun harian.
+                Pilih server yang tersedia. Status penuh artinya server sudah mencapai batas pembuatan akun harian.
             </p>
             <div class="divider"></div>
             <div id="servers" class="servers-grid">
@@ -54,16 +45,27 @@
             </div>
         </section>
 
-        <!-- Kanan: Form order -->
-        <section class="card card-order">
-            <h2>🧾 Buat Akun VMESS</h2>
+        <!-- Kanan: form order -->
+        <section class="card-order">
+            <h2>🧾 Buat Akun Tunneling</h2>
             <p class="order-subtext">
-                Saldo dan transaksi tetap pakai database backend yang sama dengan bot.
+                Saldo dan transaksi tetap pakai database yang sama dengan bot Telegram.
             </p>
 
+            <!-- PILIH PROTOKOL -->
+            <div class="field">
+                <label for="protocol">Protokol</label>
+                <select id="protocol">
+                    <option value="vmess">VMESS</option>
+                    <option value="vless">VLESS</option>
+                    <option value="trojan">TROJAN</option>
+                    <option value="ssh">SSH</option>
+                </select>
+            </div>
+
             <div class="pill-row">
-                <span class="pill">Protokol: VMESS</span>
-                <span class="pill">Akun berbayar</span>
+                <span class="pill" id="pill-proto">Protokol: VMESS</span>
+                <span class="pill">Saldo diambil dari User ID backend</span>
             </div>
 
             <div class="field">
@@ -79,19 +81,30 @@
                 <div class="note">Tanpa spasi & simbol. Minimal 3 karakter, maksimal 20.</div>
             </div>
 
+            <!-- PASSWORD hanya untuk SSH -->
+            <div class="field" id="field-password" style="display:none;">
+                <label for="password">Password (SSH saja)</label>
+                <input id="password" type="text" placeholder="contoh: 123456">
+                <div class="note">Password hanya dipakai untuk protokol SSH.</div>
+            </div>
+
             <div class="field">
                 <label for="days">Durasi Hari</label>
                 <select id="days">
                     <option value="7">7 Hari</option>
                     <option value="15">15 Hari</option>
                     <option value="30" selected>30 Hari</option>
+                    <option value="60">60 Hari</option>
                 </select>
             </div>
 
             <div class="field">
-                <label for="user-id">User ID backend</label>
-                <input id="user-id" type="number" value="123456789" />
-                <div class="note">Ini user_id di database backend (sama seperti di bot).</div>
+                <label for="user-id">User ID backend (Telegram)</label>
+                <input id="user-id" type="number" placeholder="contoh: 123456789" />
+                <div class="note">
+                    Ini adalah user_id di database backend (sama dengan user_id di bot).
+                    Nanti bisa dihubungkan dengan sistem login.
+                </div>
             </div>
 
             <button id="btn-order" class="btn btn-primary btn-full">
@@ -103,17 +116,13 @@
 
             <div class="field">
                 <label>Hasil / Config</label>
-                <textarea id="result" readonly placeholder="Config VMESS atau pesan error akan muncul di sini..."></textarea>
+                <textarea id="result" readonly placeholder="Config atau pesan akan muncul di sini..."></textarea>
                 <div class="note">
-                    Jika sudah berhasil, copy config dan kirim ke customer.  
-                    Semua transaksi tercatat di sistem backend.
+                    Jika berhasil, copy config dan kirim ke customer.  
+                    Harga & pemotongan saldo ditentukan dari backend.
                 </div>
             </div>
 
-            <div class="api-info">
-                <span class="muted">Backend API:</span>
-                <code id="api-label"></code>
-            </div>
         </section>
 
     </div>
