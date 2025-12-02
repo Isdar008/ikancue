@@ -4,6 +4,7 @@
 const API_BASE = "https://api.rmpremium.cloud"; // domain backend kamu
 const SERVERS_ENDPOINT = API_BASE + "/api/web/servers";
 const ORDER_ENDPOINT   = API_BASE + "/api/web/create-order";
+
 // ambil elemen
 const serversDiv     = document.getElementById("servers");
 const serverSelect   = document.getElementById("server-select");
@@ -11,7 +12,7 @@ const protocolSelect = document.getElementById("protocol");
 const pillProto      = document.getElementById("pill-proto");
 const pillDurasi     = document.getElementById("pill-durasi");
 const usernameInput  = document.getElementById("username");
-const passwordInput  = document.getElementById("password");
+const passwordInput  = document.getElementById("password");      // sementara belum dipakai backend
 const fieldPassword  = document.getElementById("field-password");
 const daysSelect     = document.getElementById("days");
 const orderBtn       = document.getElementById("btn-order");
@@ -63,7 +64,7 @@ async function loadServers() {
       return;
     }
 
-    // 🔥 FIX PENTING: pakai data.data (BUKAN data.servers)
+    // pakai data.data (bukan data.servers)
     serverList = data.data || [];
 
     if (!serverList.length) {
@@ -162,7 +163,7 @@ function validateUsername(u) {
 }
 
 // =======================
-// HANDLE ORDER (MASIH PAKAI /api/web/order LAMA)
+// HANDLE ORDER
 // =======================
 async function handleOrder() {
   if (!orderBtn) return;
@@ -174,8 +175,8 @@ async function handleOrder() {
   const serverId = serverSelect.value;
   const username = usernameInput.value.trim();
   const proto = protocolSelect.value;
-  const rawDays = daysSelect.value;
-  const password = (passwordInput?.value.trim() || "123123");
+  const rawDays = daysSelect.value;          // "trial" | "15" | "30" | "60"
+  const password = (passwordInput?.value.trim() || "123123"); // sementara belum ke backend
 
   if (!serverId) {
     statusEl.textContent = "Pilih server terlebih dahulu.";
@@ -193,10 +194,7 @@ async function handleOrder() {
     statusEl.className = "error";
     return;
   }
-
-  // Untuk sekarang: trial tetap kirim days=1 (backend yang atur jadi 60 menit / gratis)
-  const daysForBackend = rawDays === "trial" ? 1 : parseInt(rawDays, 10);
-  if (!daysForBackend || daysForBackend <= 0) {
+  if (!rawDays) {
     statusEl.textContent = "Durasi belum dipilih.";
     statusEl.className = "error";
     return;
@@ -204,37 +202,46 @@ async function handleOrder() {
 
   orderBtn.disabled = true;
   orderBtn.textContent = "Memproses...";
-  statusEl.textContent = "Menghubungi server...";
+  statusEl.textContent = "Membuat tagihan QRIS...";
   statusEl.className = "note";
 
   try {
+    // body harus sesuai dengan app.js:
+    // const { protocol, server_id, username, duration } = req.body;
+    const payload = {
+      protocol: proto,              // vmess / vless / trojan / ssh
+      server_id: Number(serverId),
+      username: username,
+      duration: rawDays             // "trial" / "15" / "30" / "60"
+    };
+
     const res = await fetch(ORDER_ENDPOINT, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        action: "create",
-        type: proto,               // vmess / vless / trojan / ssh
-        user_id: 999999,           // user web (dummy), tidak mengganggu bot
-        server_id: Number(serverId),
-        username,
-        password,
-        days: daysForBackend,
-        is_trial: rawDays === "trial"
-      })
+      body: JSON.stringify(payload)
     });
 
     const data = await res.json();
 
     if (!data.success) {
-      statusEl.textContent = "Gagal: " + (data.error || data.message || "error tidak diketahui");
+      statusEl.textContent = "Gagal buat tagihan: " + (data.message || "error tidak diketahui");
       statusEl.className = "error";
-      resultArea.value = data.error || data.message || "";
+      resultArea.value = data.message || "";
       return;
     }
 
-    statusEl.textContent = "Berhasil! Akun berhasil dibuat.";
+    // sukses buat tagihan
+    statusEl.textContent = "Berhasil! Tagihan QRIS berhasil dibuat.";
     statusEl.className = "success";
-    resultArea.value = data.message || JSON.stringify(data, null, 2);
+
+    const qrisUrl = data.qris_url || data.checkout_url || "";
+    if (qrisUrl) {
+      resultArea.value = "Link pembayaran QRIS:\n" + qrisUrl;
+      // kalau mau langsung buka link:
+      // window.location.href = qrisUrl;
+    } else {
+      resultArea.value = JSON.stringify(data, null, 2);
+    }
   } catch (err) {
     console.error(err);
     statusEl.textContent = "Gagal terhubung ke API. Cek jaringan / domain backend.";
