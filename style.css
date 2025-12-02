@@ -1,0 +1,190 @@
+/* --- 1. RESET DAN FONT DASAR --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif; /* Menggunakan font Poppins */
+    line-height: 1.6;
+    background-color: #f4f7f6; /* Warna latar belakang umum */
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* --- 2. WARNA UTAMA --- */
+:root {
+    --primary-color: #007bff; /* Biru terang untuk tombol utama */
+    --secondary-color: #6c757d; /* Abu-abu untuk tombol sekunder */
+    --text-dark: #333;
+    --text-light: #f4f7f6;
+    --navbar-bg: #ffffff; /* Latar belakang menu putih */
+}
+
+/* --- 3. STYLING NAV BAR (MENU UTAMA) --- */
+.navbar {
+    background-color: var(--navbar-bg);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Bayangan tipis */
+    padding: 15px 0;
+    position: sticky; /* Menu tetap di atas saat scroll */
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.brand-logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    text-decoration: none;
+    white-space: nowrap; /* Agar nama toko tidak terpotong */
+}
+
+/* Navigasi Link */
+.main-nav ul {
+    list-style: none;
+    display: flex;
+    gap: 25px;
+}
+
+.main-nav a {
+    text-decoration: none;
+    color: var(--text-dark);
+    font-weight: 600;
+    padding: 5px 0;
+    transition: color 0.3s;
+}
+
+.main-nav a:hover {
+    color: var(--primary-color);
+}
+
+/* Tombol Aksi */
+.nav-actions {
+    display: flex;
+    gap: 10px;
+}
+
+/* Tombol Dasar (Button Styling) */
+.btn {
+    padding: 8px 18px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.3s;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: var(--text-light);
+}
+
+.btn-primary:hover {
+    background-color: #0056b3; /* Sedikit lebih gelap saat di-hover */
+}
+
+.btn-secondary {
+    background-color: var(--secondary-color);
+    color: var(--text-light);
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+.btn-large {
+    padding: 12px 30px;
+    font-size: 1.1rem;
+}
+
+/* Tombol Menu Mobile (disembunyikan di tampilan desktop) */
+.menu-toggle {
+    display: none;
+    font-size: 1.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--primary-color);
+}
+
+/* --- 4. HERO SECTION (TAMPILAN UTAMA DI BAWAH MENU) --- */
+.hero-section {
+    background: linear-gradient(135deg, #1f4068, #162447); /* Gradient gelap keren */
+    color: var(--text-light);
+    padding: 100px 0;
+    text-align: center;
+}
+
+.hero-section h1 {
+    font-size: 2.8rem;
+    margin-bottom: 20px;
+}
+
+.hero-section p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    opacity: 0.9;
+}
+
+/* --- 5. RESPONSIVE DESIGN (Tampilan Mobile) --- */
+@media (max-width: 768px) {
+    .main-nav, .nav-actions {
+        display: none; /* Sembunyikan link dan tombol di mobile */
+    }
+
+    .menu-toggle {
+        display: block; /* Tampilkan tombol toggle di mobile */
+    }
+
+    .navbar .container {
+        flex-wrap: wrap; /* Izinkan elemen membungkus */
+    }
+
+    /* Tampilkan menu saat dibuka (gunakan JS untuk menambah class 'active') */
+    .main-nav.active {
+        display: flex;
+        flex-direction: column;
+        width: 100%; /* Ambil lebar penuh */
+        margin-top: 10px;
+    }
+
+    .main-nav.active ul {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .main-nav.active li {
+        text-align: center;
+        padding: 10px 0;
+        border-top: 1px solid #eee;
+    }
+
+    .nav-actions.active {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        margin-top: 10px;
+    }
+    
+    .hero-section {
+        padding: 60px 20px;
+    }
+    
+    .hero-section h1 {
+        font-size: 2rem;
+    }
+}
