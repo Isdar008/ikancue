@@ -440,11 +440,25 @@
       const data = await res.json().catch(() => ({}));
 
       if (res.ok && data.ok) {
-        showAlert('success', data.message || 'Order berhasil dikirim, silakan cek Telegram.');
-        document.getElementById('order-form').reset();
-      } else {
-        showAlert('error', data.message || 'Gagal mengirim order, coba lagi.');
-      }
+  let msg = data.message || 'Order berhasil dikirim, silakan cek Telegram.';
+
+  if (data.orderId) {
+    msg += ` ID Order: ${data.orderId}.`;
+  }
+
+  if (data.botLink) {
+    msg += ` <br>👉 <a href="${data.botLink}" target="_blank" rel="noopener noreferrer">Klik di sini untuk chat dengan bot.</a>`;
+  }
+
+  // pakai innerHTML biar link bisa diklik
+  alertSuccess.innerHTML = msg;
+  alertSuccess.style.display = 'block';
+  alertError.style.display = 'none';
+
+  document.getElementById('order-form').reset();
+} else {
+  showAlert('error', data.message || 'Gagal mengirim order, coba lagi.');
+}
     } catch (err) {
       showAlert('error', 'Terjadi kesalahan koneksi, coba lagi.');
     } finally {
