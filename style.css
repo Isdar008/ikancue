@@ -377,3 +377,103 @@ body {
     border: 1px solid #ddd;
     margin: 15px 0;
 }
+/* --- 8. STYLING GUIDE SECTION (ACCORDION) --- */
+.guide-section {
+    padding: 60px 0 80px 0;
+}
+
+.accordion-container {
+    max-width: 800px;
+    margin: 40px auto;
+}
+
+.accordion-item {
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.accordion-header {
+    width: 100%;
+    padding: 15px 20px;
+    background-color: var(--navbar-bg);
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.3s;
+}
+
+.accordion-header:hover {
+    background-color: #f0f0f0;
+}
+
+.accordion-header h3 {
+    font-size: 1.1rem;
+    color: var(--text-dark);
+    margin: 0;
+}
+
+.accordion-header i {
+    transition: transform 0.3s ease;
+    color: var(--primary-color);
+}
+
+.accordion-content {
+    padding: 0 20px;
+    max-height: 0; /* Awalnya tersembunyi */
+    overflow: hidden;
+    transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+    background-color: #fff;
+}
+
+.accordion-content.active {
+    padding: 20px;
+    max-height: 1000px; /* Nilai besar agar konten bisa muat */
+}
+
+.accordion-item.open .accordion-header {
+    background-color: var(--primary-color);
+}
+.accordion-item.open .accordion-header h3,
+.accordion-item.open .accordion-header i {
+    color: var(--text-light);
+}
+.accordion-item.open .accordion-header i {
+    transform: rotate(180deg);
+}
+
+.accordion-content h4 {
+    margin-top: 15px;
+    color: var(--primary-color);
+}
+
+.accordion-content ol,
+.accordion-content p {
+    margin-bottom: 10px;
+}
+
+.note {
+    background-color: #fff3cd;
+    color: #856404;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+}
+
+.help-cta {
+    text-align: center;
+    margin-top: 50px;
+    padding: 30px;
+    background-color: #e9f7ef;
+    border-radius: 10px;
+    border: 1px solid #c3e6cb;
+}
+.help-cta p {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
