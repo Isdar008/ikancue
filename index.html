@@ -3,68 +3,137 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Xtrimer VPN Tunnels - Jual VPS Terbaik untuk Tunneling</title>
+    <title>Buat Akun Tunneling • GabutStore</title>
 
-    <!-- Font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-
-    <!-- CSS Utama -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- NAVBAR -->
-    <header class="navbar">
-        <div class="container nav-inner">
-            <a href="index.html" class="brand-logo">
-                GabutStore VPN Tunnels
-            </a>
+<header class="navbar">
+    <div class="container nav-inner">
+        <a href="index.html" class="brand-logo">
+            GabutStore VPN Tunnels
+        </a>
 
-            <nav class="main-nav" id="mainNav">
-                <ul>
-                    <li><a href="index.html" class="active">Beranda</a></li>
-                    <li><a href="pricing.html">💰 Pilih Paket</a></li>
-                    <li><a href="guide.html">⚙️ Cara Penggunaan</a></li>
-                    <li><a href="contact.html">📞 Kontak & Support</a></li>
-                </ul>
-            </nav>
+        <nav class="main-nav" id="mainNav">
+            <ul>
+                <li><a href="index.html">Beranda</a></li>
+                <li><a href="pricing.html">💰 Paket</a></li>
+                <li><a href="order.html" class="active">🧾 Buat Akun</a></li>
+                <li><a href="guide.html">⚙️ Cara Penggunaan</a></li>
+                <li><a href="contact.html">📞 Kontak & Support</a></li>
+            </ul>
+        </nav>
 
-            <div class="nav-actions">
-                <a href="order.html" class="btn btn-primary">
-                    Beli Sekarang!
-                </a>
-                <a href="login.html" class="btn btn-secondary">
-                    Area Pelanggan
-                </a>
-            </div>
-            
-            <button class="menu-toggle" id="menuToggle">☰</button>
-        </div>
-    </header>
+        <button class="menu-toggle" id="menuToggle">☰</button>
+    </div>
+</header>
 
-    <!-- HERO -->
-    <main class="hero-section">
-        <div class="container hero-inner">
-            <h1>Layanan VPS Tunneling Super Cepat & Stabil</h1>
-            <p>
-                Dapatkan koneksi aman, tanpa batas, dan dengan harga terjangkau.
-                Mulai dari <strong>Rp 10.000/bulan</strong> untuk kebutuhan tunneling Anda.
+<main class="order-page">
+    <div class="container order-grid">
+
+        <!-- Kiri: list server -->
+        <section class="card-order">
+            <h2>📡 Pilih Server</h2>
+            <p class="order-subtext">
+                Pilih server yang tersedia. Status penuh artinya server sudah mencapai batas pembuatan akun harian.
             </p>
-            <div class="hero-actions">
-                <a href="pricing.html" class="btn btn-large btn-primary">Lihat Semua Paket</a>
-                <a href="guide.html" class="btn btn-large btn-ghost">Lihat Cara Penggunaan</a>
+            <div class="divider"></div>
+            <div id="servers" class="servers-grid">
+                <p class="muted">Mengambil data server…</p>
             </div>
-        </div>
-    </main>
+        </section>
 
-    <!-- FOOTER -->
-    <footer>
-        <div class="container">
-            <p>&copy; 2025 XtrimerStore. All rights reserved.</p>
-        </div>
-    </footer>
-    
-    <!-- JS -->
-    <script src="script.js"></script>
+        <!-- Kanan: form order -->
+        <section class="card-order">
+            <h2>🧾 Buat Akun & Bayar via QRIS</h2>
+            <p class="order-subtext">
+                Akun akan otomatis dibuat setelah pembayaran QRIS dinyatakan sukses oleh sistem Pakasir.
+            </p>
+
+            <!-- PILIH PROTOKOL -->
+            <div class="field">
+                <label for="protocol">Protokol</label>
+                <select id="protocol">
+                    <option value="vmess">VMESS</option>
+                    <option value="vless">VLESS</option>
+                    <option value="trojan">TROJAN</option>
+                    <option value="ssh">SSH</option>
+                </select>
+            </div>
+
+            <div class="pill-row">
+                <span class="pill" id="pill-proto">Protokol: VMESS</span>
+                <span class="pill" id="pill-durasi">Durasi: 30 Hari • Rp 8.000</span>
+            </div>
+
+            <div class="field">
+                <label for="server-select">Server</label>
+                <select id="server-select">
+                    <option value="">Pilih server dari list kiri</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label for="username">Username (huruf & angka saja)</label>
+                <input id="username" type="text" placeholder="contoh: extrimers01" autocomplete="off" />
+                <div class="note">Tanpa spasi & simbol. Minimal 3 karakter, maksimal 20.</div>
+            </div>
+
+            <!-- PASSWORD hanya untuk SSH -->
+            <div class="field" id="field-password" style="display:none;">
+                <label for="password">Password (SSH saja)</label>
+                <input id="password" type="text" placeholder="contoh: 123456">
+                <div class="note">Password hanya dipakai untuk protokol SSH.</div>
+            </div>
+
+            <div class="field">
+                <label for="days">Durasi</label>
+                <select id="days">
+                    <option value="trial">Trial 60 menit (Rp 0)</option>
+                    <option value="15">15 Hari (Rp 5.000)</option>
+                    <option value="30" selected>30 Hari (Rp 8.000)</option>
+                    <option value="60">60 Hari (Rp 16.000)</option>
+                </select>
+            </div>
+
+            <button id="btn-order" class="btn btn-primary btn-full">
+                🚀 Buat Akun & Buat Tagihan QRIS
+            </button>
+            <div id="status" class="note"></div>
+
+            <div class="divider"></div>
+
+            <div class="field">
+                <label>Info Tagihan / Hasil</label>
+                <textarea id="result" readonly placeholder="Link pembayaran QRIS atau pesan error akan muncul di sini..."></textarea>
+                <div class="note">
+                    Harga di atas adalah patokan paket: Trial 0 • 15H = 5k • 30H = 8k • 60H = 16k.  
+                    Perhitungan final tetap mengikuti logika di backend.
+                </div>
+            </div>
+
+            <!-- BOX QRIS (langsung bisa discan) -->
+            <div id="qris-box" class="qris-box" style="display:none;margin-top:10px;text-align:center;">
+                <p class="note">Scan QRIS di bawah ini untuk melakukan pembayaran:</p>
+                <img id="qris-img" alt="QRIS"
+                     style="width:260px;height:260px;border-radius:12px;border:1px solid #111827;display:block;margin:6px auto 8px;">
+                <p class="note" id="qris-meta"></p>
+            </div>
+
+        </section>
+
+    </div>
+</main>
+
+<footer>
+    <div class="container">
+        <p>&copy; 2025 XtrimerStore. All rights reserved.</p>
+    </div>
+</footer>
+
+<script src="script.js"></script>
+<script src="order.js"></script>
 </body>
 </html>
