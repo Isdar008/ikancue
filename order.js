@@ -1,23 +1,28 @@
 // =======================
 // KONFIG BACKEND
 // =======================
-const API_BASE = "https://api.rmpremium.cloud"; // domain backend kamu
-const SERVERS_ENDPOINT = API_BASE + "/api/web/servers";
-const ORDER_ENDPOINT   = API_BASE + "/api/web/create-order";
+const API_BASE          = "https://api.rmpremium.cloud";
+const SERVERS_ENDPOINT  = API_BASE + "/api/web/servers";
+const ORDER_ENDPOINT    = API_BASE + "/api/web/create-order";
 
 // ambil elemen
-const serversDiv     = document.getElementById("servers");
-const serverSelect   = document.getElementById("server-select");
-const protocolSelect = document.getElementById("protocol");
-const pillProto      = document.getElementById("pill-proto");
-const pillDurasi     = document.getElementById("pill-durasi");
-const usernameInput  = document.getElementById("username");
-const passwordInput  = document.getElementById("password");      // sementara belum dipakai backend
-const fieldPassword  = document.getElementById("field-password");
-const daysSelect     = document.getElementById("days");
-const orderBtn       = document.getElementById("btn-order");
-const resultArea     = document.getElementById("result");
-const statusEl       = document.getElementById("status");
+const serversDiv      = document.getElementById("servers");
+const serverSelect    = document.getElementById("server-select");
+const protocolSelect  = document.getElementById("protocol");
+const pillProto       = document.getElementById("pill-proto");
+const pillDurasi      = document.getElementById("pill-durasi");
+const usernameInput   = document.getElementById("username");
+const passwordInput   = document.getElementById("password");
+const fieldPassword   = document.getElementById("field-password");
+const daysSelect      = document.getElementById("days");
+const orderBtn        = document.getElementById("btn-order");
+const resultArea      = document.getElementById("result");
+const statusEl        = document.getElementById("status");
+
+// elemen QRIS
+const qrisBox  = document.getElementById("qris-box");
+const qrisImg  = document.getElementById("qris-img");
+const qrisMeta = document.getElementById("qris-meta");
 
 let serverList = [];
 
@@ -64,7 +69,7 @@ async function loadServers() {
       return;
     }
 
-    // pakai data.data (bukan data.servers)
+    // API abang: data ada di field "data"
     serverList = data.data || [];
 
     if (!serverList.length) {
@@ -80,7 +85,7 @@ async function loadServers() {
     serverList.forEach(s => {
       const full = s.total_create_akun >= s.batas_create_akun;
 
-      // Kartu server di kiri
+      // kartu server di kiri
       const card = document.createElement("div");
       card.className = "server-card";
       card.innerHTML = `
@@ -168,15 +173,21 @@ function validateUsername(u) {
 async function handleOrder() {
   if (!orderBtn) return;
 
+  // reset status
   statusEl.textContent = "";
   statusEl.className = "note";
-  resultArea.value = "";
+  if (resultArea) resultArea.value = "";
+
+  // sembunyikan QR lama
+  if (qrisBox) qrisBox.style.display = "none";
+  if (qrisImg) qrisImg.src = "";
+  if (qrisMeta) qrisMeta.textContent = "";
 
   const serverId = serverSelect.value;
   const username = usernameInput.value.trim();
   const proto = protocolSelect.value;
-  const rawDays = daysSelect.value;          // "trial" | "15" | "30" | "60"
-  const password = (passwordInput?.value.trim() || "123123"); // sementara belum ke backend
+  const rawDays = daysSelect.value;
+  const password = (passwordInput?.value.trim() || "123123");
 
   if (!serverId) {
     statusEl.textContent = "Pilih server terlebih dahulu.";
@@ -194,7 +205,10 @@ async function handleOrder() {
     statusEl.className = "error";
     return;
   }
-  if (!rawDays) {
+
+  // Trial: untuk backend tetap kirim 1 hari (logika 60 menit di backend)
+  const daysForBackend = rawDays === "trial" ? 1 : parseInt(rawDays, 10);
+  if (!daysForBackend || daysForBackend <= 0) {
     statusEl.textContent = "Durasi belum dipilih.";
     statusEl.className = "error";
     return;
@@ -202,69 +216,78 @@ async function handleOrder() {
 
   orderBtn.disabled = true;
   orderBtn.textContent = "Memproses...";
-  statusEl.textContent = "Membuat tagihan QRIS...";
+  statusEl.textContent = "Menghubungi server...";
   statusEl.className = "note";
 
   try {
-    // body HARUS sama dengan yang dibaca app.js:
-    // const { protocol, server_id, username, duration } = req.body;
-    const payload = {
-      protocol: proto,              // vmess / vless / trojan / ssh
-      server_id: Number(serverId),
-      username: username,
-      duration: rawDays             // "trial" / "15" / "30" / "60"
-    };
-
     const res = await fetch(ORDER_ENDPOINT, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
+      body: JSON.stringify({
+        // field tambahan ini tidak mengganggu logika bot yang lama
+        action: "create",
+        type: proto,
+        user_id: 999999,              // dummy user web
+        server_id: Number(serverId),
+        username,
+        password,
+        days: daysForBackend,
+        is_trial: rawDays === "trial",
+
+        // field yang dipakai endpoint /api/web/create-order
+        protocol: proto,
+        duration: rawDays             // "trial" / "15" / "30" / "60"
+      })
     });
 
-    // Baca raw text DULU
-    const rawText = await res.text();
-    const contentType = res.headers.get("content-type") || "";
-
-    let data = null;
-    if (contentType.includes("application/json")) {
-      try {
-        data = JSON.parse(rawText);
-      } catch (e) {
-        statusEl.textContent = "Respon JSON tidak valid dari backend.";
-        statusEl.className = "error";
-        resultArea.value = rawText;
-        return;
-      }
-    } else {
-      // BUKAN JSON → tampilkan apa adanya (biar ketahuan error aslinya)
-      statusEl.textContent = `Respon bukan JSON (status ${res.status}).`;
-      statusEl.className = "error";
-      resultArea.value = rawText || "(kosong)";
-      return;
-    }
+    const data = await res.json();
 
     if (!data.success) {
-      statusEl.textContent = "Gagal buat tagihan: " + (data.message || "error tidak diketahui");
+      statusEl.textContent = "Gagal: " + (data.error || data.message || "error tidak diketahui");
       statusEl.className = "error";
-      resultArea.value = data.message || rawText;
+      if (resultArea) {
+        resultArea.value = data.error || data.message || "";
+      }
       return;
     }
 
-    // sukses buat tagihan
+    // SUKSES BUAT TAGIHAN
     statusEl.textContent = "Berhasil! Tagihan QRIS berhasil dibuat.";
     statusEl.className = "success";
 
-    const qrisUrl = data.qris_url || data.checkout_url || "";
-    if (qrisUrl) {
-      resultArea.value = "Link pembayaran QRIS:\n" + qrisUrl;
-      // kalau mau langsung auto-redirect:
-      // window.location.href = qrisUrl;
-    } else {
-      resultArea.value = rawText;
+    if (resultArea) {
+      resultArea.value =
+        "Link pembayaran QRIS:\n" +
+        (data.qris_url || "") +
+        (data.order_id ? `\n\nOrder ID: ${data.order_id}` : "");
     }
+
+    // Generate QR dari qris_url
+    if (qrisBox && qrisImg && data.qris_url) {
+      const qrUrl =
+        "https://api.qrserver.com/v1/create-qr-code/?size=260x260&data=" +
+        encodeURIComponent(data.qris_url);
+
+      qrisImg.src = qrUrl;
+
+      const amount = Number(data.amount || 0);
+      const metaText = [
+        data.order_id ? `Order ID: ${data.order_id}` : null,
+        amount > 0 ? `Total: Rp ${amount.toLocaleString("id-ID")}` : "Trial (Rp 0)"
+      ]
+        .filter(Boolean)
+        .join(" • ");
+
+      if (qrisMeta) {
+        qrisMeta.textContent = metaText;
+      }
+
+      qrisBox.style.display = "block";
+    }
+
   } catch (err) {
     console.error(err);
-    statusEl.textContent = "Gagal terhubung ke API (network / CORS).";
+    statusEl.textContent = "Gagal terhubung ke API. Cek jaringan / domain backend.";
     statusEl.className = "error";
   } finally {
     orderBtn.disabled = false;
