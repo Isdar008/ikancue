@@ -3,8 +3,7 @@
 // =======================
 const API_BASE = "https://api.rmpremium.cloud"; // domain backend kamu
 const SERVERS_ENDPOINT = API_BASE + "/api/web/servers";
-const ORDER_ENDPOINT   = API_BASE + "/api/web/order"; // endpoint lama yang sudah jalan
-
+const ORDER_ENDPOINT   = API_BASE + "/api/web/create-order";
 // ambil elemen
 const serversDiv     = document.getElementById("servers");
 const serverSelect   = document.getElementById("server-select");
