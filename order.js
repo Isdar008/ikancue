@@ -243,23 +243,36 @@ async function handleOrder() {
     const data = await res.json();
 
     if (!data.success) {
-      statusEl.textContent = "Gagal: " + (data.error || data.message || "error tidak diketahui");
+      statusEl.textContent =
+        "Gagal: " + (data.error || data.message || "error tidak diketahui");
       statusEl.className = "error";
-      if (resultArea) {
+      if (resultArea)
         resultArea.value = data.error || data.message || "";
-      }
       return;
     }
 
-    // SUKSES BUAT TAGIHAN
+    // ==== kalau trial: langsung tampilkan config akun tanpa QR ====
+    if (data.trial) {
+      statusEl.textContent = "Berhasil! Akun trial berhasil dibuat tanpa pembayaran.";
+      statusEl.className = "success";
+
+      let cfg = "";
+      if (typeof data.result === "string") cfg = data.result;
+      else if (data.result && typeof data.result.message === "string")
+        cfg = data.result.message;
+      else cfg = JSON.stringify(data.result || data, null, 2);
+
+      if (resultArea) resultArea.value = cfg;
+      return;
+    }
+
+    // ========== SUKSES BUAT TAGIHAN QRIS ==========
     statusEl.textContent = "Berhasil! Tagihan QRIS berhasil dibuat.";
     statusEl.className = "success";
 
+    // Tidak lagi menampilkan link URL di textarea
     if (resultArea) {
-      resultArea.value =
-        "Link pembayaran QRIS:\n" +
-        (data.qris_url || "") +
-        (data.order_id ? `\n\nOrder ID: ${data.order_id}` : "");
+      resultArea.value = ""; // bisa dikosongkan / isi pesan singkat kalau mau
     }
 
     // Generate QR dari qris_url
