@@ -6,228 +6,348 @@
   <title>⚡ Xtrimer Tunneling</title>
 
   <style>
-    /* Global Reset & Background */
+    * {
+      box-sizing: border-box;
+    }
+
+    /* Background full neon */
     body {
       margin: 0;
       padding: 0;
-      background: linear-gradient(135deg, #1f2937 0%, #0f172a 100%);
-      font-family: 'Inter', system-ui, sans-serif; /* Menggunakan font Inter/system-ui */
-      color: #e5e7eb;
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 20px;
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: #e5e7eb;
+      background:
+        radial-gradient(circle at top left, rgba(96,165,250,0.25), transparent 55%),
+        radial-gradient(circle at bottom right, rgba(244,114,182,0.25), transparent 60%),
+        linear-gradient(135deg, #020617 0%, #020617 50%, #0b1120 100%);
     }
 
-    /* Main Container */
+    /* Container utama */
     .box {
       width: 100%;
-      max-width: 440px; /* Lebar sedikit diperbesar */
-      background: rgba(17, 24, 39, 0.9);
-      padding: 30px; /* Padding sedikit lebih besar */
-      border-radius: 25px; /* Sudut lebih melengkung */
-      border: 1px solid rgba(75, 85, 99, 0.3);
-      backdrop-filter: blur(20px);
-      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.7);
+      max-width: 440px;
+      background: rgba(15, 23, 42, 0.93);
+      padding: 26px 22px 22px;
+      border-radius: 22px;
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(18px);
+      box-shadow:
+        0 24px 60px rgba(0,0,0,0.9),
+        0 0 0 1px rgba(148,163,184,0.2);
+    }
+
+    /* Glow pinggir */
+    .box::before {
+      content: "";
+      position: absolute;
+      inset: -2px;
+      border-radius: inherit;
+      background: linear-gradient(135deg, #4f46e5, #22c55e, #f97316, #ec4899);
+      opacity: 0.30;
+      z-index: -1;
+      filter: blur(16px);
+    }
+
+    .orb {
+      position: absolute;
+      width: 160px;
+      height: 160px;
+      border-radius: 999px;
+      background: radial-gradient(circle, rgba(129,140,248,0.55), transparent 70%);
+      top: -70px;
+      right: -60px;
+      opacity: 0.7;
+      pointer-events: none;
     }
 
     /* Header */
     h1 {
       text-align: center;
-      margin-bottom: 4px;
-      font-size: 26px; /* Font size lebih besar */
-      font-weight: 800; /* Lebih tebal */
-      color: #fff;
-      text-shadow: 0 0 10px rgba(99, 102, 241, 0.5); /* Efek glow halus */
+      margin: 0 0 6px;
+      font-size: 24px;
+      font-weight: 800;
+      color: #f9fafb;
+      letter-spacing: 0.03em;
+      text-shadow:
+        0 0 12px rgba(129,140,248,0.9),
+        0 0 22px rgba(56,189,248,0.6);
     }
 
     .subtitle {
       text-align: center;
-      font-size: 14px;
+      font-size: 13px;
       color: #9ca3af;
-      margin-bottom: 24px;
+      margin-bottom: 18px;
     }
 
-    /* Menu Grid (The Buttons) */
+    .status-row {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 18px;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 5px 11px;
+      border-radius: 999px;
+      font-size: 11px;
+      background: rgba(15,23,42,0.9);
+      border: 1px solid rgba(52,211,153,0.6);
+      color: #bbf7d0;
+      box-shadow: 0 0 18px rgba(34,197,94,0.4);
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 10px rgba(34,197,94,0.9);
+    }
+
+    .divider {
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(55,65,81,0.9), transparent);
+      margin: 4px 0 16px;
+    }
+
+    /* Grid tombol */
     .menu-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr); /* Tetap 2 kolom */
-      gap: 15px; /* Jarak antar tombol lebih besar */
-      margin-bottom: 25px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
     }
 
     .btn {
-      padding: 15px;
-      background: #374151; /* Warna tombol baru */
       border: none;
-      border-radius: 16px;
-      color: #fff;
-      font-weight: 700;
-      font-size: 16px;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.2s ease-in-out;
       position: relative;
-      overflow: hidden;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-    }
-
-    /* Warna Tombol Premium */
-    .btn:nth-child(1), .btn:nth-child(2), .btn:nth-child(3), .btn:nth-child(4) {
-      background: linear-gradient(45deg, #4f46e5, #6366f1);
-    }
-    .btn:hover:nth-child(1), .btn:hover:nth-child(2), .btn:hover:nth-child(3), .btn:hover:nth-child(4) {
-        transform: translateY(-3px) scale(1.02);
-        box-shadow: 0 8px 15px rgba(99, 102, 241, 0.4);
-    }
-
-    /* Warna Tombol Trial */
-    .btn:nth-child(5), .btn:nth-child(6), .btn:nth-child(7), .btn:nth-child(8) {
-      background: #1f2937;
-      border: 1px solid #6b7280;
-      color: #9ca3af;
-    }
-     .btn:hover:nth-child(5), .btn:hover:nth-child(6), .btn:hover:nth-child(7), .btn:hover:nth-child(8) {
-        background: #374151;
-        transform: translateY(-1px);
-        color: #fff;
-    }
-    
-    /* Hover Effect */
-    .btn:active {
-        transform: translateY(0);
-        opacity: 0.9;
-    }
-
-/* CSS Baru untuk Ringkasan Harga di Bagian Atas */
-.plan-summary-price {
-    text-align: center;
-    font-size: 12px;
-    font-weight: 600;
-    color: #fca5a5; /* Warna pink/merah muda untuk menonjolkan harga */
-    padding: 8px;
-    margin-bottom: 10px;
-    border-radius: 10px;
-    background: rgba(99, 102, 241, 0.1); /* Background samar */
-    border: 1px dashed rgba(99, 102, 241, 0.3);
-}
-
-/* Modifikasi pada Plan Row agar tidak ada space kosong di kanan */
-.plan-row {
-    display: flex;
-    justify-content: flex-start; /* Hanya dari kiri ke kanan */
-    align-items: flex-start;
-    padding: 8px 0;
-    border-bottom: 1px dashed #374151;
-}
-
-/* Plan Info memenuhi ruang yang tersedia */
-.plan-info {
-    flex-grow: 1;
-    padding-right: 0; /* Hapus padding kanan yang tidak diperlukan lagi */
-}
-
-    /* ===== INFO PREMIUM ACCOUNT ===== */
-    .section-title {
-      font-size: 14px;
+      padding: 14px 12px;
+      border-radius: 16px;
+      cursor: pointer;
       font-weight: 700;
-      margin-top: 10px;
-      margin-bottom: 12px;
-      color: #fff;
+      font-size: 14px;
+      text-align: left;
+      color: #f9fafb;
+      overflow: hidden;
+      isolation: isolate;
+      background: radial-gradient(circle at top left, rgba(15,23,42,0.9), rgba(15,23,42,0.95));
+      box-shadow: 0 6px 12px rgba(15,23,42,0.8);
+      transition:
+        transform 0.16s ease,
+        box-shadow 0.16s ease,
+        background 0.16s ease,
+        border-color 0.16s ease,
+        color 0.16s ease;
       display: flex;
       align-items: center;
-    }
-
-    .section-title::before {
-        content: '💰';
-        margin-right: 8px;
-        font-size: 18px;
-    }
-
-    .plans {
-      border-radius: 18px;
-      padding: 15px;
-      background: #1f2937;
-      border: 1px solid rgba(99, 102, 241, 0.3);
-    }
-
-    .plan-row {
-      display: flex;
       justify-content: space-between;
-      align-items: flex-start; /* Ubah ke flex-start */
-      padding: 8px 0;
-      border-bottom: 1px dashed #374151;
+      gap: 6px;
     }
 
-    .plan-row:last-child {
-      border-bottom: none;
+    .btn-label {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
     }
 
-    .plan-info {
-        flex-grow: 1;
-        padding-right: 15px;
-    }
-
-    .plan-name {
-      font-weight: 700;
-      color: #fff;
-      font-size: 15px;
-      margin-bottom: 2px;
-    }
-
-    .plan-note {
-      font-size: 11px;
-      color: #a5b4fc; /* Warna yang lebih cerah */
-      line-height: 1.4;
-    }
-
-    .plan-prices {
-        text-align: right;
-    }
-
-    .plan-price {
+    .btn-title {
       font-size: 14px;
-      font-weight: 700;
-      color: #a5b4fc;
-      margin-top: 2px;
-      padding: 2px 0;
     }
-    
-    .plan-price:nth-child(2) {
-        color: #fca5a5; /* Warna berbeda untuk harga 30 hari */
+
+    .btn-sub {
+      font-size: 11px;
+      font-weight: 500;
+      opacity: 0.85;
+    }
+
+    .btn-pill {
+      font-size: 10px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.7);
+      background: rgba(15,23,42,0.95);
+      white-space: nowrap;
+    }
+
+    .btn::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: linear-gradient(120deg, rgba(96,165,250,0.7), rgba(244,114,182,0.7));
+      opacity: 0;
+      z-index: -1;
+      transition: opacity 0.18s ease;
+    }
+
+    .btn:active {
+      transform: translateY(0px) scale(0.99);
+      box-shadow: 0 4px 9px rgba(15,23,42,0.95);
+      opacity: 0.95;
+    }
+
+    /* PREMIUM: 1–4 */
+    .btn:nth-child(-n+4) {
+      border: 1px solid rgba(129,140,248,0.85);
+      background: linear-gradient(135deg, rgba(15,23,42,0.96), rgba(88,80,236,0.95));
+    }
+
+    .btn:nth-child(-n+4) .btn-pill {
+      border-color: rgba(129,140,248,1);
+      color: #c7d2fe;
+    }
+
+    .btn:nth-child(-n+4):hover {
+      transform: translateY(-2px) scale(1.01);
+      box-shadow:
+        0 12px 24px rgba(79,70,229,0.8),
+        0 0 20px rgba(129,140,248,0.7);
+    }
+
+    .btn:nth-child(-n+4):hover::before {
+      opacity: 0.25;
+    }
+
+    /* TRIAL: 5–8 */
+    .btn:nth-child(n+5) {
+      border: 1px solid rgba(148,163,184,0.6);
+      background: linear-gradient(135deg, rgba(15,23,42,0.97), rgba(30,64,175,0.9));
+      color: #e5e7eb;
+    }
+
+    .btn:nth-child(n+5) .btn-pill {
+      border-color: rgba(56,189,248,0.7);
+      color: #bae6fd;
+      background: rgba(15,23,42,0.95);
+    }
+
+    .btn:nth-child(n+5):hover {
+      transform: translateY(-1px) scale(1.01);
+      box-shadow:
+        0 10px 20px rgba(30,64,175,0.8),
+        0 0 18px rgba(56,189,248,0.6);
+    }
+
+    .btn:nth-child(n+5):hover::before {
+      opacity: 0.18;
+    }
+
+    @media (max-width: 430px) {
+      .box {
+        padding: 20px 15px 18px;
+        border-radius: 20px;
+      }
+
+      h1 {
+        font-size: 22px;
+      }
+
+      .btn {
+        padding: 12px 10px;
+      }
     }
   </style>
 </head>
 
 <body>
+  <div class="box">
+    <div class="orb"></div>
 
-<div class="box">
-  <h1>⚡ Xtrimer Tunneling</h1>
-  <div class="subtitle">
-    Pilih jenis akun VPN Premium atau Trial yang ingin kamu buat.
+    <h1>⚡ Xtrimer Tunneling</h1>
+    <div class="subtitle">
+      Pilih jenis akun VPN Premium atau Trial yang ingin kamu buat.
+    </div>
+
+    <div class="status-row">
+      <div class="status-pill">
+        <span class="status-dot"></span>
+        Panel aktif • Ready to generate
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="menu-grid">
+      <!-- PREMIUM -->
+      <button class="btn" onclick="go('create/ssh')">
+        <div class="btn-label">
+          <span class="btn-title">SSH Premium</span>
+          <span class="btn-sub">Stabil untuk game & harian.</span>
+        </div>
+        <span class="btn-pill">Premium</span>
+      </button>
+
+      <button class="btn" onclick="go('create/vmess')">
+        <div class="btn-label">
+          <span class="btn-title">VMESS Premium</span>
+          <span class="btn-sub">Ringan, enak buat streaming.</span>
+        </div>
+        <span class="btn-pill">Premium</span>
+      </button>
+
+      <button class="btn" onclick="go('create/vless')">
+        <div class="btn-label">
+          <span class="btn-title">VLESS Premium</span>
+          <span class="btn-sub">Cocok bug/SNI & opok.</span>
+        </div>
+        <span class="btn-pill">Premium</span>
+      </button>
+
+      <button class="btn" onclick="go('create/trojan')">
+        <div class="btn-label">
+          <span class="btn-title">TROJAN Premium</span>
+          <span class="btn-sub">Enkripsi kuat & stabil.</span>
+        </div>
+        <span class="btn-pill">Premium</span>
+      </button>
+
+      <!-- TRIAL -->
+      <button class="btn" onclick="go('trial/ssh')">
+        <div class="btn-label">
+          <span class="btn-title">Trial SSH</span>
+          <span class="btn-sub">Cek kualitas dulu sebelum beli.</span>
+        </div>
+        <span class="btn-pill">Trial</span>
+      </button>
+
+      <button class="btn" onclick="go('trial/vmess')">
+        <div class="btn-label">
+          <span class="btn-title">Trial VMESS</span>
+          <span class="btn-sub">Tes ping & streaming.</span>
+        </div>
+        <span class="btn-pill">Trial</span>
+      </button>
+
+      <button class="btn" onclick="go('trial/vless')">
+        <div class="btn-label">
+          <span class="btn-title">Trial VLESS</span>
+          <span class="btn-sub">Tes bug/SNI favoritmu.</span>
+        </div>
+        <span class="btn-pill">Trial</span>
+      </button>
+
+      <button class="btn" onclick="go('trial/trojan')">
+        <div class="btn-label">
+          <span class="btn-title">Trial TROJAN</span>
+          <span class="btn-sub">Cobain dulu sebelum commit.</span>
+        </div>
+        <span class="btn-pill">Trial</span>
+      </button>
+    </div>
   </div>
 
-  <div class="menu-grid">
-    <div class="btn" onclick="go('create/ssh')">SSH Premium</div>
-    <div class="btn" onclick="go('create/vmess')">VMESS Premium</div>
-    <div class="btn" onclick="go('create/vless')">VLESS Premium</div>
-    <div class="btn" onclick="go('create/trojan')">TROJAN Premium</div>
-
-    <div class="btn" onclick="go('trial/ssh')">Trial SSH</div>
-    <div class="btn" onclick="go('trial/vmess')">Trial VMESS</div>
-    <div class="btn" onclick="go('trial/vless')">Trial VLESS</div>
-    <div class="btn" onclick="go('trial/trojan')">Trial TROJAN</div>
-  </div>
-
-  
-
-
-<script>
-  function go(path) {
-    window.location.href = "/" + path;
-  }
-</script>
-
+  <script>
+    function go(path) {
+      window.location.href = "/" + path;
+    }
+  </script>
 </body>
 </html>
