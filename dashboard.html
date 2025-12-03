@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Gerhana Tunnel</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+
+    <div class="logo" style="margin-bottom: 10px;">
+        <img src="logo.png" alt="logo" style="width:90px;">
+    </div>
+
+    <h2>Dashboard</h2>
+    <p class="subtitle" id="welcomeText">Memuat data...</p>
+
+    <!-- Info saldo -->
+    <div class="card">
+        <p><b>Saldo Anda</b></p>
+        <p id="saldoText">Rp 0</p>
+    </div>
+
+    <!-- Daftar Server -->
+    <div class="card">
+        <p><b>Server Tersedia</b></p>
+        <ul id="serverList" style="padding-left:18px; margin-top:8px;">
+            <li>Sedang memuat...</li>
+        </ul>
+    </div>
+
+    <!-- Aksi -->
+    <div class="card">
+        <button id="btnTrial" class="btn-login" style="margin-bottom:10px;">
+            ⚡ Generate Trial SSH
+        </button>
+        <button id="btnOrderSSH" class="btn-login">
+            💳 Beli Akun SSH
+        </button>
+    </div>
+
+    <button id="btnLogout" class="btn" style="width:100%; margin-top:10px;">
+        Logout
+    </button>
+
+    <p id="dashMessage" style="text-align:center; margin-top:10px; font-size:14px;"></p>
+
+</div>
+
+<script src="dashboard.js"></script>
+</body>
+</html>
