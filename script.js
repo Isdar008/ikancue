@@ -44,17 +44,28 @@ async function loadStatusFromApi() {
 }
 
 // ----- Load Server Dari API -----
-async function loadServersFromApi() {
+async function loadStatusFromApi() {
   try {
-    const res = await fetch(`${API_BASE}/servers`);
-    const json = await res.json().catch(() => ({}));
-    if (!res.ok || !json.ok) return;
+    const email = localStorage.getItem("xt_email") || "";
 
-    cachedServers = json.data || [];
-    renderServers();
-    fillServerSelects();
+    if (!email) {
+      // belum login, reset tampilan
+      document.getElementById("statusSaldo").textContent = "Rp 0";
+      document.getElementById("statusTotalAkun").textContent = "0";
+      document.getElementById("statusLevel").textContent = "MEMBER";
+      return;
+    }
+
+    const res = await fetch(`${API_BASE}/status?email=${encodeURIComponent(email)}`);
+    const json = await res.json().catch(() => ({}));
+    if (!res.ok || !json.ok || !json.data) return;
+
+    const d = json.data;
+    document.getElementById("statusSaldo").textContent = fmtRupiah(d.saldo);
+    document.getElementById("statusTotalAkun").textContent = d.totalAkun || 0;
+    document.getElementById("statusLevel").textContent = (d.level || 'member').toUpperCase();
   } catch (e) {
-    console.warn("Gagal load servers:", e);
+    console.warn("Gagal load status:", e);
   }
 }
 
