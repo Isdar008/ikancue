@@ -167,6 +167,68 @@ document.getElementById("btnResetBack1").onclick =
 document.getElementById("btnResetBack2").onclick = () => {
   showResetStep(0);
 };
+document.getElementById("btnSendReset").addEventListener("click", async (ev) => {
+  const btn = ev.currentTarget;
+  const email = document.getElementById("resetEmail").value.trim();
+  if (!email) {
+    alert("Email tidak boleh kosong.");
+    return;
+  }
+
+  lockButton(btn, true);
+  try {
+    const res = await fetch(`${API_BASE}/request-reset`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email })
+    });
+    const json = await res.json().catch(() => ({}));
+    if (!res.ok || !json.ok) {
+      throw new Error(json.error || "Gagal mengirim kode reset.");
+    }
+
+    alert("Kode reset sudah dikirim ke email kamu.");
+    showResetStep(2);
+  } catch (e) {
+    alert(e.message || "Gagal mengirim kode reset.");
+  } finally {
+    lockButton(btn, false);
+  }
+});
+document.getElementById("btnDoReset").addEventListener("click", async (ev) => {
+  const btn = ev.currentTarget;
+  const email = document.getElementById("resetEmail").value.trim();
+  const code  = document.getElementById("resetCode").value.trim();
+  const newPass = document.getElementById("resetNewPass").value.trim();
+
+  if (!email || !code || !newPass) {
+    alert("Email, kode, dan password baru wajib diisi.");
+    return;
+  }
+
+  lockButton(btn, true);
+  try {
+    const res = await fetch(`${API_BASE}/confirm-reset`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, code, newPassword: newPass })
+    });
+    const json = await res.json().catch(() => ({}));
+    if (!res.ok || !json.ok) {
+      throw new Error(json.error || "Gagal reset password.");
+    }
+
+    alert("Password berhasil direset. Silakan login dengan password baru.");
+    // isi form login dan kembali ke login
+    document.getElementById("email").value = email;
+    document.getElementById("password").value = newPass;
+    showResetStep(0);
+  } catch (e) {
+    alert(e.message || "Gagal reset password.");
+  } finally {
+    lockButton(btn, false);
+  }
+});
 
 document.getElementById("btnLogin").addEventListener("click", async (ev) => {
   const btn = ev.currentTarget;
