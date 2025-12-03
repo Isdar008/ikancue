@@ -1,3 +1,12 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>XTRIMER PANEL</title>
+  <!-- pastikan style.css ada di folder yang sama (public/) -->
+  <link rel="stylesheet" href="/style.css">
+</head>
 <body>
 
   <!-- GLOBAL TOP BAR -->
@@ -8,12 +17,10 @@
         <div class="site-tagline">Simple VPN Dashboard</div>
       </div>
       <div class="site-right">
-        <!-- Bisa diisi icon / versi nanti -->
         <span class="site-badge">v1.0</span>
       </div>
     </div>
   </header>
-<body>
 
   <!-- WELCOME PAGE -->
   <section id="welcome" class="page active">
@@ -42,7 +49,7 @@
   <section id="dashboard" class="page">
     <div class="app-shell">
 
-      <!-- HEADER -->
+      <!-- HEADER DASHBOARD -->
       <header class="app-header">
         <div class="brand">
           <span class="logo-dot"></span>
@@ -150,23 +157,23 @@
         </div>
 
         <!-- TOPUP -->
-<div id="app-topup" class="app-page">
-  <h3>Topup Saldo</h3>
-  <p class="muted small">Bisa dihubungkan ke sistem QRIS / Pakasir yang sudah ada.</p>
+        <div id="app-topup" class="app-page">
+          <h3>Topup Saldo</h3>
+          <p class="muted small">Bisa dihubungkan ke sistem QRIS / Pakasir yang sudah ada.</p>
 
-  <div class="card">
-    <label>Nominal Topup (Rp)</label>
-    <input id="topupAmount" type="number" min="1000" step="1000" value="10000">
+          <div class="card">
+            <label>Nominal Topup (Rp)</label>
+            <input id="topupAmount" type="number" min="1000" step="1000" value="10000">
 
-    <button class="btn primary full" id="btnTopup">Buat Request Topup</button>
-  </div>
+            <button class="btn primary full" id="btnTopup">Buat Request Topup</button>
+          </div>
 
-  <div class="card">
-    <h4>Riwayat Topup</h4>
-    <ul id="topupHistory" class="dummy-list"></ul>
-    <p id="topupHistoryEmpty" class="muted small">Belum ada riwayat topup.</p>
-  </div>
-</div>
+          <div class="card">
+            <h4>Riwayat Topup</h4>
+            <ul id="topupHistory" class="dummy-list"></ul>
+            <p id="topupHistoryEmpty" class="muted small">Belum ada riwayat topup.</p>
+          </div>
+        </div>
 
       </main>
     </div>
@@ -174,4 +181,4 @@
 
   <script src="/script.js"></script>
 </body>
-    </html>
+          </html>
