@@ -2,852 +2,91 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <title>TunXtrimer VPN Store</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TunXtrimer VPN menu</title>
+
   <style>
-    * {
-      box-sizing: border-box;
+    body {
       margin: 0;
       padding: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    }
-    body {
-      min-height: 100vh;
-      background: radial-gradient(circle at top, #020617, #020617 40%, #020617 100%);
+      background: radial-gradient(circle at top, #111827, #0f172a);
+      font-family: system-ui, sans-serif;
       color: #e5e7eb;
-    }
-    a { color: inherit; text-decoration: none; }
-    .page {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 12px 16px 24px;
-    }
-
-    /* NAVBAR */
-    .nav {
-      position: sticky;
-      top: 0;
-      z-index: 20;
-      backdrop-filter: blur(16px);
-      background: linear-gradient(to right, rgba(15,23,42,0.96), rgba(15,23,42,0.9));
-      border-bottom: 1px solid rgba(55,65,81,0.9);
-      padding: 8px 16px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-    }
-    .nav-left {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .nav-logo {
-      width: 26px;
-      height: 26px;
-      border-radius: 999px;
-      background: radial-gradient(circle at 30% 30%, #22c55e, #6366f1);
+      min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 14px;
-      font-weight: 700;
-      color: #020617;
-    }
-    .nav-title {
-      font-size: 15px;
-      font-weight: 600;
-    }
-    .nav-menu {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      font-size: 12px;
-    }
-    .nav-menu button {
-      border-radius: 999px;
-      border: 1px solid rgba(75,85,99,0.9);
-      background: rgba(15,23,42,0.95);
-      color: #e5e7eb;
-      padding: 5px 10px;
-      cursor: pointer;
-      font-size: 12px;
-    }
-    .nav-menu button:hover {
-      border-color: #6366f1;
+      padding: 20px;
     }
 
-    /* WRAPPER UTAMA */
-    .wrapper {
-      margin-top: 12px;
-      background: rgba(15,23,42,0.95);
-      border-radius: 24px;
-      padding: 20px 18px 22px;
-      border: 1px solid rgba(148,163,184,0.35);
-      box-shadow: 0 20px 60px rgba(0,0,0,0.7);
+    .box {
+      width: 100%;
+      max-width: 420px;
+      background: rgba(15, 23, 42, 0.9);
+      padding: 25px;
+      border-radius: 20px;
+      border: 1px solid rgba(148,163,184,0.25);
       backdrop-filter: blur(18px);
-    }
-    @media (max-width: 768px) {
-      .wrapper {
-        padding: 16px 12px 18px;
-        border-radius: 20px;
-      }
+      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
     }
 
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 12px;
-      padding: 4px 10px;
-      border-radius: 999px;
-      background: rgba(34,197,94,0.12);
-      border: 1px solid rgba(34,197,94,0.5);
-      color: #4ade80;
-      width: fit-content;
-      margin-bottom: 6px;
-    }
-    .title {
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
       font-size: 22px;
       font-weight: 700;
-      color: #f9fafb;
-      margin-bottom: 4px;
-    }
-    .subtitle {
-      font-size: 13px;
-      color: #9ca3af;
-      max-width: 640px;
-      margin-bottom: 14px;
+      color: #fff;
     }
 
-    section {
-      margin-top: 18px;
-      scroll-margin-top: 80px;
-    }
-    section h2 {
-      font-size: 16px;
-      margin-bottom: 6px;
-      font-weight: 600;
-    }
-    section p.desc {
-      font-size: 12px;
-      color: #9ca3af;
-      margin-bottom: 10px;
-    }
-
-    .grid-2 {
+    .menu-grid {
       display: grid;
-      grid-template-columns: minmax(0, 1.6fr) minmax(0, 1.4fr);
-      gap: 16px;
-    }
-    @media (max-width: 840px) {
-      .grid-2 {
-        grid-template-columns: 1fr;
-      }
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
     }
 
-    .card {
-      background: rgba(15,23,42,0.9);
-      border-radius: 18px;
-      padding: 16px 14px 18px;
-      border: 1px solid rgba(55,65,81,0.9);
-    }
-    .card h3 {
-      font-size: 15px;
-      margin-bottom: 6px;
-      font-weight: 600;
-    }
-    .card p.sub {
-      font-size: 12px;
-      color: #9ca3af;
-      margin-bottom: 10px;
-    }
-
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 10px;
-      margin: 10px 0 12px;
-    }
-    .stat-card {
-      border-radius: 14px;
-      padding: 9px 10px;
-      background: radial-gradient(circle at top left, rgba(129,140,248,0.13), rgba(15,23,42,0.95));
-      border: 1px solid rgba(55,65,81,0.9);
-      font-size: 11px;
-    }
-    .stat-label {
-      color: #9ca3af;
-      margin-bottom: 4px;
-    }
-    .stat-value {
-      font-size: 16px;
-      font-weight: 700;
-      color: #e5e7eb;
-    }
-
-    .pill {
-      font-size: 11px;
-      padding: 4px 8px;
-      border-radius: 999px;
-      background: rgba(15,23,42,0.95);
-      border: 1px solid rgba(55,65,81,0.9);
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .pill-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 999px;
-      background: #22c55e;
-      box-shadow: 0 0 0 4px rgba(34,197,94,0.25);
-    }
-
-    .form-group {
-      margin-bottom: 10px;
-    }
-    label {
-      font-size: 12px;
-      color: #e5e7eb;
-      display: block;
-      margin-bottom: 4px;
-    }
-    input, select, textarea {
-      width: 100%;
-      padding: 8px 10px;
-      border-radius: 10px;
-      border: 1px solid rgba(55,65,81,0.9);
-      background: rgba(15,23,42,0.96);
-      color: #e5e7eb;
-      font-size: 13px;
-      outline: none;
-      transition: border 0.15s, box-shadow 0.15s, background 0.15s;
-    }
-    input::placeholder, textarea::placeholder {
-      color: #6b7280;
-    }
-    input:focus, select:focus, textarea:focus {
-      border-color: #6366f1;
-      box-shadow: 0 0 0 1px rgba(129,140,248,0.7);
-      background: #020617;
-    }
-    textarea {
-      resize: vertical;
-      min-height: 60px;
-      max-height: 120px;
-    }
     .btn {
-      width: 100%;
-      border: none;
-      border-radius: 999px;
-      padding: 10px 14px;
-      margin-top: 4px;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      background: linear-gradient(135deg, #6366f1, #22c55e);
-      color: white;
-      box-shadow: 0 12px 30px rgba(79,70,229,0.5);
-      transition: transform 0.1s, box-shadow 0.1s, filter 0.1s;
-    }
-    .btn:active {
-      transform: translateY(1px);
-      box-shadow: 0 7px 20px rgba(79,70,229,0.45);
-      filter: brightness(0.96);
-    }
-    .btn[disabled] {
-      opacity: 0.6;
-      cursor: not-allowed;
-      box-shadow: none;
-    }
-
-    .chips {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 6px;
-      margin-bottom: 8px;
-    }
-    .chip {
-      font-size: 11px;
-      padding: 4px 7px;
-      border-radius: 999px;
-      border: 1px solid rgba(75,85,99,0.95);
-      color: #9ca3af;
-    }
-
-    .alert {
-      font-size: 12px;
-      border-radius: 999px;
-      padding: 7px 11px;
-      margin-top: 8px;
-      display: none;
-    }
-    .alert.success {
-      background: rgba(22,163,74,0.15);
-      color: #4ade80;
-      border: 1px solid rgba(22,163,74,0.5);
-    }
-    .alert.error {
-      background: rgba(220,38,38,0.15);
-      color: #fca5a5;
-      border: 1px solid rgba(220,38,38,0.5);
-    }
-
-    /* Pricing & protocol pills */
-    .proto-pills {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 4px;
-      margin-bottom: 8px;
-    }
-    .proto-pill {
-      font-size: 11px;
-      padding: 4px 8px;
-      border-radius: 999px;
-      border: 1px solid rgba(75,85,99,0.9);
-      cursor: pointer;
-    }
-    .proto-pill.active {
-      border-color: #6366f1;
-      background: rgba(79,70,229,0.25);
-    }
-
-    .pricing-grid {
-      margin-top: 8px;
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 10px;
-    }
-    @media (max-width: 900px) {
-      .pricing-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-    }
-    @media (max-width: 600px) {
-      .pricing-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-    .price-card {
-      background: radial-gradient(circle at top left, rgba(15,23,42,0.96), rgba(15,23,42,0.9));
-      border-radius: 16px;
-      padding: 10px 11px 12px;
-      border: 1px solid rgba(55,65,81,0.9);
-      font-size: 12px;
-      position: relative;
-    }
-    .price-card-hot {
-      border-color: rgba(56,189,248,0.9);
-      box-shadow: 0 14px 35px rgba(56,189,248,0.25);
-    }
-    .price-badge {
-      position: absolute;
-      right: 9px;
-      top: 8px;
-      font-size: 10px;
-      padding: 3px 7px;
-      border-radius: 999px;
-      background: #38bdf8;
-      color: #0f172a;
-      font-weight: 600;
-    }
-    .price-title {
-      font-weight: 600;
-      margin-bottom: 2px;
-    }
-    .price-value {
-      font-size: 15px;
-      font-weight: 700;
-      color: #a5b4fc;
-      margin-bottom: 6px;
-    }
-    .price-list {
-      list-style: none;
-      margin-bottom: 8px;
-      padding-left: 0;
-      color: #9ca3af;
-    }
-    .price-list li {
-      margin-bottom: 2px;
-    }
-    .price-btn {
-      width: 100%;
-      border-radius: 999px;
-      border: 1px solid rgba(75,85,99,0.9);
-      background: rgba(15,23,42,0.95);
-      color: #e5e7eb;
-      padding: 6px 8px;
-      font-size: 12px;
-      cursor: pointer;
-      transition: 0.12s;
-    }
-    .price-btn:hover {
-      border-color: #6366f1;
-      box-shadow: 0 6px 16px rgba(79,70,229,0.45);
-    }
-
-    /* TRIAL SECTION */
-    .trial-grid {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 10px;
-    }
-    @media (max-width: 900px) {
-      .trial-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-    }
-    @media (max-width: 600px) {
-      .trial-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-    .trial-card {
-      background: rgba(15,23,42,0.9);
+      padding: 12px;
+      background: rgba(30,41,59,0.9);
+      border: 1px solid rgba(100,116,139,0.4);
       border-radius: 14px;
-      padding: 10px;
-      border: 1px solid rgba(55,65,81,0.9);
-      font-size: 12px;
-    }
-    .trial-card h4 {
-      font-size: 13px;
-      margin-bottom: 2px;
-    }
-    .trial-btn {
-      margin-top: 6px;
-      width: 100%;
-      border-radius: 999px;
-      border: 1px solid rgba(75,85,99,0.9);
-      background: rgba(15,23,42,0.95);
       color: #e5e7eb;
-      padding: 6px 8px;
-      font-size: 12px;
+      font-weight: 600;
+      font-size: 14px;
+      text-align: center;
       cursor: pointer;
+      transition: 0.15s;
     }
-    .trial-btn:hover {
-      border-color: #22c55e;
+
+    .btn:hover {
+      background: rgba(51,65,85,0.9);
+      transform: translateY(-2px);
     }
-    .trial-output {
-      margin-top: 10px;
-      font-size: 11px;
-      background: rgba(15,23,42,0.9);
-      border-radius: 12px;
-      border: 1px solid rgba(55,65,81,0.9);
-      padding: 8px;
-      max-height: 200px;
-      overflow: auto;
-      white-space: pre-wrap;
-    }
-    .footer {
-      margin-top: 16px;
-      padding-top: 10px;
-      border-top: 1px solid rgba(31,41,55,0.9);
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 6px;
-      font-size: 11px;
-      color: #6b7280;
-    }
-    .footer a {
-      color: #a5b4fc;
-      text-decoration: none;
-    }
-    .footer a:hover {
-      text-decoration: underline;
-    }
-    code { font-family: "JetBrains Mono", monospace; }
   </style>
 </head>
+
 <body>
-  <div class="nav">
-    <div class="nav-left">
-      <div class="nav-logo">TX</div>
-      <div>
-        <div class="nav-title" id="nav-store-name">TunXtrimer VPN</div>
-        <div style="font-size: 11px; color:#9ca3af;">SSH • VMESS • VLESS • TROJAN</div>
-      </div>
-    </div>
-    <div class="nav-menu">
-      <button type="button" data-scroll="#top">Beranda</button>
-      <button type="button" data-scroll="#beli-section">Beli Akun</button>
-      <button type="button" data-scroll="#trial-section">Trial</button>
-      <button type="button" data-scroll="#bantuan-section">Bantuan</button>
-    </div>
+
+<div class="box">
+  <h1>TunXtrimer VPN Panel</h1>
+
+  <div class="menu-grid">
+    <div class="btn" onclick="go('create/ssh')">SSH</div>
+    <div class="btn" onclick="go('create/vmess')">VMESS</div>
+    <div class="btn" onclick="go('create/vless')">VLESS</div>
+    <div class="btn" onclick="go('create/trojan')">TROJAN</div>
+
+    <div class="btn" onclick="go('trial/ssh')">Trial SSH</div>
+    <div class="btn" onclick="go('trial/vmess')">Trial VMESS</div>
+    <div class="btn" onclick="go('trial/vless')">Trial VLESS</div>
+    <div class="btn" onclick="go('trial/trojan')">Trial TROJAN</div>
   </div>
-
-  <div class="page">
-    <div class="wrapper" id="top">
-      <div class="badge">
-        <span>⚡</span>
-        <span id="store-name">TunXtrimer VPN Store</span>
-      </div>
-      <div class="title">Internet Lancar untuk Game, Streaming & Harian</div>
-      <div class="subtitle">
-        Pilih protokol favorit kamu (SSH, VMESS, VLESS, TROJAN), order lewat web, dan nikmati koneksi yang stabil.
-        Tersedia juga akun <b>trial gratis</b> untuk coba dulu.
-      </div>
-
-      <section id="beli-section">
-        <h2>Beli Akun VPN</h2>
-        <p class="desc">Pilih protokol dan paket, lalu isi catatan tambahan (opsional). Akun akan diproses otomatis lewat bot/panel.</p>
-
-        <div class="grid-2">
-          <div class="card">
-            <h3>Form Order</h3>
-            <p class="sub">Pilih paket yang kamu inginkan di bawah ini.</p>
-
-            <form id="order-form">
-              <div class="form-group">
-                <label>Protokol & Paket</label>
-                <div class="proto-pills" id="proto-pills">
-                  <div class="proto-pill active" data-paket="SSH 30 Hari">SSH 30 Hari</div>
-                  <div class="proto-pill" data-paket="VMESS 30 Hari">VMESS 30 Hari</div>
-                  <div class="proto-pill" data-paket="VLESS 30 Hari">VLESS 30 Hari</div>
-                  <div class="proto-pill" data-paket="TROJAN 30 Hari">TROJAN 30 Hari</div>
-                  <div class="proto-pill" data-paket="Combo All Protocol 30 Hari">Combo All 30 Hari</div>
-                </div>
-                <select id="paket" name="paket">
-                  <option value="SSH 30 Hari">SSH 30 Hari</option>
-                  <option value="VMESS 30 Hari">VMESS 30 Hari</option>
-                  <option value="VLESS 30 Hari">VLESS 30 Hari</option>
-                  <option value="TROJAN 30 Hari">TROJAN 30 Hari</option>
-                  <option value="Combo All Protocol 30 Hari">Combo All Protocol 30 Hari</option>
-                </select>
-              </div>
-
-              <div class="form-group">
-                <label for="note">Catatan Tambahan (opsional)</label>
-                <textarea
-                  id="note"
-                  name="note"
-                  placeholder="contoh: prioritas Telkomsel / untuk game / dsb"
-                ></textarea>
-              </div>
-
-              <button type="submit" class="btn" id="submit-btn">
-                <span>🛒 Kirim Order</span>
-              </button>
-
-              <div class="alert success" id="alert-success"></div>
-              <div class="alert error" id="alert-error"></div>
-            </form>
-          </div>
-
-          <div class="card">
-            <div class="pill">
-              <div class="pill-dot"></div>
-              <span>Bot Telegram Online</span>
-            </div>
-
-            <div class="stats">
-              <div class="stat-card">
-                <div class="stat-label">Total User Bot</div>
-                <div class="stat-value" id="stat-users">-</div>
-              </div>
-              <div class="stat-card">
-                <div class="stat-label">Server Aktif</div>
-                <div class="stat-value" id="stat-servers">-</div>
-              </div>
-            </div>
-
-            <h3>Keunggulan</h3>
-            <div class="chips">
-              <span class="chip">🔒 Enkripsi full</span>
-              <span class="chip">🚀 Anti lemot</span>
-              <span class="chip">📲 Support semua operator</span>
-              <span class="chip">🤖 Integrasi bot Telegram</span>
-            </div>
-
-            <p class="sub">
-              Setelah order terkirim, cek pesan dari bot/admin untuk detail pembayaran & akun. Untuk bantuan cepat,
-              bisa chat langsung bot:
-              <a href="#" id="bot-link">@BotVPNAnda</a>
-            </p>
-          </div>
-        </div>
-
-        <div style="margin-top: 18px;">
-          <h3 style="font-size: 15px; margin-bottom: 4px;">Paket & Harga</h3>
-          <p class="desc">Klik paket di bawah untuk memilih protokol di form secara otomatis.</p>
-          <div class="pricing-grid">
-            <div class="price-card" data-paket-card="SSH 30 Hari">
-              <div class="price-title">SSH 30 Hari</div>
-              <div class="price-value">Rp 15.000</div>
-              <ul class="price-list">
-                <li>Server Premium ID/SG</li>
-                <li>Support Game & Harian</li>
-                <li>Unlimited (FUP wajar)</li>
-              </ul>
-              <button class="price-btn">Pilih Paket Ini</button>
-            </div>
-            <div class="price-card price-card-hot" data-paket-card="VMESS 30 Hari">
-              <div class="price-badge">Favorit</div>
-              <div class="price-title">VMESS 30 Hari</div>
-              <div class="price-value">Rp 20.000</div>
-              <ul class="price-list">
-                <li>Latency rendah</li>
-                <li>Support TLS / WS</li>
-                <li>Cocok streaming & sosmed</li>
-              </ul>
-              <button class="price-btn">Pilih Paket Ini</button>
-            </div>
-            <div class="price-card" data-paket-card="VLESS 30 Hari">
-              <div class="price-title">VLESS 30 Hari</div>
-              <div class="price-value">Rp 20.000</div>
-              <ul class="price-list">
-                <li>Lebih ringan & stabil</li>
-                <li>Support SNI / Bug Host</li>
-                <li>Cocok opok</li>
-              </ul>
-              <button class="price-btn">Pilih Paket Ini</button>
-            </div>
-            <div class="price-card" data-paket-card="TROJAN 30 Hari">
-              <div class="price-title">TROJAN 30 Hari</div>
-              <div class="price-value">Rp 25.000</div>
-              <ul class="price-list">
-                <li>Enkripsi kuat</li>
-                <li>Stabil & kencang</li>
-                <li>Support multi device</li>
-              </ul>
-              <button class="price-btn">Pilih Paket Ini</button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="trial-section">
-        <h2>Trial Gratis</h2>
-        <p class="desc">Cobain dulu koneksi sebelum beli. Setiap trial punya durasi & limit sesuai kebijakan panel.</p>
-
-        <div class="trial-grid">
-          <div class="trial-card">
-            <h4>SSH Trial</h4>
-            <p>Trial SSH untuk test ping, kecepatan download, dan stabilitas.</p>
-            <button class="trial-btn" data-trial="ssh">Buat Trial SSH</button>
-          </div>
-          <div class="trial-card">
-            <h4>VMESS Trial</h4>
-            <p>VMESS trial untuk test koneksi game / streaming.</p>
-            <button class="trial-btn" data-trial="vmess">Buat Trial VMESS</button>
-          </div>
-          <div class="trial-card">
-            <h4>VLESS Trial</h4>
-            <p>VLESS trial ringan & cocok bug/SNI.</p>
-            <button class="trial-btn" data-trial="vless">Buat Trial VLESS</button>
-          </div>
-          <div class="trial-card">
-            <h4>TROJAN Trial</h4>
-            <p>Trojan trial dengan enkripsi kuat.</p>
-            <button class="trial-btn" data-trial="trojan">Buat Trial TROJAN</button>
-          </div>
-        </div>
-
-        <div class="trial-output" id="trial-output" style="display:none;"></div>
-      </section>
-
-      <section id="bantuan-section">
-        <h2>Bantuan & Kontak</h2>
-        <p class="desc">
-          Kalau ada kendala pembuatan akun, bug config, atau pengaturan aplikasi (HTTP Custom, NapsternetV, v2rayNG, dsb),
-          silakan hubungi admin lewat bot Telegram atau kontak yang kamu masukkan saat order.
-        </p>
-      </section>
-
-      <div class="footer">
-        <span>© <span id="year"></span> TunXtrimer VPN Store</span>
-        <span>Order via bot: <a href="#" id="bot-link-footer">@BotVPNAnda</a></span>
-      </div>
-    </div>
-  </div>
+</div>
 
 <script>
-  const yearEl = document.getElementById('year');
-  const statUsersEl = document.getElementById('stat-users');
-  const statServersEl = document.getElementById('stat-servers');
-  const storeNameEl = document.getElementById('store-name');
-  const navStoreNameEl = document.getElementById('nav-store-name');
-  const botLinkEl = document.getElementById('bot-link');
-  const botLinkFooterEl = document.getElementById('bot-link-footer');
-  const alertSuccess = document.getElementById('alert-success');
-  const alertError = document.getElementById('alert-error');
-  const submitBtn = document.getElementById('submit-btn');
-  const paketSelect = document.getElementById('paket');
-  const protoPills = document.getElementById('proto-pills');
-  const trialOutput = document.getElementById('trial-output');
-
-  yearEl.textContent = new Date().getFullYear();
-
-  // NAV scroll
-  document.querySelectorAll('[data-scroll]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const target = document.querySelector(btn.getAttribute('data-scroll'));
-      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
-  });
-
-  function showAlert(type, message, allowHtml = false) {
-    const target = type === 'success' ? alertSuccess : alertError;
-    const other = type === 'success' ? alertError : alertSuccess;
-    other.style.display = 'none';
-    if (allowHtml) target.innerHTML = message;
-    else target.textContent = message;
-    target.style.display = 'block';
+  function go(path) {
+    window.location.href = "/" + path;
   }
-
-  async function loadStatus() {
-    try {
-      const res = await fetch('/api/web/status');
-      if (!res.ok) return;
-      const data = await res.json().catch(() => ({}));
-      if (data && data.ok) {
-        if (data.store) {
-          storeNameEl.textContent = data.store + ' VPN Store';
-          navStoreNameEl.textContent = data.store + ' VPN';
-        }
-        statUsersEl.textContent = (data.totalUser || 0).toLocaleString('id-ID');
-        statServersEl.textContent = (data.totalServer || 0).toLocaleString('id-ID');
-        if (data.botLink) {
-          botLinkEl.textContent = data.botLink;
-          botLinkFooterEl.textContent = data.botLink;
-          const handle = data.botLink.replace('@', '');
-          const url = 'https://t.me/' + handle;
-          botLinkEl.href = url;
-          botLinkFooterEl.href = url;
-        }
-      }
-    } catch (e) {}
-  }
-  loadStatus();
-
-  // Protokol pills sinkron dengan select
-  protoPills.addEventListener('click', (e) => {
-    const pill = e.target.closest('.proto-pill');
-    if (!pill) return;
-    const paket = pill.getAttribute('data-paket');
-    if (!paket) return;
-    document.querySelectorAll('.proto-pill').forEach(p => p.classList.remove('active'));
-    pill.classList.add('active');
-    paketSelect.value = paket;
-  });
-
-  // Pricing cards set paket
-  function initPricingSelect() {
-    const formEl = document.getElementById('order-form');
-    document.querySelectorAll('[data-paket-card]').forEach(card => {
-      const paketName = card.getAttribute('data-paket-card');
-      const btn = card.querySelector('.price-btn');
-      if (!btn) return;
-      btn.addEventListener('click', () => {
-        paketSelect.value = paketName;
-        document.querySelectorAll('.proto-pill').forEach(p => {
-          if (p.getAttribute('data-paket') === paketName) p.classList.add('active');
-          else p.classList.remove('active');
-        });
-        formEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      });
-    });
-  }
-  initPricingSelect();
-
-  // Submit order
-  document.getElementById('order-form').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    alertSuccess.style.display = 'none';
-    alertError.style.display = 'none';
-
-    // **Nilai dummy/kosong untuk email dan password yang dihapus**
-    const email = "order@web.com"; // Ganti dengan placeholder/nilai yang sesuai untuk backend Anda
-    const password = "web-order"; // Ganti dengan placeholder/nilai yang sesuai untuk backend Anda
-    const paket = paketSelect.value;
-    const note = document.getElementById('note').value.trim();
-
-    // Check dihapus karena email/pass sudah di-hardcode
-    /*
-    if (!email || !password) {
-      showAlert('error', 'Email/kontak dan password wajib diisi.');
-      return;
-    }
-    */
-
-    submitBtn.disabled = true;
-    submitBtn.innerHTML = 'Mengirim order...';
-
-    try {
-      const res = await fetch('/api/web/order', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password, paket, note }) // Mengirim data ke backend
-      });
-
-      const data = await res.json().catch(() => ({}));
-
-      if (res.ok && data.ok) {
-        let msg = data.message || 'Order berhasil dikirim! Silakan cek Telegram untuk detail pembayaran dan akun.';
-
-        if (data.orderId) {
-          msg += ` ID Order: ${data.orderId}.`;
-        }
-
-        if (data.botLink) {
-          msg += ` <br>👉 <a href="${data.botLink}" target="_blank" rel="noopener noreferrer">Chat bot di sini.</a>`;
-        }
-
-        if (data.account) {
-          const a = data.account;
-          msg += '<br><br><b>Detail Akun:</b><br>';
-          if (a.username) msg += `User: <code>${a.username}</code><br>`;
-          if (a.password) msg += `Password: <code>${a.password}</code><br>`;
-          if (a.domain || a.ip) msg += `Host: <code>${a.domain || a.ip}</code><br>`;
-          if (a.expired) msg += `Exp: <code>${a.expired}</code><br>`;
-          if (a.vmess_tls_link || a.vless_tls_link || a.trojan_tls_link) {
-            const link = a.vmess_tls_link || a.vless_tls_link || a.trojan_tls_link;
-            msg += `<br><code>${link}</code>`;
-          }
-        }
-
-        showAlert('success', msg, true);
-        document.getElementById('order-form').reset();
-      } else {
-        showAlert('error', data.message || 'Gagal mengirim order, coba lagi.');
-      }
-    } catch (err) {
-      showAlert('error', 'Terjadi kesalahan koneksi, coba lagi.');
-    } finally {
-      submitBtn.disabled = false;
-      submitBtn.innerHTML = '<span>🛒 Kirim Order</span>';
-    }
-  });
-
-  // TRIAL buttons
-  document.querySelectorAll('.trial-btn').forEach(btn => {
-    btn.addEventListener('click', async () => {
-      const proto = btn.getAttribute('data-trial');
-      trialOutput.style.display = 'block';
-      trialOutput.textContent = `Membuat trial ${proto.toUpperCase()}...`;
-      try {
-        const res = await fetch(`/api/trial/${proto}`);
-        const data = await res.json().catch(() => ({}));
-        if (res.ok && data.status === 'success') {
-          trialOutput.textContent =
-`[${proto.toUpperCase()} TRIAL]
-
-${JSON.stringify(data.data, null, 2)}`;
-        } else {
-          trialOutput.textContent = `Gagal membuat trial ${proto.toUpperCase()}: ` + (data.error || 'unknown error');
-        }
-      } catch (e) {
-        trialOutput.textContent = `Error koneksi trial ${proto.toUpperCase()}.`;
-      }
-    });
-  });
 </script>
+
 </body>
 </html>
