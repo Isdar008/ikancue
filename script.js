@@ -6,7 +6,7 @@ const API_BASE = "/api/web"; // karena panel di domain yang sama
 // =====================================
 // HELPER
 // =====================================
-const fmtRupiah = n => "Rp " + Number(n || 0).toLocaleString("id-ID");
+const fmtRupiah = (n) => "Rp " + Number(n || 0).toLocaleString("id-ID");
 
 function lockButton(btn, locked) {
   if (!btn) return;
@@ -18,7 +18,7 @@ function lockButton(btn, locked) {
 // PAGE SWITCHER (WELCOME / LOGIN / DASHBOARD)
 // =====================================
 function showPage(id) {
-  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+  document.querySelectorAll(".page").forEach((p) => p.classList.remove("active"));
   document.getElementById(id).classList.add("active");
 }
 
@@ -27,23 +27,7 @@ function showPage(id) {
 // =====================================
 let cachedServers = [];
 
-// ----- Load Status Dari API -----
-async function loadStatusFromApi() {
-  try {
-    const res = await fetch(`${API_BASE}/status`);
-    const json = await res.json().catch(() => ({}));
-    if (!res.ok || !json.ok) return;
-
-    const d = json.data;
-    document.getElementById("statusSaldo").textContent = fmtRupiah(d.saldo);
-    document.getElementById("statusTotalAkun").textContent = d.totalAkun;
-    document.getElementById("statusLevel").textContent = (d.level || "member").toUpperCase();
-  } catch (e) {
-    console.warn("Gagal load status:", e);
-  }
-}
-
-// ----- Load Server Dari API -----
+// ----- Load Status Dari API (PER EMAIL) -----
 async function loadStatusFromApi() {
   try {
     const email = localStorage.getItem("xt_email") || "";
@@ -56,16 +40,33 @@ async function loadStatusFromApi() {
       return;
     }
 
-    const res = await fetch(`${API_BASE}/status?email=${encodeURIComponent(email)}`);
+    const res = await fetch(
+      `${API_BASE}/status?email=${encodeURIComponent(email)}`
+    );
     const json = await res.json().catch(() => ({}));
     if (!res.ok || !json.ok || !json.data) return;
 
     const d = json.data;
     document.getElementById("statusSaldo").textContent = fmtRupiah(d.saldo);
     document.getElementById("statusTotalAkun").textContent = d.totalAkun || 0;
-    document.getElementById("statusLevel").textContent = (d.level || 'member').toUpperCase();
+    document.getElementById("statusLevel").textContent = (d.level || "member").toUpperCase();
   } catch (e) {
     console.warn("Gagal load status:", e);
+  }
+}
+
+// ----- Load Server Dari API -----
+async function loadServersFromApi() {
+  try {
+    const res = await fetch(`${API_BASE}/servers`);
+    const json = await res.json().catch(() => ({}));
+    if (!res.ok || !json.ok) return;
+
+    cachedServers = json.data || [];
+    renderServers();
+    fillServerSelects();
+  } catch (e) {
+    console.warn("Gagal load servers:", e);
   }
 }
 
@@ -77,7 +78,7 @@ function renderServers() {
   }
 
   wrap.innerHTML = cachedServers
-    .map(s => {
+    .map((s) => {
       const statusClass = s.penuh ? "red" : "green";
       const statusText = s.penuh ? "Penuh" : "Tersedia";
 
@@ -109,7 +110,7 @@ function fillServerSelects() {
   }
 
   const html = cachedServers
-    .map(s => `<option value="${s.id}">${s.nama_server}</option>`)
+    .map((s) => `<option value="${s.id}">${s.nama_server}</option>`)
     .join("");
 
   selCreate.innerHTML = html;
@@ -141,7 +142,7 @@ document.getElementById("btnBack").onclick = () => showPage("welcome");
 document.getElementById("btnLogin").addEventListener("click", async (ev) => {
   const btn = ev.currentTarget;
   const email = document.getElementById("email").value.trim();
-  const pass  = document.getElementById("password").value.trim();
+  const pass = document.getElementById("password").value.trim();
 
   if (!email || !pass) {
     alert("Email & password tidak boleh kosong!");
@@ -154,7 +155,7 @@ document.getElementById("btnLogin").addEventListener("click", async (ev) => {
     const res = await fetch(`${API_BASE}/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password: pass })
+      body: JSON.stringify({ email, password: pass }),
     });
 
     const json = await res.json().catch(() => ({}));
@@ -169,9 +170,6 @@ document.getElementById("btnLogin").addEventListener("click", async (ev) => {
 
     if (json.data.isNew) {
       alert("Berhasil daftar & login dengan email baru.");
-    } else {
-      // login biasa
-      // (kalau mau tidak usah alert juga boleh)
     }
 
     loadDashboard();
@@ -192,11 +190,17 @@ document.getElementById("btnLogout").onclick = () => {
 // NAVIGATION (Overview/Server/Buat/Renew/Topup)
 // =====================================
 function openAppPage(name) {
-  document.querySelectorAll(".app-page").forEach(p => p.classList.remove("active"));
+  document
+    .querySelectorAll(".app-page")
+    .forEach((p) => p.classList.remove("active"));
   document.getElementById("app-" + name).classList.add("active");
 
-  document.querySelectorAll(".nav-btn").forEach(btn => btn.classList.remove("active"));
-  document.querySelector(`.nav-btn[data-target="${name}"]`).classList.add("active");
+  document
+    .querySelectorAll(".nav-btn")
+    .forEach((btn) => btn.classList.remove("active"));
+  document
+    .querySelector(`.nav-btn[data-target="${name}"]`)
+    .classList.add("active");
 
   // saat buka tab Topup → load history
   if (name === "topup") {
@@ -204,19 +208,20 @@ function openAppPage(name) {
   }
 }
 
-document.querySelectorAll(".nav-btn").forEach(btn => {
+document.querySelectorAll(".nav-btn").forEach((btn) => {
   btn.onclick = () => openAppPage(btn.dataset.target);
 });
 
 // =====================================
 // FORM: BUAT AKUN
 // =====================================
-document.getElementById("btnCreate").onclick = async ev => {
+document.getElementById("btnCreate").onclick = async (ev) => {
   const btn = ev.target;
   const type = document.getElementById("createType").value;
   const serverId = parseInt(document.getElementById("createServer").value);
   const username = document.getElementById("createUser").value.trim();
   const days = parseInt(document.getElementById("createDays").value);
+  const email = localStorage.getItem("xt_email") || "";
 
   if (!serverId || !username || !days)
     return alert("Lengkapi semua form!");
@@ -227,7 +232,7 @@ document.getElementById("btnCreate").onclick = async ev => {
     const res = await fetch(`${API_BASE}/create-account`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ type, serverId, username, days })
+      body: JSON.stringify({ email, type, serverId, username, days }),
     });
 
     const json = await res.json();
@@ -250,7 +255,7 @@ document.getElementById("btnCreate").onclick = async ev => {
 // =====================================
 // FORM: RENEW AKUN
 // =====================================
-document.getElementById("btnRenew").onclick = async ev => {
+document.getElementById("btnRenew").onclick = async (ev) => {
   const btn = ev.target;
   const type = document.getElementById("renewType").value;
   const serverId = parseInt(document.getElementById("renewServer").value);
@@ -266,7 +271,7 @@ document.getElementById("btnRenew").onclick = async ev => {
     const res = await fetch(`${API_BASE}/renew-account`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ type, serverId, username, days })
+      body: JSON.stringify({ type, serverId, username, days }),
     });
 
     const json = await res.json();
@@ -291,7 +296,7 @@ document.getElementById("btnRenew").onclick = async ev => {
 // =====================================
 
 // -- lakukan request topup
-document.getElementById("btnTopup").onclick = async ev => {
+document.getElementById("btnTopup").onclick = async (ev) => {
   const btn = ev.target;
   const amount = parseInt(document.getElementById("topupAmount").value);
   const email = localStorage.getItem("xt_email");
@@ -305,7 +310,7 @@ document.getElementById("btnTopup").onclick = async ev => {
     const res = await fetch(`${API_BASE}/topup`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, amount })
+      body: JSON.stringify({ email, amount }),
     });
 
     const json = await res.json();
@@ -356,7 +361,7 @@ async function loadTopupHistory() {
     }
 
     list.innerHTML = json.items
-      .map(item => {
+      .map((item) => {
         const waktu = item.created_at
           ? new Date(item.created_at).toLocaleString("id-ID")
           : "-";
