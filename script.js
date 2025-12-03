@@ -21,7 +21,25 @@ function showPage(id) {
   document.querySelectorAll(".page").forEach((p) => p.classList.remove("active"));
   document.getElementById(id).classList.add("active");
 }
+function showResetStep(step) {
+  const boxLogin = document.getElementById("loginBox");
+  const s1 = document.getElementById("resetStep1");
+  const s2 = document.getElementById("resetStep2");
 
+  if (step === 0) {
+    boxLogin.style.display = "block";
+    s1.style.display = "none";
+    s2.style.display = "none";
+  } else if (step === 1) {
+    boxLogin.style.display = "none";
+    s1.style.display = "block";
+    s2.style.display = "none";
+  } else if (step === 2) {
+    boxLogin.style.display = "none";
+    s1.style.display = "none";
+    s2.style.display = "block";
+  }
+}
 // =====================================
 // DASHBOARD DATA
 // =====================================
@@ -138,6 +156,17 @@ function loadDashboard() {
 
 document.getElementById("btnMulai").onclick = () => showPage("login");
 document.getElementById("btnBack").onclick = () => showPage("welcome");
+document.getElementById("btnForgot").onclick = () => {
+  const email = document.getElementById("email").value.trim();
+  const resetEmailInput = document.getElementById("resetEmail");
+  if (email && resetEmailInput) resetEmailInput.value = email;
+  showResetStep(1);
+};
+
+document.getElementById("btnResetBack1").onclick =
+document.getElementById("btnResetBack2").onclick = () => {
+  showResetStep(0);
+};
 
 document.getElementById("btnLogin").addEventListener("click", async (ev) => {
   const btn = ev.currentTarget;
