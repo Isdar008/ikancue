@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trial SSH - TunXtrimer</title>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: radial-gradient(circle at top, #111827, #0f172a);
+      font-family: system-ui, sans-serif;
+      color: #e5e7eb;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+    }
+
+    .box {
+      width: 100%;
+      max-width: 420px;
+      background: rgba(15,23,42,0.92);
+      padding: 22px;
+      border-radius: 18px;
+      border: 1px solid rgba(148,163,184,0.25);
+      backdrop-filter: blur(18px);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 14px;
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #6366f1, #22c55e);
+      border: none;
+      color: white;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.15s;
+    }
+
+    .btn:active {
+      transform: translateY(1px);
+      opacity: 0.85;
+    }
+
+    .result {
+      background: rgba(30,41,59,0.9);
+      border: 1px solid rgba(100,116,139,0.4);
+      padding: 12px;
+      border-radius: 12px;
+      margin-top: 16px;
+      font-size: 12px;
+      white-space: pre-wrap;
+    }
+
+    .back {
+      text-align: center;
+      margin-top: 14px;
+      font-size: 12px;
+    }
+
+    .back a {
+      color: #93c5fd;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+<div class="box">
+  <h2>Trial SSH</h2>
+  <button class="btn" id="go">⚡ Generate Trial SSH</button>
+
+  <div id="output" class="result" style="display:none;"></div>
+
+  <div class="back">
+    <a href="/">← Kembali ke menu</a>
+  </div>
+</div>
+
+<script>
+  document.getElementById("go").addEventListener("click", async () => {
+    const btn = document.getElementById("go");
+    const out = document.getElementById("output");
+
+    btn.disabled = true;
+    btn.innerHTML = "Loading...";
+
+    try {
+      const res = await fetch("/api/trial/ssh");
+      const data = await res.json();
+
+      out.style.display = "block";
+      out.textContent = JSON.stringify(data, null, 2);
+    } catch (err) {
+      out.style.display = "block";
+      out.textContent = "Terjadi kesalahan.";
+    }
+
+    btn.disabled = false;
+    btn.innerHTML = "⚡ Generate Trial SSH";
+  });
+</script>
+
+</body>
+</html>
