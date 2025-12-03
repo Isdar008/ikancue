@@ -153,3 +153,10 @@ input[type=email], input[type=password] {
     color: #1a73e8;
     text-decoration: none;
 }
+.card {
+    background: #fafafa;
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin: 10px 0;
+    border: 1px solid #eee;
+}
