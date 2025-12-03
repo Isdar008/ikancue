@@ -2,7 +2,7 @@
 
 export default async function handler(req, res) {
   try {
-    const backendRes = await fetch('https://tun.xtrimer.cloud/api/status');
+    const backendRes = await fetch('http://jeje.isdarprem.cloud/api/status');
     const data = await backendRes.json().catch(() => ({}));
     return res.status(backendRes.status).json(data);
   } catch (err) {
