@@ -127,16 +127,49 @@ function loadDashboard() {
 document.getElementById("btnMulai").onclick = () => showPage("login");
 document.getElementById("btnBack").onclick = () => showPage("welcome");
 
-document.getElementById("btnLogin").onclick = () => {
+document.getElementById("btnLogin").addEventListener("click", async (ev) => {
+  const btn = ev.currentTarget;
   const email = document.getElementById("email").value.trim();
-  const pass = document.getElementById("password").value.trim();
+  const pass  = document.getElementById("password").value.trim();
 
-  if (!email || !pass) return alert("Email & password tidak boleh kosong!");
+  if (!email || !pass) {
+    alert("Email & password tidak boleh kosong!");
+    return;
+  }
 
-  localStorage.setItem("xt_email", email);
-  localStorage.setItem("xt_pass", pass);
-  loadDashboard();
-};
+  lockButton(btn, true);
+
+  try {
+    const res = await fetch(`${API_BASE}/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password: pass })
+    });
+
+    const json = await res.json().catch(() => ({}));
+
+    if (!res.ok || !json.ok) {
+      throw new Error(json.error || "Gagal login.");
+    }
+
+    // simpan di browser
+    localStorage.setItem("xt_email", json.data.email);
+    localStorage.setItem("xt_pass", pass);
+
+    if (json.data.isNew) {
+      alert("Berhasil daftar & login dengan email baru.");
+    } else {
+      // login biasa
+      // (kalau mau tidak usah alert juga boleh)
+    }
+
+    loadDashboard();
+  } catch (e) {
+    alert(e.message || "Gagal login.");
+  } finally {
+    lockButton(btn, false);
+  }
+});
 
 document.getElementById("btnLogout").onclick = () => {
   localStorage.removeItem("xt_email");
