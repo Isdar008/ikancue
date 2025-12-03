@@ -34,14 +34,47 @@
   <!-- LOGIN PAGE -->
   <section id="login" class="page">
     <div class="container">
-      <h2>Login Bebas</h2>
-      <p class="muted">Email & password bebas, hanya disimpan di browser kamu.</p>
+      <h2>Login Panel</h2>
+      <p class="muted small">Gunakan email asli kamu. Satu email = satu akun panel.</p>
 
-      <input id="email" type="email" placeholder="Masukkan email">
-      <input id="password" type="password" placeholder="Masukkan password">
+      <!-- FORM LOGIN BIASA -->
+      <div id="loginBox">
+        <input id="email" type="email" placeholder="Masukkan email">
+        <input id="password" type="password" placeholder="Masukkan password">
 
-      <button id="btnLogin" class="btn primary full">Masuk</button>
-      <button id="btnBack" class="btn secondary full">Kembali</button>
+        <button id="btnLogin" class="btn primary full">Masuk</button>
+        <button id="btnBack" class="btn secondary full">Kembali</button>
+
+        <button id="btnForgot" class="btn secondary full" style="margin-top:8px;">
+          Lupa Password?
+        </button>
+      </div>
+
+      <!-- FORM RESET PASSWORD (LANGKAH 1: KIRIM KODE) -->
+      <div id="resetStep1" style="display:none; margin-top:18px;">
+        <h3 style="margin-bottom:8px;">Reset Password</h3>
+        <p class="muted small">
+          Masukkan email akun panel kamu. Kami akan mengirim kode verifikasi ke email tersebut.
+        </p>
+        <input id="resetEmail" type="email" placeholder="Email yang terdaftar">
+
+        <button id="btnSendReset" class="btn primary full">Kirim Kode ke Email</button>
+        <button id="btnResetBack1" class="btn secondary full">Kembali ke Login</button>
+      </div>
+
+      <!-- FORM RESET PASSWORD (LANGKAH 2: KODE + PASSWORD BARU) -->
+      <div id="resetStep2" style="display:none; margin-top:18px;">
+        <h3 style="margin-bottom:8px;">Masukkan Kode & Password Baru</h3>
+        <p class="muted small">
+          Cek email kamu, masukkan kode yang diterima lalu buat password baru.
+        </p>
+
+        <input id="resetCode" type="text" placeholder="Kode verifikasi (6 digit)">
+        <input id="resetNewPass" type="password" placeholder="Password baru">
+
+        <button id="btnDoReset" class="btn primary full">Reset Password</button>
+        <button id="btnResetBack2" class="btn secondary full">Kembali ke Login</button>
+      </div>
     </div>
   </section>
 
