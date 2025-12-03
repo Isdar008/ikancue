@@ -11,6 +11,7 @@
 <div class="container">
 
     <div class="logo">
+        <!-- ganti logo.png kalau beda -->
         <img src="logo.png" alt="logo">
     </div>
 
@@ -18,42 +19,48 @@
     <p class="subtitle">Masukkan email dan password untuk login</p>
 
     <div class="oauth">
-        <button class="btn google">Google</button>
-        <button class="btn facebook">Facebook</button>
-        <button class="btn github">Github</button>
+        <button type="button" class="btn google">Google</button>
+        <button type="button" class="btn facebook">Facebook</button>
+        <button type="button" class="btn github">Github</button>
     </div>
 
     <div class="divider">
         <span>ATAU</span>
     </div>
 
-    <form>
-        <label>Email</label>
-        <input type="email" placeholder="Masukkan email">
+    <!-- FORM LOGIN -->
+    <form id="loginForm">
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" placeholder="Masukkan email" required>
 
         <div class="password-row">
-            <label>Password</label>
+            <label for="password">Password</label>
             <a href="#" class="forgot">Lupa Password</a>
         </div>
 
         <div class="password-input">
-            <input type="password" placeholder="Masukkan password">
-            <span class="eye">👁️</span>
+            <input id="password" name="password" type="password" placeholder="Masukkan password" required>
+            <span id="togglePassword" class="eye">👁️</span>
         </div>
 
         <div class="remember">
-            <input type="checkbox" id="remember">
-            <label for="remember">Ingat Saya</label>
+            <input type="checkbox" id="rememberMe">
+            <label for="rememberMe">Ingat Saya</label>
         </div>
 
-        <button class="btn-login">Masuk</button>
+        <button type="submit" class="btn-login" id="btnLogin">Masuk</button>
     </form>
 
     <p class="bottom-text">
         Belum punya akun? <a href="#">Daftar</a>
     </p>
 
+    <!-- tempat pesan -->
+    <p id="message" style="text-align:center; margin-top:10px; font-size:14px;"></p>
+
 </div>
 
+<!-- JS -->
+<script src="login.js"></script>
 </body>
 </html>
