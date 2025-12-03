@@ -1,7 +1,0 @@
-{
-  "version": 2,
-  "routes": [
-    { "src": "/api/web/order", "dest": "/api/web/order.js" },
-    { "src": "/(.*)", "dest": "/index.html" }
-  ]
-}
