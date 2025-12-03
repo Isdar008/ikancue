@@ -220,11 +220,18 @@ document.getElementById("btnCreate").onclick = async (ev) => {
   const type = document.getElementById("createType").value;
   const serverId = parseInt(document.getElementById("createServer").value);
   const username = document.getElementById("createUser").value.trim();
+  const password = document.getElementById("createPass").value.trim();
   const days = parseInt(document.getElementById("createDays").value);
   const email = localStorage.getItem("xt_email") || "";
 
-  if (!serverId || !username || !days)
+  if (!serverId || !username || !days) {
     return alert("Lengkapi semua form!");
+  }
+
+  // 🔐 Kalau SSH, password wajib diisi
+  if (type === "ssh" && !password) {
+    return alert("Password SSH wajib diisi untuk akun SSH.");
+  }
 
   lockButton(btn, true);
 
@@ -232,7 +239,7 @@ document.getElementById("btnCreate").onclick = async (ev) => {
     const res = await fetch(`${API_BASE}/create-account`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, type, serverId, username, days }),
+      body: JSON.stringify({ email, type, serverId, username, days, password }),
     });
 
     const json = await res.json();
