@@ -176,11 +176,11 @@
               <p>Password: <span id="infoPass"></span></p>
             </div>
             <div class="card">
-              <h3>Status Akun (Dummy)</h3>
-              <p>Saldo: <strong>Rp 0</strong></p>
-              <p>Total Akun Dibuat: <strong>0</strong></p>
-              <p>Level: <strong>Member</strong></p>
-              <p class="muted small">Nanti bisa diisi dari API app.js.</p>
+              <h3>Status Akun</h3>
+              <p>Saldo: <strong id="statusSaldo">Rp 0</strong></p>
+              <p>Total Akun Dibuat: <strong id="statusTotalAkun">0</strong></p>
+              <p>Level: <strong id="statusLevel">Member</strong></p>
+              <p class="muted small">Data diambil dari API backend.</p>
             </div>
           </div>
         </div>
@@ -188,14 +188,14 @@
         <!-- SERVER LIST -->
         <div id="app-servers" class="app-page">
           <h3>Daftar Server</h3>
-          <p class="muted small">Masih dummy. Nanti diganti ambil dari database Server.</p>
+          <p class="muted small">Data diambil dari tabel <code>Server</code> di backend.</p>
           <div id="serverList" class="server-list"></div>
         </div>
 
         <!-- BUAT AKUN -->
         <div id="app-create" class="app-page">
           <h3>Buat Akun VPN</h3>
-          <p class="muted small">Saat ini cuma simulasi. Nanti tombol akan tembak ke API create akun.</p>
+          <p class="muted small">Tombol ini akan menembak endpoint API create akun.</p>
 
           <div class="card">
             <label>Jenis Akun</label>
@@ -207,11 +207,7 @@
             </select>
 
             <label>Server</label>
-            <select id="createServer">
-              <option value="sg-1">SG 1</option>
-              <option value="sg-2">SG 2</option>
-              <option value="id-1">ID 1</option>
-            </select>
+            <select id="createServer"></select>
 
             <label>Username Akun</label>
             <input id="createUser" type="text" placeholder="misal: uservpn123">
@@ -219,14 +215,14 @@
             <label>Masa Aktif (hari)</label>
             <input id="createDays" type="number" min="1" value="30">
 
-            <button class="btn primary full" id="btnCreate">Buat Akun (Simulasi)</button>
+            <button class="btn primary full" id="btnCreate">Buat Akun</button>
           </div>
         </div>
 
         <!-- RENEW AKUN -->
         <div id="app-renew" class="app-page">
           <h3>Perpanjang Akun</h3>
-          <p class="muted small">Nanti akan disambung ke endpoint renew di backend.</p>
+          <p class="muted small">Terhubung ke endpoint renew backend.</p>
 
           <div class="card">
             <label>Jenis Akun</label>
@@ -237,26 +233,29 @@
               <option value="trojan">TROJAN</option>
             </select>
 
+            <label>Server</label>
+            <select id="renewServer"></select>
+
             <label>Username Akun</label>
             <input id="renewUser" type="text" placeholder="username yang mau diperpanjang">
 
             <label>Tambahan Hari</label>
             <input id="renewDays" type="number" min="1" value="30">
 
-            <button class="btn primary full" id="btnRenew">Perpanjang (Simulasi)</button>
+            <button class="btn primary full" id="btnRenew">Perpanjang</button>
           </div>
         </div>
 
         <!-- TOPUP -->
         <div id="app-topup" class="app-page">
           <h3>Topup Saldo</h3>
-          <p class="muted small">Bisa dihubungkan ke sistem QRIS / Pakasir yang sudah ada.</p>
+          <p class="muted small">Terhubung ke sistem QRIS / Pakasir di backend.</p>
 
           <div class="card">
             <label>Nominal Topup (Rp)</label>
             <input id="topupAmount" type="number" min="1000" step="1000" value="10000">
 
-            <button class="btn primary full" id="btnTopup">Buat Request Topup (Simulasi)</button>
+            <button class="btn primary full" id="btnTopup">Buat Request Topup</button>
           </div>
 
           <div class="card">
@@ -280,6 +279,86 @@
       document.getElementById(id).classList.add('active');
     }
 
+    let cachedServers = [];
+
+    // ===== API: STATUS USER =====
+    async function loadStatusFromApi() {
+      try {
+        const res = await fetch('/api/web/status');
+        const json = await res.json();
+        if (!res.ok || !json.ok) return;
+
+        const d = json.data;
+        document.getElementById('statusSaldo').innerText =
+          'Rp ' + (d.saldo || 0).toLocaleString('id-ID');
+        document.getElementById('statusTotalAkun').innerText = d.totalAkun || 0;
+        document.getElementById('statusLevel').innerText =
+          (d.level || 'member').toUpperCase();
+      } catch (e) {
+        console.warn('gagal load status web:', e);
+      }
+    }
+
+    // ===== API: SERVER LIST =====
+    async function loadServersFromApi() {
+      try {
+        const res = await fetch('/api/web/servers');
+        const json = await res.json();
+        if (!res.ok || !json.ok) return;
+
+        cachedServers = json.data || [];
+        renderServers();
+        fillServerSelects();
+      } catch (e) {
+        console.warn('gagal load server web:', e);
+      }
+    }
+
+    function renderServers() {
+      const wrap = document.getElementById('serverList');
+      if (!wrap) return;
+
+      if (!cachedServers.length) {
+        wrap.innerHTML = '<p class="muted small">Belum ada server di database.</p>';
+        return;
+      }
+
+      wrap.innerHTML = cachedServers.map(s => {
+        const harga30 = (s.harga || 0) * 30;
+        const statusClass = s.penuh ? 'red' : 'green';
+        const statusText  = s.penuh ? 'Penuh' : 'Tersedia';
+
+        return `
+          <div class="server-card">
+            <div class="server-name">${s.nama_server}</div>
+            <div class="server-meta">
+              ${s.lokasi || '-'} • ${s.isp || '-'}
+            </div>
+            <div class="server-meta">
+              Harga/hari: Rp ${(s.harga || 0).toLocaleString('id-ID')}<br>
+              Kuota/hari: ${s.quota || '-'} GB<br>
+              IP Max: ${s.iplimit || '-'}<br>
+              Akun: ${(s.total_create_akun || 0)}/${(s.batas_create_akun || 0)}
+            </div>
+            <span class="badge ${statusClass}">${statusText}</span>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function fillServerSelects() {
+      const selCreate = document.getElementById('createServer');
+      const selRenew  = document.getElementById('renewServer');
+      if (!selCreate || !selRenew) return;
+
+      const optionsHtml = cachedServers.map(s =>
+        `<option value="${s.id}">${s.nama_server}</option>`
+      ).join('');
+
+      selCreate.innerHTML = optionsHtml || '<option value="">(Belum ada server)</option>';
+      selRenew.innerHTML  = optionsHtml || '<option value="">(Belum ada server)</option>';
+    }
+
     // ===== LOGIN & DASHBOARD =====
     function loadDashboard() {
       const email = localStorage.getItem("xt_email");
@@ -294,7 +373,10 @@
 
       showPage('dashboard');
       openAppPage('overview');
-      renderDummyServers();
+
+      // load data dari backend
+      loadStatusFromApi();
+      loadServersFromApi();
     }
 
     document.getElementById('btnMulai').addEventListener('click', () => {
@@ -342,78 +424,118 @@
       });
     });
 
-    // ===== DUMMY SERVER LIST =====
-    const dummyServers = [
-      { name:'SG-1 Premium', location:'Singapore', isp:'DigitalOcean', status:'online',  note:'Ping rendah, cocok gaming.' },
-      { name:'SG-2 Premium', location:'Singapore', isp:'Vultr',        status:'online',  note:'Koneksi stabil harian.' },
-      { name:'ID-1 Route',   location:'Indonesia', isp:'Biznet',       status:'online',  note:'Cocok streaming lokal.' },
-      { name:'US-1',         location:'United States', isp:'OVH',      status:'offline', note:'Sedang maintenance.' }
-    ];
+    // ===== FORM BUAT AKUN (CALL API) =====
+    document.getElementById('btnCreate').addEventListener('click', async () => {
+      const type     = document.getElementById('createType').value;
+      const serverId = parseInt(document.getElementById('createServer').value, 10);
+      const user     = document.getElementById('createUser').value.trim();
+      const days     = parseInt(document.getElementById('createDays').value, 10);
 
-    function renderDummyServers() {
-      const wrap = document.getElementById('serverList');
-      if (!wrap) return;
-      wrap.innerHTML = dummyServers.map(s => {
-        const statusClass = s.status === 'online' ? 'green' : 'red';
-        const statusText  = s.status === 'online' ? 'Online' : 'Offline';
-        return `
-          <div class="server-card">
-            <div class="server-name">${s.name}</div>
-            <div class="server-meta">${s.location} • ${s.isp}</div>
-            <span class="badge ${statusClass}">${statusText}</span>
-            <p class="muted small" style="margin-top:8px;">${s.note}</p>
-          </div>
-        `;
-      }).join('');
-    }
-
-    // ===== FORM SIMULASI BUAT AKUN =====
-    document.getElementById('btnCreate').addEventListener('click', () => {
-      const type   = document.getElementById('createType').value;
-      const server = document.getElementById('createServer').value;
-      const user   = document.getElementById('createUser').value.trim();
-      const days   = parseInt(document.getElementById('createDays').value, 10);
-
+      if (!serverId) {
+        alert('Pilih server dulu.');
+        return;
+      }
       if (!user || !days) {
         alert('Username & hari tidak boleh kosong!');
         return;
       }
 
-      alert(
-        `Simulasi: Buat akun ${type.toUpperCase()} di server ${server}\n`+
-        `User: ${user}\nHari: ${days}\n\nNanti tombol ini tinggal diarahkan ke endpoint API.`
-      );
+      try {
+        const res = await fetch('/api/web/create-account', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ type, serverId, username: user, days })
+        });
+        const json = await res.json();
+        if (!res.ok || !json.ok) {
+          throw new Error(json.error || 'Gagal membuat akun.');
+        }
+
+        alert(
+          '✅ Akun berhasil dibuat.\n\n' +
+          'Server: ' + json.data.serverName + '\n' +
+          'Total Bayar: Rp ' + json.data.totalHarga.toLocaleString('id-ID') +
+          '\n\nDetail akun:\n\n' + json.data.message
+        );
+
+        loadStatusFromApi();
+      } catch (e) {
+        alert('❌ Gagal buat akun: ' + e.message);
+      }
     });
 
-    // ===== FORM SIMULASI RENEW =====
-    document.getElementById('btnRenew').addEventListener('click', () => {
-      const type = document.getElementById('renewType').value;
-      const user = document.getElementById('renewUser').value.trim();
-      const days = parseInt(document.getElementById('renewDays').value, 10);
+    // ===== FORM RENEW (CALL API) =====
+    document.getElementById('btnRenew').addEventListener('click', async () => {
+      const type     = document.getElementById('renewType').value;
+      const serverId = parseInt(document.getElementById('renewServer').value, 10);
+      const user     = document.getElementById('renewUser').value.trim();
+      const days     = parseInt(document.getElementById('renewDays').value, 10);
 
+      if (!serverId) {
+        alert('Pilih server dulu.');
+        return;
+      }
       if (!user || !days) {
         alert('Username & hari tidak boleh kosong!');
         return;
       }
 
-      alert(
-        `Simulasi: Perpanjang akun ${type.toUpperCase()}\n`+
-        `User: ${user}\nTambah hari: ${days}\n\nNanti bisa diarahkan ke endpoint renew.`
-      );
+      try {
+        const res = await fetch('/api/web/renew-account', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ type, serverId, username: user, days })
+        });
+        const json = await res.json();
+        if (!res.ok || !json.ok) {
+          throw new Error(json.error || 'Gagal perpanjang akun.');
+        }
+
+        alert(
+          '✅ Akun berhasil diperpanjang.\n\n' +
+          'Server: ' + json.data.serverName + '\n' +
+          'Total Bayar: Rp ' + json.data.totalHarga.toLocaleString('id-ID') +
+          '\n\nDetail:\n\n' + json.data.message
+        );
+
+        loadStatusFromApi();
+      } catch (e) {
+        alert('❌ Gagal perpanjang: ' + e.message);
+      }
     });
 
-    // ===== FORM SIMULASI TOPUP =====
-    document.getElementById('btnTopup').addEventListener('click', () => {
+    // ===== FORM TOPUP (CALL API + BUKA PAYMENT URL) =====
+    document.getElementById('btnTopup').addEventListener('click', async () => {
       const amount = parseInt(document.getElementById('topupAmount').value, 10);
       if (!amount || amount < 1000) {
         alert('Nominal minimal 1.000');
         return;
       }
-      const email = localStorage.getItem('xt_email') || '-';
-      alert(
-        `Simulasi: Request topup Rp ${amount.toLocaleString('id-ID')} untuk ${email}.\n`+
-        `Nanti disambungkan ke API topup / QRIS backend.`
-      );
+
+      try {
+        const res = await fetch('/api/web/topup', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ amount })
+        });
+        const json = await res.json();
+        if (!res.ok || !json.ok) {
+          throw new Error(json.error || 'Gagal membuat invoice.');
+        }
+
+        alert(
+          '✅ Invoice dibuat!\n\n' +
+          'Order ID: ' + json.data.orderId + '\n' +
+          'Nominal: Rp ' + json.data.amount.toLocaleString('id-ID') +
+          '\n\nSetelah klik OK, halaman pembayaran akan dibuka.'
+        );
+
+        if (json.data.paymentUrl) {
+          window.open(json.data.paymentUrl, '_blank');
+        }
+      } catch (e) {
+        alert('❌ Gagal topup: ' + e.message);
+      }
     });
 
     // auto cek login saat pertama kali buka
