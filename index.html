@@ -2,121 +2,115 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GabutStore VPN Tunnels</title>
-
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
+  <title>Top Up Saldo VPN</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    * { box-sizing: border-box; font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif; }
+    body { margin: 0; background: #050816; color: #e5e7eb; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 16px; }
+    .card {
+      background: radial-gradient(circle at top left, #22c55e22, transparent 60%),
+                  radial-gradient(circle at bottom right, #3b82f622, transparent 60%),
+                  #020617;
+      border-radius: 18px;
+      padding: 20px 22px;
+      max-width: 420px;
+      width: 100%;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.65);
+      border: 1px solid #1f2933;
+    }
+    h1 { margin: 0 0 8px; font-size: 22px; color: #f9fafb; }
+    p.subtitle { margin: 0 0 18px; color: #9ca3af; font-size: 13px; }
+    label { display: block; margin-bottom: 4px; font-size: 13px; color: #d1d5db; }
+    input, select {
+      width: 100%; padding: 9px 11px; border-radius: 10px; border: 1px solid #4b5563;
+      background: #020617; color: #e5e7eb; font-size: 14px; outline: none;
+    }
+    input:focus, select:focus { border-color: #22c55e; box-shadow: 0 0 0 1px #22c55e55; }
+    .field { margin-bottom: 14px; }
+    button {
+      width: 100%; padding: 10px 14px; border-radius: 10px; border: none;
+      font-weight: 600; font-size: 14px; cursor: pointer;
+      background: linear-gradient(135deg,#22c55e,#16a34a);
+      color: #020617; box-shadow: 0 12px 25px rgba(22,163,74,0.45);
+      transition: transform .08s ease, box-shadow .08s ease, filter .08s ease;
+    }
+    button:active { transform: translateY(1px); box-shadow: 0 6px 15px rgba(22,163,74,0.5); filter: brightness(0.96); }
+    .hint { font-size: 11px; color: #9ca3af; margin-top: 4px; }
+    .status { margin-top: 10px; font-size: 13px; min-height: 18px; }
+    .status.error { color: #fca5a5; }
+    .status.success { color: #6ee7b7; }
+    .badge { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; padding: 3px 7px; border-radius: 999px; background: #064e3b; color: #6ee7b7; margin-bottom: 10px; }
+  </style>
 </head>
 <body>
+  <div class="card">
+    <div class="badge">● Otomatis lewat Pakasir</div>
+    <h1>Top Up Saldo VPN</h1>
+    <p class="subtitle">Masukkan <b>User ID Telegram</b> dan nominal top up kamu. Setelah bayar, saldo akan masuk otomatis ke bot.</p>
 
-  <!-- NAVBAR -->
-  <header class="navbar">
-    <div class="container nav-inner">
-      <a href="index.html" class="brand-logo">
-        GabutStore VPN Tunnels
-      </a>
-
-      <nav class="main-nav" id="mainNav">
-        <ul>
-          <li><a href="index.html" class="active">Beranda</a></li>
-          <li><a href="pricing.html">💰 Paket</a></li>
-          <li><a href="order.html">🧾 Buat Akun</a></li>
-          <li><a href="guide.html">⚙️ Cara Penggunaan</a></li>
-          <li><a href="contact.html">📞 Support</a></li>
-        </ul>
-      </nav>
-
-      <div class="nav-actions">
-        <a href="order.html" class="btn btn-primary">Buat Akun</a>
-        <a href="pricing.html" class="btn btn-secondary">Lihat Paket</a>
+    <form id="topup-form">
+      <div class="field">
+        <label for="user_id">User ID Telegram</label>
+        <input id="user_id" name="user_id" type="number" placeholder="Contoh: 123456789" required />
+        <div class="hint">Buka chat dengan bot → /start → lihat ID di profil / menu bot.</div>
       </div>
 
-      <button class="menu-toggle" id="menuToggle">☰</button>
-    </div>
-  </header>
-
-  <!-- HERO -->
-  <main class="hero-section">
-    <div class="container hero-inner">
-      <h1>
-        Tunneling Cepat & Stabil  
-        <span class="text-gradient">Untuk Kebutuhan Harianmu</span>
-      </h1>
-
-      <p>
-        VMESS • VLESS • TROJAN • SSH  
-        Satu panel, satu alur, bayar pakai QRIS.
-      </p>
-
-      <div class="hero-actions">
-        <a href="order.html" class="btn btn-primary btn-large">
-          🚀 Buat Akun Sekarang
-        </a>
-        <a href="pricing.html" class="btn btn-ghost btn-large">
-          💰 Cek Harga
-        </a>
+      <div class="field">
+        <label for="amount">Nominal Top Up (Rp)</label>
+        <input id="amount" name="amount" type="number" min="2000" step="1000" placeholder="Contoh: 10000" required />
+        <div class="hint">Minimal mengikuti pengaturan di bot (mis. 2.000 atau 5.000).</div>
       </div>
 
-      <!-- highlight singkat -->
-      <div style="margin-top:18px;font-size:0.8rem;color:#9ca3af;display:flex;flex-wrap:wrap;gap:10px;">
-        <span>✅ Auto create akun</span>
-        <span>•</span>
-        <span>✅ Bayar QRIS</span>
-        <span>•</span>
-        <span>✅ Trial 60 menit</span>
-      </div>
-    </div>
-  </main>
+      <button type="submit">Buat Link Pembayaran</button>
+      <div id="status" class="status"></div>
+    </form>
+  </div>
 
-  <!-- SECTION FITUR RINGKAS -->
-  <section style="padding:26px 0 32px;">
-    <div class="container">
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;">
-        
-        <div class="card-order" style="padding:14px;border-radius:14px;">
-          <h3 style="margin:0 0 6px;font-size:0.95rem;">⚡ Simple</h3>
-          <p class="note" style="margin:0;">
-            Tinggal pilih server, pilih durasi, bayar, akun langsung jadi.
-          </p>
-        </div>
+  <script>
+    const form = document.getElementById('topup-form');
+    const statusEl = document.getElementById('status');
 
-        <div class="card-order" style="padding:14px;border-radius:14px;">
-          <h3 style="margin:0 0 6px;font-size:0.95rem;">🛡️ Aman</h3>
-          <p class="note" style="margin:0;">
-            Login pakai protokol modern dengan enkripsi penuh.
-          </p>
-        </div>
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      statusEl.textContent = 'Membuat transaksi...';
+      statusEl.className = 'status';
 
-        <div class="card-order" style="padding:14px;border-radius:14px;">
-          <h3 style="margin:0 0 6px;font-size:0.95rem;">💸 Terjangkau</h3>
-          <p class="note" style="margin:0;">
-            Mulai 5k, cocok dipakai harian ataupun bulanan.
-          </p>
-        </div>
+      const user_id = document.getElementById('user_id').value.trim();
+      const amount = document.getElementById('amount').value.trim();
 
-      </div>
-    </div>
-  </section>
+      if (!user_id || !amount) {
+        statusEl.textContent = 'User ID dan nominal wajib diisi.';
+        statusEl.className = 'status error';
+        return;
+      }
 
-  <!-- CTA BAWAH -->
-  <section style="padding:0 0 28px;">
-    <div class="container" style="text-align:center;">
-      <p style="margin:0 0 10px;font-size:0.9rem;color:#9ca3af;">
-        Siap dipakai kapan saja, tanpa ribet chat admin.
-      </p>
-      <a href="order.html" class="btn btn-primary btn-large">
-        Mulai dari Trial Gratis
-      </a>
-    </div>
-  </section>
+      try {
+        const resp = await fetch('/api/web/topup/pakasir', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ user_id, amount })
+        });
 
-  <footer>
-    <div class="container">
-      <p>&copy; 2025 GabutStore VPN Tunnels. All rights reserved.</p>
-    </div>
-  </footer>
+        const data = await resp.json();
 
-  <script src="script.js"></script>
+        if (!data.success) {
+          statusEl.textContent = data.message || 'Gagal membuat transaksi top up.';
+          statusEl.className = 'status error';
+          return;
+        }
+
+        statusEl.textContent = 'Mengalihkan ke halaman pembayaran...';
+        statusEl.className = 'status success';
+
+        // Redirect ke halaman pembayaran Pakasir
+        window.location.href = data.paymentUrl;
+
+      } catch (err) {
+        console.error(err);
+        statusEl.textContent = 'Terjadi kesalahan jaringan. Silakan coba lagi.';
+        statusEl.className = 'status error';
+      }
+    });
+  </script>
 </body>
 </html>
