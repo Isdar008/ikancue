@@ -143,43 +143,23 @@
         </div>
 
         <!-- TOPUP -->
-        <div id="app-topup" class="app-page">
-          <h3>Topup Saldo</h3>
-          <p class="muted small">Terhubung ke sistem QRIS / Pakasir di backend.</p>
+<div id="app-topup" class="app-page">
+  <h3>Topup Saldo</h3>
+  <p class="muted small">Bisa dihubungkan ke sistem QRIS / Pakasir yang sudah ada.</p>
 
-          <!-- FORM TOPUP -->
-          <div class="card">
-            <label>Nominal Topup (Rp)</label>
-            <input id="topupAmount" type="number" min="1000" step="1000" value="10000">
+  <div class="card">
+    <label>Nominal Topup (Rp)</label>
+    <input id="topupAmount" type="number" min="1000" step="1000" value="10000">
 
-            <button class="btn primary full" id="btnTopup">Buat Request Topup</button>
-          </div>
+    <button class="btn primary full" id="btnTopup">Buat Request Topup</button>
+  </div>
 
-          <!-- INVOICE TERAKHIR (DINAMIS) -->
-          <div class="card" id="lastInvoiceCard" style="display:none;">
-            <h4>Invoice Terakhir</h4>
-            <p>ID Order: <strong id="invId">-</strong></p>
-            <p>Nominal: <strong id="invAmount">-</strong></p>
-            <p>Status: <strong id="invStatus">Menunggu pembayaran</strong></p>
-            <p class="muted small">Scan QR / bayar lewat link di bawah. Setelah sukses, saldo akan otomatis masuk.</p>
-
-            <button class="btn secondary full" id="btnOpenPayment" style="display:none; margin-top:8px;">
-              Buka Halaman Pembayaran
-            </button>
-          </div>
-
-          <!-- RIWAYAT (MASIH DUMMY) -->
-          <div class="card">
-            <h4>Riwayat Topup (Dummy)</h4>
-            <ul class="dummy-list">
-              <li>#INV-001 • Rp 10.000 • Pending</li>
-              <li>#INV-000 • Rp 25.000 • Sukses</li>
-            </ul>
-            <p class="muted small">
-              Nanti bisa diisi dari tabel <code>topup_log</code> supaya histori real muncul di sini.
-            </p>
-          </div>
-        </div>
+  <div class="card">
+    <h4>Riwayat Topup</h4>
+    <ul id="topupHistory" class="dummy-list"></ul>
+    <p id="topupHistoryEmpty" class="muted small">Belum ada riwayat topup.</p>
+  </div>
+</div>
 
       </main>
     </div>
@@ -187,4 +167,4 @@
 
   <script src="/script.js"></script>
 </body>
-</html>
+  </html>
