@@ -629,14 +629,14 @@
             </ul>
           </div>
           <div class="card-footer">
-            <div class="price">Gratis<span>* via bot</span></div>
+            <div class="price">Gratis<span>* via web</span></div>
             <a
-  href="#"
-  class="btn-small"
-  onclick="beliPaketWeb('trial_ssh'); return false;"
->
-  🎟 Ambil trial di web
-</a>
+              href="#"
+              class="btn-small"
+              onclick="beliPaketWeb('trial_ssh'); return false;"
+            >
+              🎟 Ambil trial di web
+            </a>
           </div>
         </article>
 
@@ -657,15 +657,15 @@
           </div>
           <div class="card-footer">
             <div class="price">
-              Mulai <span>cek harga di bot</span>
+              Mulai <span>cek harga di bot / web</span>
             </div>
             <a
-  href="#"
-  class="btn-small"
-  onclick="beliPaketWeb('ssh_30'); return false;"
->
-  💳 Beli langsung di web
-</a>
+              href="#"
+              class="btn-small"
+              onclick="beliPaketWeb('ssh_30'); return false;"
+            >
+              💳 Beli langsung di web
+            </a>
           </div>
         </article>
       </div>
@@ -685,6 +685,22 @@
       </div>
     </div>
 
+    <!-- SECTION SERVER -->
+    <section class="section" id="server">
+      <div class="section-title-row">
+        <div>
+          <h2 class="section-title">Daftar server premium</h2>
+          <p class="section-subtitle">
+            Server yang tersedia di RM Premium. Detail login & akun tetap dikirim via bot.
+          </p>
+        </div>
+      </div>
+
+      <div class="cards" id="server-list">
+        <!-- diisi via JavaScript -->
+      </div>
+    </section>
+
     <!-- FOOTER -->
     <footer>
       <span>© <span class="js-store-name">RM Premium</span>. All rights reserved.</span>
@@ -692,14 +708,18 @@
     </footer>
   </div>
 
-  <!-- SCRIPT: tarik data dari /api/status -->
+  <!-- SCRIPT: tarik data dari API -->
   <script>
+    // GANTI ini dengan domain backend VPS lo
+    const BACKEND_BASE = "https://YOUR_VPS_DOMAIN_HERE";
+
     async function fetchStatus() {
       const statusTextSub = document.getElementById("status-text-sub");
       const statusDot = document.getElementById("status-dot");
       const pillMain = document.getElementById("status-pill-main");
 
       try {
+        // ini ke Vercel /api/status (yang udah jalan)
         const res = await fetch("/api/status", {
           headers: { "Accept": "application/json" },
         });
@@ -714,7 +734,6 @@
         const totalServers = data.servers ?? 0;
         const storeName = data.storeName || "RM Premium";
 
-        // Update text di semua elemen yang pakai class js-*
         document
           .querySelectorAll(".js-store-name")
           .forEach((el) => (el.textContent = storeName));
@@ -737,7 +756,103 @@
       }
     }
 
-    document.addEventListener("DOMContentLoaded", fetchStatus);
+    async function loadServers() {
+      const container = document.getElementById("server-list");
+      if (!container) return;
+
+      try {
+        const res = await fetch(BACKEND_BASE + "/api/web/servers", {
+          headers: { "Accept": "application/json" },
+        });
+
+        const data = await res.json();
+
+        if (!res.ok || !data.success) {
+          throw new Error(data.message || "Error");
+        }
+
+        const servers = data.servers || [];
+        if (!servers.length) {
+          container.innerHTML =
+            '<p class="section-subtitle">Belum ada server yang ditampilkan.</p>';
+          return;
+        }
+
+        container.innerHTML = servers
+          .map((s) => {
+            const harga = s.harga
+              ? "Rp " + Number(s.harga).toLocaleString("id-ID")
+              : "-";
+            return `
+              <article class="card">
+                <div class="card-header">
+                  <h3 class="card-title">${s.nama_server || "Server"}</h3>
+                  <span class="card-chip">${s.lokasi || ""} · ${s.isp || ""}</span>
+                </div>
+                <div class="card-body">
+                  <p>Domain / IP: <strong>${s.domain || "-"}</strong></p>
+                  <ul>
+                    <li>• Lokasi: ${s.lokasi || "-"}</li>
+                    <li>• ISP: ${s.isp || "-"}</li>
+                  </ul>
+                </div>
+                <div class="card-footer">
+                  <div class="price">
+                    ${harga}<span>/ estimasi</span>
+                  </div>
+                  <a
+                    href="https://t.me/YOUR_BOT_USERNAME_HERE"
+                    target="_blank"
+                    rel="noopener"
+                    class="btn-small"
+                  >
+                    🔐 Beli via bot
+                  </a>
+                </div>
+              </article>
+            `;
+          })
+          .join("");
+      } catch (err) {
+        console.error("Gagal load servers:", err);
+        container.innerHTML =
+          '<p class="section-subtitle">Gagal memuat daftar server. Coba reload halaman.</p>';
+      }
+    }
+
+    async function beliPaketWeb(productId) {
+      const email = prompt("Masukkan email kamu (untuk kirim info pesanan):");
+      if (!email) return;
+
+      try {
+        const res = await fetch(BACKEND_BASE + "/api/web/order/create", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+          },
+          body: JSON.stringify({ productId, email }),
+        });
+
+        const data = await res.json();
+
+        if (!res.ok || !data.success) {
+          alert(data.message || "Gagal membuat pesanan.");
+          return;
+        }
+
+        // redirect ke halaman pembayaran
+        window.location.href = data.paymentUrl;
+      } catch (err) {
+        console.error("Gagal create order:", err);
+        alert("Terjadi kesalahan. Silakan coba lagi.");
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      fetchStatus();
+      loadServers();
+    });
   </script>
 </body>
 </html>
