@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>⚡ TunXtrimer VPN Panel</title>
+  <title>⚡ Xtrimer Tunneling</title>
 
   <style>
     /* Global Reset & Background */
@@ -100,6 +100,33 @@
         opacity: 0.9;
     }
 
+/* CSS Baru untuk Ringkasan Harga di Bagian Atas */
+.plan-summary-price {
+    text-align: center;
+    font-size: 12px;
+    font-weight: 600;
+    color: #fca5a5; /* Warna pink/merah muda untuk menonjolkan harga */
+    padding: 8px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    background: rgba(99, 102, 241, 0.1); /* Background samar */
+    border: 1px dashed rgba(99, 102, 241, 0.3);
+}
+
+/* Modifikasi pada Plan Row agar tidak ada space kosong di kanan */
+.plan-row {
+    display: flex;
+    justify-content: flex-start; /* Hanya dari kiri ke kanan */
+    align-items: flex-start;
+    padding: 8px 0;
+    border-bottom: 1px dashed #374151;
+}
+
+/* Plan Info memenuhi ruang yang tersedia */
+.plan-info {
+    flex-grow: 1;
+    padding-right: 0; /* Hapus padding kanan yang tidak diperlukan lagi */
+}
 
     /* ===== INFO PREMIUM ACCOUNT ===== */
     .section-title {
@@ -178,7 +205,7 @@
 <div class="box">
   <h1>⚡ TunXtrimer VPN Panel</h1>
   <div class="subtitle">
-    Pilih jenis akun VPN **Premium** atau **Trial** yang ingin kamu buat.
+    Pilih jenis akun VPN Premium atau Trial yang ingin kamu buat.
   </div>
 
   <div class="menu-grid">
@@ -193,54 +220,43 @@
     <div class="btn" onclick="go('trial/trojan')">Trial TROJAN</div>
   </div>
 
-  <div class="section-title">Informasi Harga Akun Premium</div>
-  <div class="plans">
+  <div class="section-title">Informasi Akun Premium</div>
+<div class="plans">
 
-    <div class="plan-row">
-      <div class="plan-info">
-        <div class="plan-name">SSH</div>
-        <div class="plan-note">15/30 Hari • Limit 2 IP • Stabil untuk **Game & Harian**.</div>
-      </div>
-      <div class="plan-prices">
-        <div class="plan-price">Rp 5.000</div>
-        <div class="plan-price">Rp 10.000</div>
-      </div>
-    </div>
-
-    <div class="plan-row">
-      <div class="plan-info">
-        <div class="plan-name">VMESS</div>
-        <div class="plan-note">15/30 Hari • Limit 2 IP • **Ringan & Cepat**, cocok **Streaming**.</div>
-      </div>
-      <div class="plan-prices">
-        <div class="plan-price">Rp 5.000</div>
-        <div class="plan-price">Rp 10.000</div>
-      </div>
-    </div>
-
-    <div class="plan-row">
-      <div class="plan-info">
-        <div class="plan-name">VLESS</div>
-        <div class="plan-note">15/30 Hari • Limit 2 IP • Stabil **Bug/SNI**, cocok **Opok**.</div>
-      </div>
-      <div class="plan-prices">
-        <div class="plan-price">Rp 5.000</div>
-        <div class="plan-price">Rp 10.000</div>
-      </div>
-    </div>
-
-    <div class="plan-row">
-      <div class="plan-info">
-        <div class="plan-name">TROJAN</div>
-        <div class="plan-note">15/30 Hari • Limit 2 IP • **Enkripsi kuat** & koneksi stabil.</div>
-      </div>
-      <div class="plan-prices">
-        <div class="plan-price">Rp 5.000</div>
-        <div class="plan-price">Rp 10.000</div>
-      </div>
-    </div>
-
+  <div class="plan-summary-price">
+    Semua Akun: **15/30 Hari** • Harga Mulai **Rp 5.000 - Rp 10.000**
   </div>
+
+  <div class="plan-row">
+    <div class="plan-info">
+      <div class="plan-name">SSH</div>
+      <div class="plan-note">Limit 2 IP • Stabil untuk **Game & Harian**.</div>
+    </div>
+  </div>
+
+  <div class="plan-row">
+    <div class="plan-info">
+      <div class="plan-name">VMESS</div>
+      <div class="plan-note">Limit 2 IP • **Ringan & Cepat**, cocok **Streaming**.</div>
+    </div>
+  </div>
+
+  <div class="plan-row">
+    <div class="plan-info">
+      <div class="plan-name">VLESS</div>
+      <div class="plan-note">Limit 2 IP • Stabil **Bug/SNI**, cocok **Opok**.</div>
+    </div>
+  </div>
+
+  <div class="plan-row">
+    <div class="plan-info">
+      <div class="plan-name">TROJAN</div>
+      <div class="plan-note">Limit 2 IP • **Enkripsi kuat** & koneksi stabil.</div>
+    </div>
+  </div>
+
+</div>
+
 
 <script>
   function go(path) {
