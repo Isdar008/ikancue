@@ -1,0 +1,7 @@
+{
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "http://41.216.178.185:50123/api/$1" },
+    { "source": "/services", "destination": "http://41.216.178.185:50123/api/services" },
+    { "source": "/create-order", "destination": "http://41.216.178.185:50123/api/create-order" }
+  ]
+}
