@@ -260,7 +260,7 @@ document.getElementById('btnRenew').addEventListener('click', async (ev) => {
   }
 });
 
-// ===== FORM TOPUP (CALL API + BUKA PAYMENT URL) =====
+// ===== FORM TOPUP (CALL API + BUKA PAYMENT URL + TAMPILKAN INVOICE) =====
 document.getElementById('btnTopup').addEventListener('click', async (ev) => {
   const btn = ev.currentTarget;
   const amount = parseInt(document.getElementById('topupAmount').value, 10);
@@ -281,15 +281,41 @@ document.getElementById('btnTopup').addEventListener('click', async (ev) => {
       throw new Error(json.error || 'Gagal membuat invoice.');
     }
 
+    const data = json.data;
+
+    // alert sekali di awal
     alert(
       '✅ Invoice dibuat!\n\n' +
-      'Order ID: ' + json.data.orderId + '\n' +
-      'Nominal: ' + fmtRupiah(json.data.amount) +
-      '\n\nSetelah klik OK, halaman pembayaran akan dibuka.'
+      'Order ID: ' + data.orderId + '\n' +
+      'Nominal: ' + fmtRupiah(data.amount) +
+      '\n\nSetelah klik OK, kamu bisa buka halaman pembayaran dari tombol di bawah.'
     );
 
-    if (json.data.paymentUrl) {
-      window.open(json.data.paymentUrl, '_blank');
+    // isi kartu "Invoice Terakhir"
+    const card   = document.getElementById('lastInvoiceCard');
+    const spanId = document.getElementById('invId');
+    const spanAm = document.getElementById('invAmount');
+    const spanSt = document.getElementById('invStatus');
+    const btnOpen = document.getElementById('btnOpenPayment');
+
+    if (card && spanId && spanAm && spanSt && btnOpen) {
+      spanId.textContent = data.orderId;
+      spanAm.textContent = fmtRupiah(data.amount);
+      spanSt.textContent = 'Menunggu pembayaran';
+
+      card.style.display = 'block';
+
+      if (data.paymentUrl) {
+        btnOpen.style.display = 'block';
+        btnOpen.onclick = () => window.open(data.paymentUrl, '_blank');
+      } else {
+        btnOpen.style.display = 'none';
+      }
+    }
+
+    // langsung buka juga sekali saat dibuat
+    if (data.paymentUrl) {
+      window.open(data.paymentUrl, '_blank');
     }
   } catch (e) {
     alert('❌ Gagal topup: ' + e.message);
