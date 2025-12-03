@@ -11,7 +11,6 @@
 <div class="container">
 
     <div class="logo">
-        <!-- ganti logo.png kalau beda -->
         <img src="https://github.com/joytun21/gabut/raw/main/image/logo.png" alt="logo">
     </div>
 
@@ -19,48 +18,44 @@
     <p class="subtitle">Masukkan email dan password untuk login</p>
 
     <div class="oauth">
-        <button type="button" class="btn google">Google</button>
-        <button type="button" class="btn facebook">Facebook</button>
-        <button type="button" class="btn github">Github</button>
+        <button class="btn google">Google</button>
+        <button class="btn facebook">Facebook</button>
+        <button class="btn github">Github</button>
     </div>
 
     <div class="divider">
         <span>ATAU</span>
     </div>
 
-    <!-- FORM LOGIN -->
     <form id="loginForm">
-        <label for="email">Email</label>
-        <input id="email" name="email" type="email" placeholder="Masukkan email" required>
+        <label>Email</label>
+        <input id="email" type="email" placeholder="Masukkan email">
 
         <div class="password-row">
-            <label for="password">Password</label>
+            <label>Password</label>
             <a href="#" class="forgot">Lupa Password</a>
         </div>
 
         <div class="password-input">
-            <input id="password" name="password" type="password" placeholder="Masukkan password" required>
-            <span id="togglePassword" class="eye">👁️</span>
+            <input id="password" type="password" placeholder="Masukkan password">
+            <span class="eye">👁️</span>
         </div>
 
         <div class="remember">
-            <input type="checkbox" id="rememberMe">
-            <label for="rememberMe">Ingat Saya</label>
+            <input type="checkbox" id="remember">
+            <label for="remember">Ingat Saya</label>
         </div>
 
-        <button type="submit" class="btn-login" id="btnLogin">Masuk</button>
+        <button id="btnLogin" class="btn-login" disabled>Masuk</button>
     </form>
 
     <p class="bottom-text">
         Belum punya akun? <a href="#">Daftar</a>
     </p>
 
-    <!-- tempat pesan -->
-    <p id="message" style="text-align:center; margin-top:10px; font-size:14px;"></p>
-
 </div>
 
-<!-- JS -->
-<script src="login.js"></script>
+<script src="login-ui.js"></script>
+
 </body>
 </html>
