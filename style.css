@@ -1,0 +1,154 @@
+/* RESET DASAR & DARK MODE */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #000; /* Latar belakang Hitam */
+    color: #fff; /* Teks Putih */
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+/* NAVBAR & HEADER */
+header {
+    background-color: #000;
+    border-bottom: 1px solid #1a1a1a; /* Garis bawah tipis */
+    padding: 10px 20px;
+}
+
+.navbar {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.5em;
+    font-weight: bold;
+    /* Memberi sedikit warna pada logo jika perlu */
+    color: #007bff; 
+}
+
+.desktop-nav a {
+    color: #ccc;
+    text-decoration: none;
+    padding: 0 15px;
+    font-size: 0.95em;
+    transition: color 0.3s;
+}
+
+.desktop-nav a:hover {
+    color: #fff;
+}
+
+.menu-toggle {
+    display: none; /* Sembunyikan untuk desktop */
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+}
+
+/* HERO SECTION (Konten Utama) */
+.hero-section {
+    text-align: center;
+    padding: 80px 20px;
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.content-wrapper {
+    max-width: 700px;
+    width: 100%;
+}
+
+h1 {
+    font-size: 3em;
+    font-weight: 800;
+    text-transform: lowercase; /* Seperti contoh gambar */
+    margin-top: 30px;
+    margin-bottom: 10px;
+    line-height: 1.1;
+}
+
+.tagline {
+    font-size: 1.2em;
+    color: #aaa;
+    margin-bottom: 40px;
+}
+
+/* ACTION BUTTONS (Login & Register) */
+.action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px; 
+}
+
+.btn {
+    padding: 12px 30px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1em;
+    min-width: 120px;
+    text-align: center;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.login-btn {
+    background-color: transparent;
+    border: 2px solid #333; /* Border abu-abu gelap */
+    color: #ccc;
+}
+
+.login-btn:hover {
+    border-color: #555;
+    color: #fff;
+}
+
+.register-btn {
+    /* Gunakan warna yang menonjol, misalnya biru */
+    background-color: #007bff; 
+    border: 2px solid #007bff;
+    color: #fff;
+}
+
+.register-btn:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+/* Tempat untuk diagram/latar belakang visual */
+.diagram-placeholder {
+    margin-top: 50px;
+    /* Placeholder agar gambar muncul di bawah teks */
+    height: 150px; 
+    /* Anda bisa tambahkan background-image di sini */
+}
+
+/* MEDIA QUERIES untuk Tampilan Mobile */
+@media (max-width: 768px) {
+    .desktop-nav {
+        display: none; /* Sembunyikan menu di mobile */
+    }
+    .menu-toggle {
+        display: block; /* Tampilkan tombol menu di mobile */
+    }
+    h1 {
+        font-size: 2.2em;
+    }
+    .action-buttons {
+        flex-direction: column; /* Tombol tumpuk ke bawah di mobile */
+    }
+    .btn {
+        width: 100%;
+        min-width: unset;
+    }
+    /* Anda perlu menambahkan JavaScript untuk membuat menu mobile toggle berfungsi */
+}
