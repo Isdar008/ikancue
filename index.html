@@ -3,61 +3,65 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>RMPremium VPN Store</title>
-  <meta name="description" content="Beli akun VPN otomatis — SSH, VMESS, VLESS, Trojan. Pembayaran otomatis, akun dikirim via bot Telegram." />
+  <title>RMPremium — VPN Store</title>
+  <meta name="description" content="Toko VPN otomatis — pilih protokol, bayar, dan terima konfigurasi." />
   <link rel="icon" href="favicon.svg" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header class="topbar">
-    <div class="wrap">
-      <div class="brand">
+    <div class="wrap topbar-inner">
+      <div class="brand" onclick="location.href='/'" style="cursor:pointer">
         <img src="favicon.svg" alt="logo" class="logo"/>
-        <div>
+        <div class="brand-text">
           <h1>RMPremium</h1>
           <small>VPN Store — Otomatis</small>
         </div>
       </div>
-      <nav class="nav">
+
+      <nav class="nav" id="mainNav">
         <a href="#services" class="nav-link">Layanan</a>
         <a href="#how" class="nav-link">Cara Kerja</a>
         <a href="#faq" class="nav-link">FAQ</a>
         <a href="#contact" class="nav-link btn-outline">Hubungi</a>
       </nav>
+
+      <button id="menuToggle" class="hamburger" aria-label="Menu">&#9776;</button>
     </div>
   </header>
 
   <main>
-    <section class="hero">
-      <div class="wrap hero-grid">
+    <section class="hero wrap">
+      <div class="hero-grid">
         <div class="hero-left">
-          <h2>VPN Instan — Akun dibuat otomatis setelah <span class="accent">pembayaran</span></h2>
-          <p class="lead">Pilih protokol (SSH / VMESS / VLESS / TROJAN), bayar, dan terima konfigurasi langsung melalui Telegram atau email.</p>
+          <h2>VPN Instan — Akun dibuat otomatis setelah pembayaran</h2>
+          <p class="lead">Pilih protokol (SSH / VMESS / VLESS / TROJAN), lakukan pembayaran, dan terima konfigurasi otomatis melalui Telegram atau email.</p>
           <div class="hero-actions">
             <a class="btn primary" id="exploreBtn">Lihat Layanan</a>
             <a class="btn" href="#contact">Hubungi Kami</a>
           </div>
+
           <ul class="bullets">
-            <li>CDN Cloudflare</li>
-            <li>HTTP & SSL/TLS support</li>
+            <li>SSH, VMESS, VLESS, Trojan</li>
             <li>Auto-provisioning akun</li>
+            <li>Notifikasi via Telegram / Email</li>
           </ul>
         </div>
-        <div class="hero-right card">
-          <h3>Harga contoh</h3>
-          <div class="price-list">
-            <div class="price-row"><strong>SSH</strong><span>Rp 5.000 / hari</span></div>
-            <div class="price-row"><strong>VMESS</strong><span>Rp 8.000 / hari</span></div>
-            <div class="price-row"><strong>TROJAN</strong><span>Rp 12.000 / hari</span></div>
-          </div>
-          <p class="small muted">Harga hanya contoh — sesuaikan di backend.</p>
-        </div>
+
+        <aside class="hero-right card">
+          <h3>Kenapa pilih kami?</h3>
+          <ul class="small muted">
+            <li>Proses otomatis dan cepat</li>
+            <li>Server tersebar & stabil</li>
+            <li>Dukungan via Telegram</li>
+          </ul>
+        </aside>
       </div>
     </section>
 
     <section id="services" class="wrap section card">
       <h2 class="section-title">Layanan Kami</h2>
-      <p class="small muted">Pilih protokol dan server. Akun akan dibuat otomatis setelah pembayaran terverifikasi.</p>
+      <p class="small muted">Pilih protokol yang kamu inginkan. Detail koneksi akan diberikan setelah pembayaran dan provisioning selesai.</p>
       <div class="services-grid" id="servicesGrid">
         <!-- Rendered by main.js -->
       </div>
@@ -67,9 +71,9 @@
       <h2 class="section-title">Cara Kerja</h2>
       <ol class="how-list">
         <li>Pilih layanan & server → klik Beli.</li>
-        <li>Selesaikan pembayaran (Pakasir / QRIS / gateway lain).</li>
-        <li>Webhook menerima notifikasi → backend membuat akun otomatis.</li>
-        <li>Kamu menerima konfigurasi via Telegram / email.</li>
+        <li>Selesaikan pembayaran.</li>
+        <li>Server memproses pembayaran (otomatis via webhook).</li>
+        <li>Setelah pembayaran konfirmasi, akun dibuat dan dikirim otomatis.</li>
       </ol>
     </section>
 
@@ -77,51 +81,55 @@
       <h2 class="section-title">FAQ</h2>
       <div class="faq">
         <details>
-          <summary>Apa metode pembayaran yang didukung?</summary>
-          <p>Kami mendukung Pakasir (QRIS), transfer, dan metode lain yang diaktifkan admin.</p>
+          <summary>Apa yang saya dapat setelah bayar?</summary>
+          <p>Setelah pembayaran berhasil: username/password (untuk SSH) atau file konfigurasi/link (untuk VMESS/VLESS/TROJAN) akan dikirim otomatis melalui Telegram atau email.</p>
         </details>
         <details>
-          <summary>Bagaimana saya menerima akun?</summary>
-          <p>Setelah pembayaran terverifikasi, akun dikirim otomatis ke Telegram jika kamu berikan Telegram ID saat checkout, atau admin akan mengirim melalui email.</p>
+          <summary>Bagaimana metode pembayaran?</summary>
+          <p>Kami menggunakan gateway pembayaran yang mendukung QRIS dan transfer bank. (Detail metode disediakan saat checkout)</p>
+        </details>
+        <details>
+          <summary>Apakah ada garansi?</summary>
+          <p>Kami menyediakan support teknis; untuk masalah server akan ditangani oleh admin. Kebijakan refund mengikuti ketentuan toko.</p>
         </details>
       </div>
     </section>
 
     <section id="contact" class="wrap section card">
       <h2 class="section-title">Kontak</h2>
-      <p class="small muted">Butuh bantuan? Hubungi admin kami.</p>
-      <form id="contactForm" class="form-grid">
+      <p class="small muted">Butuh bantuan? Tinggalkan pesan dan kami akan menghubungi.</p>
+      <form id="contactForm" class="form-grid" onsubmit="return false;">
         <label>Nama <input id="c_name" required/></label>
         <label>Email <input id="c_email" type="email" required/></label>
-        <label>Pesan <textarea id="c_msg" rows="4" required></textarea></label>
-        <div>
-          <button type="submit" class="btn primary">Kirim Pesan</button>
+        <label style="grid-column: 1 / -1;">Pesan <textarea id="c_msg" rows="4" required></textarea></label>
+        <div style="grid-column: 1 / -1;">
+          <button id="contactSend" class="btn primary">Kirim Pesan</button>
         </div>
       </form>
     </section>
   </main>
 
   <footer class="site-footer">
-    <div class="wrap">
+    <div class="wrap footer-inner">
       <small>© <span id="year"></span> RMPremium — All rights reserved.</small>
       <div class="footer-links">
-        <a href="#">Terms</a>
-        <a href="#">Privacy</a>
+        <a href="#faq">FAQ</a>
+        <a href="#contact">Support</a>
       </div>
     </div>
   </footer>
 
-  <!-- Checkout modal (hidden, SPA) -->
+  <!-- Checkout modal (no harga ditampilkan) -->
   <div id="checkoutModal" class="modal hidden" aria-hidden="true">
     <div class="modal-card">
       <button class="modal-close" id="closeCheckout">&times;</button>
       <h3 id="checkoutTitle">Checkout</h3>
       <div id="checkoutBody">
-        <!-- filled by main.js -->
+        <!-- diisi oleh main.js -->
       </div>
     </div>
   </div>
 
   <script src="main.js" defer></script>
 </body>
-</html>
+                      </html>
