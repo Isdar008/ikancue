@@ -4,173 +4,136 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>XTRIMER PANEL</title>
-  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #05070a;
+      color: #f5f5f5;
+    }
+    .page { display: none; padding: 30px 16px; }
+    .page.active { display: block; }
+
+    .container { max-width: 420px; margin: auto; text-align: center; }
+    .center { margin-top: 22vh; }
+
+    h1,h2 { margin-top: 0; }
+    .muted { color:#999;}
+
+    input {
+      width:100%; padding:12px; margin:8px 0 16px;
+      border-radius:8px; border:1px solid #222;
+      background:#0c0f14; color:#f5f5f5; outline:none;
+    }
+    input:focus { border-color:#2c6cf6; }
+
+    .btn {
+      padding:12px; border:none; border-radius:8px;
+      margin:6px 0; cursor:pointer; font-size:15px;
+    }
+    .primary { background:#2c6cf6; color:white; }
+    .secondary { background:#262a33; color:white; }
+    .danger { background:#d62828; color:white; }
+    .full { width:100%; }
+
+    /* DASHBOARD SIMPLE */
+    .card {
+      background:#0c0f14; padding:16px;
+      border-radius:12px; margin-top:16px; text-align:left;
+      box-shadow:0 0 0 1px #111;
+    }
+  </style>
 </head>
 <body>
 
   <!-- WELCOME PAGE -->
   <section id="welcome" class="page active">
     <div class="container center">
-      <h1>🚀 Selamat Datang di XTRIMER PANEL</h1>
+      <h1>🌟 Selamat Datang di XTRIMER PANEL</h1>
       <p>Dashboard pribadi untuk mengelola akun VPN Anda.</p>
-      <button onclick="goLogin()" class="btn primary">Mulai</button>
+      <button id="btnMulai" class="btn primary">Mulai</button>
     </div>
   </section>
 
   <!-- LOGIN PAGE -->
-  <section id="login" class="page hidden">
+  <section id="login" class="page">
     <div class="container">
       <h2>Login Bebas</h2>
-      <p class="muted">Email & Password bebas, hanya disimpan di browser kamu.</p>
+      <p class="muted">Email & password bebas, hanya disimpan di browser kamu.</p>
 
       <input id="email" type="email" placeholder="Masukkan email">
       <input id="password" type="password" placeholder="Masukkan password">
 
-      <button onclick="doLogin()" class="btn primary full">Masuk</button>
-      <button onclick="goWelcome()" class="btn secondary full">Kembali</button>
+      <button id="btnLogin" class="btn primary full">Masuk</button>
+      <button id="btnBack" class="btn secondary full">Kembali</button>
     </div>
   </section>
 
-  <!-- APP / DASHBOARD -->
-  <section id="dashboard" class="page hidden">
-    <div class="app-shell">
+  <!-- DASHBOARD PAGE -->
+  <section id="dashboard" class="page">
+    <div class="container">
+      <h2>Halo, <span id="userEmail"></span></h2>
+      <p>Selamat datang kembali di dashboard XTRIMER.</p>
 
-      <!-- HEADER -->
-      <header class="app-header">
-        <div class="brand">
-          <span class="logo-dot"></span>
-          <div>
-            <div class="brand-title">XTRIMER PANEL</div>
-            <div class="brand-sub">VPN Management</div>
-          </div>
-        </div>
-        <div class="user-box">
-          <span class="user-label">Masuk sebagai</span>
-          <span class="user-email" id="userEmailHeader"></span>
-          <button class="btn danger small" onclick="logout()">Logout</button>
-        </div>
-      </header>
+      <div class="card">
+        <h3>Informasi Akun</h3>
+        <p>Email: <span id="infoEmail"></span></p>
+        <p>Password: <span id="infoPass"></span></p>
+      </div>
 
-      <!-- NAV -->
-      <nav class="app-nav">
-        <button class="nav-btn active" onclick="openAppPage('overview', this)">Overview</button>
-        <button class="nav-btn" onclick="openAppPage('servers', this)">Server</button>
-        <button class="nav-btn" onclick="openAppPage('create', this)">Buat Akun</button>
-        <button class="nav-btn" onclick="openAppPage('renew', this)">Perpanjang</button>
-        <button class="nav-btn" onclick="openAppPage('topup', this)">Topup</button>
-      </nav>
-
-      <!-- MAIN CONTENT -->
-      <main class="app-main">
-
-        <!-- OVERVIEW -->
-        <div id="app-overview" class="app-page active">
-          <div class="grid-2">
-            <div class="card">
-              <h3>Informasi Login</h3>
-              <p>Email: <span id="infoEmail"></span></p>
-              <p>Password: <span id="infoPass"></span></p>
-            </div>
-            <div class="card">
-              <h3>Status Akun (Dummy)</h3>
-              <p>Saldo: <strong>Rp 0</strong></p>
-              <p>Total Akun Dibuat: <strong>0</strong></p>
-              <p>Level: <strong>Member</strong></p>
-              <p class="muted small">Nanti bisa diisi dari API app.js.</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- SERVER LIST -->
-        <div id="app-servers" class="app-page">
-          <h3>Daftar Server</h3>
-          <p class="muted small">Data masih dummy. Nanti tinggal diganti ambil dari API server lu.</p>
-          <div id="serverList" class="server-list">
-            <!-- akan diisi dari script.js -->
-          </div>
-        </div>
-
-        <!-- BUAT AKUN -->
-        <div id="app-create" class="app-page">
-          <h3>Buat Akun VPN</h3>
-          <p class="muted small">Form ini sementara hanya simulasi. Nanti tombolnya bisa dihubungkan ke endpoint create akun.</p>
-
-          <div class="card">
-            <label>Jenis Akun</label>
-            <select id="createType">
-              <option value="ssh">SSH</option>
-              <option value="vmess">VMESS</option>
-              <option value="vless">VLESS</option>
-              <option value="trojan">TROJAN</option>
-            </select>
-
-            <label>Server</label>
-            <select id="createServer">
-              <option value="sg-1">SG 1</option>
-              <option value="sg-2">SG 2</option>
-              <option value="id-1">ID 1</option>
-            </select>
-
-            <label>Username Akun</label>
-            <input id="createUser" type="text" placeholder="misal: uservpn123">
-
-            <label>Masa Aktif (hari)</label>
-            <input id="createDays" type="number" min="1" value="30">
-
-            <button class="btn primary full" onclick="submitCreate()">Buat Akun (Simulasi)</button>
-          </div>
-        </div>
-
-        <!-- RENEW AKUN -->
-        <div id="app-renew" class="app-page">
-          <h3>Perpanjang Akun</h3>
-          <p class="muted small">Nanti disambungkan ke endpoint renew di app.js.</p>
-
-          <div class="card">
-            <label>Jenis Akun</label>
-            <select id="renewType">
-              <option value="ssh">SSH</option>
-              <option value="vmess">VMESS</option>
-              <option value="vless">VLESS</option>
-              <option value="trojan">TROJAN</option>
-            </select>
-
-            <label>Username Akun</label>
-            <input id="renewUser" type="text" placeholder="username yang mau diperpanjang">
-
-            <label>Tambahan Hari</label>
-            <input id="renewDays" type="number" min="1" value="30">
-
-            <button class="btn primary full" onclick="submitRenew()">Perpanjang (Simulasi)</button>
-          </div>
-        </div>
-
-        <!-- TOPUP -->
-        <div id="app-topup" class="app-page">
-          <h3>Topup Saldo</h3>
-          <p class="muted small">Bagian ini bisa dihubungkan ke sistem topup + QRIS yang sudah ada di bot/app.js.</p>
-
-          <div class="card">
-            <label>Nominal Topup (Rp)</label>
-            <input id="topupAmount" type="number" min="1000" step="1000" value="10000">
-
-            <button class="btn primary full" onclick="submitTopup()">Buat Request Topup (Simulasi)</button>
-          </div>
-
-          <div class="card">
-            <h4>Riwayat Topup (Dummy)</h4>
-            <ul class="dummy-list">
-              <li>#INV-001 • Rp 10.000 • Pending</li>
-              <li>#INV-000 • Rp 25.000 • Sukses</li>
-            </ul>
-            <p class="muted small">Nanti bisa diisi dari tabel <code>topup_log</code> di database.</p>
-          </div>
-        </div>
-
-      </main>
+      <button id="btnLogout" class="btn danger full">Logout</button>
     </div>
   </section>
 
-  <script src="script.js"></script>
+  <!-- JS INLINE, DIJAMIN KELOAD -->
+  <script>
+    function showPage(id) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+    }
+
+    function loadDashboard() {
+      const email = localStorage.getItem("xt_email");
+      const pass  = localStorage.getItem("xt_pass");
+      if (!email || !pass) {
+        showPage('welcome');
+        return;
+      }
+      document.getElementById('userEmail').innerText = email;
+      document.getElementById('infoEmail').innerText = email;
+      document.getElementById('infoPass').innerText  = pass;
+      showPage('dashboard');
+    }
+
+    // event tombol
+    document.getElementById('btnMulai').addEventListener('click', () => {
+      showPage('login');
+    });
+
+    document.getElementById('btnBack').addEventListener('click', () => {
+      showPage('welcome');
+    });
+
+    document.getElementById('btnLogin').addEventListener('click', () => {
+      const email = document.getElementById("email").value.trim();
+      const pass  = document.getElementById("password").value.trim();
+      if (!email || !pass) {
+        alert("Email & password tidak boleh kosong!");
+        return;
+      }
+      localStorage.setItem("xt_email", email);
+      localStorage.setItem("xt_pass", pass);
+      loadDashboard();
+    });
+
+    document.getElementById('btnLogout').addEventListener('click', () => {
+      localStorage.removeItem("xt_email");
+      localStorage.removeItem("xt_pass");
+      showPage('welcome');
+    });
+
+    // cek auto login saat pertama buka
+    loadDashboard();
+  </script>
 </body>
-                                                      </html>
+</html>
