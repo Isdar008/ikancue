@@ -251,6 +251,80 @@
     .footer a:hover {
       text-decoration: underline;
     }
+    /* Pricing Section */
+    .pricing-grid {
+      margin-top: 8px;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+    @media (max-width: 900px) {
+      .pricing-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+    @media (max-width: 600px) {
+      .pricing-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .price-card {
+      background: radial-gradient(circle at top left, rgba(15,23,42,0.96), rgba(15,23,42,0.9));
+      border-radius: 16px;
+      padding: 10px 11px 12px;
+      border: 1px solid rgba(55,65,81,0.9);
+      font-size: 12px;
+      position: relative;
+    }
+    .price-card-hot {
+      border-color: rgba(56,189,248,0.9);
+      box-shadow: 0 14px 35px rgba(56,189,248,0.25);
+    }
+    .price-badge {
+      position: absolute;
+      right: 9px;
+      top: 8px;
+      font-size: 10px;
+      padding: 3px 7px;
+      border-radius: 999px;
+      background: #38bdf8;
+      color: #0f172a;
+      font-weight: 600;
+    }
+    .price-title {
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+    .price-value {
+      font-size: 15px;
+      font-weight: 700;
+      color: #a5b4fc;
+      margin-bottom: 6px;
+    }
+    .price-list {
+      list-style: none;
+      margin-bottom: 8px;
+      padding-left: 0;
+      color: #9ca3af;
+    }
+    .price-list li {
+      margin-bottom: 2px;
+    }
+    .price-btn {
+      width: 100%;
+      border-radius: 999px;
+      border: 1px solid rgba(75,85,99,0.9);
+      background: rgba(15,23,42,0.95);
+      color: #e5e7eb;
+      padding: 6px 8px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: 0.12s;
+    }
+    .price-btn:hover {
+      border-color: #6366f1;
+      box-shadow: 0 6px 16px rgba(79,70,229,0.45);
+    }
   </style>
 </head>
 <body>
@@ -363,7 +437,60 @@
       </p>
     </div>
   </div>
+<!-- SEKSI PAKET & HARGA -->
+  <div style="margin-top: 22px;">
+    <h2 style="font-size: 16px; margin-bottom: 4px;">Paket & Harga</h2>
+    <p style="font-size: 12px; color: #9ca3af; margin-bottom: 10px;">
+      Pilih paket sesuai kebutuhan kamu, lalu klik untuk otomatis mengisi form.
+    </p>
 
+    <div class="pricing-grid">
+      <div class="price-card" data-paket-card="SSH 30 Hari">
+        <div class="price-title">SSH 30 Hari</div>
+        <div class="price-value">Rp 15.000</div>
+        <ul class="price-list">
+          <li>Server Premium ID/SG</li>
+          <li>Support Game & Harian</li>
+          <li>Unlimited (FUP wajar)</li>
+        </ul>
+        <button class="price-btn">Pilih Paket Ini</button>
+      </div>
+
+      <div class="price-card price-card-hot" data-paket-card="VMESS 30 Hari">
+        <div class="price-badge">Favorit</div>
+        <div class="price-title">VMESS 30 Hari</div>
+        <div class="price-value">Rp 20.000</div>
+        <ul class="price-list">
+          <li>Latency rendah</li>
+          <li>Support TLS / WS</li>
+          <li>Cocok streaming & social media</li>
+        </ul>
+        <button class="price-btn">Pilih Paket Ini</button>
+      </div>
+
+      <div class="price-card" data-paket-card="VLESS 30 Hari">
+        <div class="price-title">VLESS 30 Hari</div>
+        <div class="price-value">Rp 20.000</div>
+        <ul class="price-list">
+          <li>Lebih ringan & stabil</li>
+          <li>Support SNI / Bug Host</li>
+          <li>Cocok opok</li>
+        </ul>
+        <button class="price-btn">Pilih Paket Ini</button>
+      </div>
+
+      <div class="price-card" data-paket-card="TROJAN 30 Hari">
+        <div class="price-title">TROJAN 30 Hari</div>
+        <div class="price-value">Rp 25.000</div>
+        <ul class="price-list">
+          <li>Enkripsi kuat</li>
+          <li>Stabil & kencang</li>
+          <li>Support multi device</li>
+        </ul>
+        <button class="price-btn">Pilih Paket Ini</button>
+      </div>
+    </div>
+  </div>
   <div class="footer">
     <span>© <span id="year"></span> TunXtrimer VPN Store</span>
     <span>Order via bot: <a href="#" id="bot-link">@BotVPNAnda</a></span>
@@ -389,7 +516,23 @@
     target.textContent = message;
     target.style.display = 'block';
   }
+// Klik kartu paket -> set dropdown paket + scroll ke form
+  function initPricingSelect() {
+    const paketSelect = document.getElementById('paket');
+    const formEl = document.getElementById('order-form');
+    
+    document.querySelectorAll('[data-paket-card]').forEach(card => {
+      const paketName = card.getAttribute('data-paket-card');
+      const btn = card.querySelector('.price-btn');
+      if (!btn) return;
 
+      btn.addEventListener('click', () => {
+        paketSelect.value = paketName;
+        formEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+  }
+  initPricingSelect();
   async function loadStatus() {
     try {
       const res = await fetch('/api/web/status');
