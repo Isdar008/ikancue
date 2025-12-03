@@ -152,3 +152,150 @@ h1 {
     }
     /* Anda perlu menambahkan JavaScript untuk membuat menu mobile toggle berfungsi */
 }
+/* ================================== */
+/* STYLING HARGA (PRICING SECTION) */
+/* ================================== */
+
+.pricing-section {
+    padding: 80px 20px;
+    text-align: center;
+    background-color: #000;
+}
+
+.pricing-section h2 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+.pricing-intro {
+    font-size: 1.1em;
+    color: #aaa;
+    margin-bottom: 50px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.pricing-container {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    flex-wrap: wrap; /* Penting untuk responsif */
+}
+
+.price-card {
+    background-color: #0a0a0a;
+    border: 1px solid #1a1a1a;
+    border-radius: 10px;
+    padding: 30px;
+    width: 100%;
+    max-width: 350px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s, border-color 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+
+.price-card:hover {
+    transform: translateY(-10px);
+    border-color: #007bff;
+}
+
+.price-card h3 {
+    font-size: 1.8em;
+    margin-top: 0;
+    color: #fff;
+}
+
+.price {
+    font-size: 3em;
+    font-weight: bold;
+    color: #007bff; /* Warna harga biru */
+    margin: 20px 0;
+}
+
+.currency {
+    font-size: 0.5em;
+    font-weight: normal;
+    vertical-align: top;
+    margin-right: 5px;
+}
+
+.duration {
+    display: block;
+    font-size: 0.4em;
+    color: #aaa;
+    font-weight: normal;
+}
+
+/* FITUR LIST */
+.features {
+    text-align: left;
+    margin-bottom: 30px;
+}
+
+.features ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.features li {
+    padding: 10px 0;
+    border-bottom: 1px solid #1a1a1a;
+    color: #ccc;
+    font-size: 0.95em;
+}
+
+.features li:last-child {
+    border-bottom: none;
+}
+
+/* RIBBON UNTUK PAKET POPULER */
+.popular {
+    border: 2px solid #007bff; /* Border yang lebih menonjol */
+    background-color: #111;
+}
+
+.ribbon {
+    position: absolute;
+    top: 20px;
+    right: -30px;
+    background-color: #007bff;
+    color: white;
+    padding: 5px 30px;
+    font-size: 0.8em;
+    font-weight: bold;
+    transform: rotate(45deg);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+/* Tombol Pilih Paket */
+.buy-btn {
+    display: block;
+    width: 100%;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 15px 0;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.buy-btn:hover {
+    background-color: #0056b3;
+}
+
+/* MEDIA QUERIES untuk Mobile */
+@media (max-width: 768px) {
+    .pricing-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    .price-card {
+        max-width: 90%;
+    }
+}
