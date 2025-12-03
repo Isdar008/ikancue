@@ -1,39 +1,690 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Xtrimer Tunneling - Secure Tunneling Provider</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <title>RM Premium VPN</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      scroll-behavior: smooth;
+    }
+    body {
+      margin: 0;
+      background: #020617;
+      color: #e5e7eb;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    /* Navbar */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 50;
+      background: rgba(2,6,23,0.9);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(148,163,184,0.15);
+    }
+    .nav-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      letter-spacing: .03em;
+      font-size: 16px;
+    }
+    .brand-logo {
+      width: 26px;
+      height: 26px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 20%, #22c55e, #0f172a);
+      border: 1px solid #22c55e66;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      font-size: 14px;
+    }
+    .nav-links a {
+      color: #cbd5f5;
+      opacity: .85;
+    }
+    .nav-links a:hover {
+      opacity: 1;
+    }
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .btn {
+      padding: 7px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      background: transparent;
+      color: #e5e7eb;
+    }
+    .btn-outline {
+      border-color: #334155;
+    }
+    .btn-outline:hover {
+      border-color: #64748b;
+      background: #020617;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg,#22c55e,#16a34a);
+      color: #020617;
+      border: none;
+      font-weight: 600;
+      box-shadow: 0 10px 25px rgba(22,163,74,0.45);
+    }
+    .btn-primary:hover {
+      filter: brightness(1.02);
+    }
+
+    /* Mobile nav */
+    .nav-toggle {
+      display: none;
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      border: 1px solid #334155;
+      background: #020617;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .nav-toggle span {
+      width: 16px;
+      height: 2px;
+      background: #e5e7eb;
+      position: relative;
+    }
+    .nav-toggle span::before,
+    .nav-toggle span::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      width: 16px;
+      height: 2px;
+      background: #e5e7eb;
+    }
+    .nav-toggle span::before { top: -5px; }
+    .nav-toggle span::after { top: 5px; }
+
+    .nav-mobile {
+      display: none;
+      border-top: 1px solid rgba(148,163,184,0.15);
+      padding: 8px 16px 12px;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .nav-mobile a {
+      font-size: 14px;
+      padding: 4px 0;
+      opacity: .9;
+    }
+    .nav-mobile .btn {
+      width: 100%;
+      justify-content: center;
+      text-align: center;
+    }
+
+    /* Layout sections */
+    main {
+      padding-top: 64px; /* offset navbar */
+    }
+    section {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 40px 16px;
+    }
+
+    /* Hero */
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0,1.6fr) minmax(0,1.2fr);
+      gap: 32px;
+      align-items: center;
+      padding-top: 56px;
+      padding-bottom: 40px;
+    }
+    .hero-kicker {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .18em;
+      color: #38bdf8;
+      margin-bottom: 8px;
+    }
+    .hero-title {
+      font-size: 32px;
+      line-height: 1.15;
+      margin: 0 0 12px;
+      color: #f9fafb;
+    }
+    .hero-title span {
+      background: linear-gradient(135deg,#22c55e,#38bdf8);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+    .hero-sub {
+      font-size: 14px;
+      color: #94a3b8;
+      max-width: 440px;
+      margin-bottom: 20px;
+    }
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      padding: 5px 9px;
+      border-radius: 999px;
+      background: rgba(34,197,94,0.12);
+      border: 1px solid rgba(34,197,94,0.35);
+      color: #bbf7d0;
+    }
+    .hero-planet {
+      border-radius: 24px;
+      border: 1px solid #1f2937;
+      background:
+        radial-gradient(circle at 20% 0%, #22c55e22, transparent 65%),
+        radial-gradient(circle at 80% 100%, #38bdf822, transparent 60%),
+        #020617;
+      min-height: 220px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-globe {
+      width: 210px;
+      height: 210px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.3);
+      background:
+        radial-gradient(circle at 30% 0%, #22c55e55, transparent 55%),
+        radial-gradient(circle at 80% 80%, #38bdf855, transparent 55%),
+        radial-gradient(circle at 20% 80%, #0ea5e955, transparent 55%);
+      opacity: .8;
+    }
+    .hero-orbit {
+      position: absolute;
+      width: 260px;
+      height: 260px;
+      border-radius: 999px;
+      border: 1px dashed rgba(148,163,184,0.35);
+      opacity: .7;
+    }
+    .hero-chip {
+      position: absolute;
+      bottom: 18px;
+      right: 20px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(15,23,42,0.9);
+      font-size: 11px;
+      border: 1px solid rgba(148,163,184,0.5);
+      display: inline-flex;
+      gap: 6px;
+      align-items: center;
+      color: #e2e8f0;
+    }
+    .hero-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #22c55e;
+    }
+
+    /* Product section */
+    .section-title {
+      font-size: 22px;
+      margin: 0 0 8px;
+      color: #f9fafb;
+    }
+    .section-sub {
+      font-size: 13px;
+      color: #94a3b8;
+      max-width: 520px;
+      margin-bottom: 22px;
+    }
+    .feature-grid {
+      display: grid;
+      gap: 16px;
+      grid-template-columns: repeat(3,minmax(0,1fr));
+    }
+    .feature-card {
+      border-radius: 16px;
+      padding: 14px 14px 16px;
+      background: #020617;
+      border: 1px solid #1f2937;
+      font-size: 13px;
+    }
+    .feature-title {
+      font-weight: 600;
+      margin-bottom: 6px;
+      font-size: 13px;
+      color: #e5e7eb;
+    }
+    .feature-desc {
+      color: #9ca3af;
+      font-size: 12px;
+    }
+
+    /* Pricing / form */
+    .pricing-layout {
+      display: grid;
+      grid-template-columns: minmax(0,1.3fr) minmax(0,1.1fr);
+      gap: 24px;
+      align-items: start;
+    }
+    .plan-grid {
+      display: grid;
+      gap: 14px;
+    }
+    .plan-card {
+      border-radius: 16px;
+      padding: 14px 14px 16px;
+      background: #020617;
+      border: 1px solid #1f2937;
+      cursor: pointer;
+      transition: 0.15s;
+    }
+    .plan-card.active {
+      border-color: #22c55e;
+      box-shadow: 0 0 0 1px rgba(34,197,94,0.4);
+    }
+    .plan-name {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .plan-price {
+      font-size: 18px;
+      font-weight: 700;
+      color: #bbf7d0;
+      margin-bottom: 4px;
+    }
+    .plan-meta {
+      font-size: 12px;
+      color: #9ca3af;
+    }
+
+    .order-card {
+      border-radius: 16px;
+      padding: 16px 16px 18px;
+      background: radial-gradient(circle at top left,#22c55e22,transparent 65%),
+                  #020617;
+      border: 1px solid #1f2937;
+    }
+    .order-card h3 {
+      margin: 0 0 6px;
+      font-size: 15px;
+      color: #f9fafb;
+    }
+    .order-card p {
+      margin: 0 0 12px;
+      font-size: 12px;
+      color: #9ca3af;
+    }
+    .order-card label {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 12px;
+      color: #cbd5e1;
+    }
+    .order-card input,
+    .order-card select {
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 10px;
+      border: 1px solid #4b5563;
+      background: #020617;
+      color: #e5e7eb;
+      font-size: 13px;
+      margin-bottom: 10px;
+    }
+    .order-card input:focus,
+    .order-card select:focus {
+      border-color: #22c55e;
+      outline: none;
+      box-shadow: 0 0 0 1px #22c55e55;
+    }
+    .order-status {
+      margin-top: 8px;
+      min-height: 18px;
+      font-size: 12px;
+    }
+    .order-status.error { color: #fca5a5; }
+    .order-status.success { color: #6ee7b7; }
+
+    /* About & footer */
+    .about-grid {
+      display: grid;
+      gap: 20px;
+      grid-template-columns: minmax(0,1.3fr) minmax(0,1.1fr);
+      align-items: center;
+    }
+    .about-box {
+      border-radius: 16px;
+      border: 1px solid #1f2937;
+      padding: 14px 16px;
+      background: #020617;
+      font-size: 13px;
+      color: #94a3b8;
+    }
+    footer {
+      border-top: 1px solid #1f2937;
+      padding: 12px 16px 20px;
+      font-size: 11px;
+      text-align: center;
+      color: #6b7280;
+    }
+
+    /* Responsive */
+    @media (max-width: 840px) {
+      .nav-links, .nav-actions { display: none; }
+      .nav-toggle { display: inline-flex; }
+
+      .hero {
+        grid-template-columns: minmax(0,1fr);
+        padding-top: 40px;
+      }
+      .hero-planet { order: -1; margin-bottom: 16px; }
+      .feature-grid {
+        grid-template-columns: repeat(2,minmax(0,1fr));
+      }
+      .pricing-layout,
+      .about-grid {
+        grid-template-columns: minmax(0,1fr);
+      }
+    }
+    @media (max-width: 600px) {
+      .feature-grid {
+        grid-template-columns: minmax(0,1fr);
+      }
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <div class="navbar">
-            <div class="logo">Xtrimer Tunneling</div>
-            <nav class="desktop-nav">
-                <a href="#home">Home</a>
-                <a href="#product">Product</a>
-                <a href="#pricing">Pricing</a>
-                <a href="#about">About</a>
-            </nav>
-            <button class="menu-toggle">☰</button>
-        </div>
-    </header>
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="nav-inner">
+      <div class="brand">
+        <div class="brand-logo"></div>
+        <span>RM Premium VPN</span>
+      </div>
+      <nav class="nav-links">
+        <a href="#home">Home</a>
+        <a href="#product">Product</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#about">About</a>
+      </nav>
+      <div class="nav-actions">
+        <a href="#" class="btn btn-outline">Login</a>
+        <!-- GANTI # dengan link bot / panel -->
+        <a href="#pricing" class="btn btn-primary">Register</a>
+      </div>
+      <button class="nav-toggle" id="nav-toggle">
+        <span></span>
+      </button>
+    </div>
+    <div class="nav-mobile" id="nav-mobile">
+      <a href="#home">Home</a>
+      <a href="#product">Product</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#about">About</a>
+      <a href="#" class="btn btn-outline">Login</a>
+      <a href="#pricing" class="btn btn-primary">Register</a>
+    </div>
+  </header>
 
-    <main class="hero-section">
-        <div class="content-wrapper">
-            <div class="action-buttons">
-                <a href="/login" class="btn login-btn">Login</a>
-                <a href="/register" class="btn register-btn">Register</a>
-            </div>
-            
-            <h1>infrastruktur untuk secure tunneling.</h1>
-            <p class="tagline">\#1 Tunneling account provider with hourly payment system</p>
-            
-            <div class="diagram-placeholder">
-                [attachment_0](attachment)
-            </div>
+  <main>
+    <!-- HERO -->
+    <section id="home">
+      <div class="hero">
+        <div>
+          <div class="hero-kicker">Secure • Fast • Simple</div>
+          <h1 class="hero-title">
+            Infrastruktur akun VPN<br />
+            <span>otomatis & realtime</span>.
+          </h1>
+          <p class="hero-sub">
+            Buat akun SSH / VPN berkualitas hanya dalam hitungan detik.
+            Pembayaran via QRIS, akun langsung aktif secara otomatis tanpa konfirmasi manual.
+          </p>
+          <div class="hero-actions">
+            <a href="#pricing" class="btn btn-primary">Buat Akun Sekarang</a>
+            <!-- GANTI link ini ke kontak admin -->
+            <a href="https://t.me/username_admin" target="_blank" class="btn btn-outline">
+              Hubungi Admin
+            </a>
+          </div>
+          <div class="hero-badge">
+            <span>●</span> System 24/7 otomatis via Pakasir
+          </div>
         </div>
-    </main>
+        <div class="hero-planet">
+          <div class="hero-globe"></div>
+          <div class="hero-orbit"></div>
+          <div class="hero-chip">
+            <span class="hero-dot"></span>
+            <span>Realtime provisioning</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRODUCT -->
+    <section id="product">
+      <h2 class="section-title">Produk & Fitur</h2>
+      <p class="section-sub">
+        RM Premium VPN dirancang untuk penjual akun VPN yang ingin sistem otomatis penuh.
+        Semua pembayaran, pembuatan akun, hingga notifikasi Telegram berjalan tanpa campur tangan manual.
+      </p>
+
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-title">Akun otomatis</div>
+          <div class="feature-desc">
+            Pembeli mengisi form, bayar via QRIS, akun langsung dibuat dan siap dipakai.
+          </div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-title">Integrasi Telegram Bot</div>
+          <div class="feature-desc">
+            Panel penjual tetap di Telegram, web hanya sebagai front-end pembeli.
+          </div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-title">Multi Server</div>
+          <div class="feature-desc">
+            Dukungan banyak server sekaligus (SG, ID, dll) dengan limit IP dan masa aktif fleksibel.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRICING + ORDER -->
+    <section id="pricing">
+      <h2 class="section-title">Paket Harga</h2>
+      <p class="section-sub">
+        Pilih paket yang sesuai kebutuhan. Sistem saat ini menggunakan 2 paket utama:
+        <b>Rp 5.000 / 15 hari</b> dan <b>Rp 10.000 / 30 hari</b>.
+      </p>
+
+      <div class="pricing-layout">
+        <!-- Paket -->
+        <div class="plan-grid">
+          <div class="plan-card" data-amount="5000">
+            <div class="plan-name">Starter</div>
+            <div class="plan-price">Rp 5.000</div>
+            <div class="plan-meta">Aktif 15 hari • 1 akun</div>
+          </div>
+          <div class="plan-card" data-amount="10000">
+            <div class="plan-name">Regular</div>
+            <div class="plan-price">Rp 10.000</div>
+            <div class="plan-meta">Aktif 30 hari • 1 akun</div>
+          </div>
+        </div>
+
+        <!-- Form order -->
+        <div class="order-card">
+          <h3>Form Pemesanan Akun</h3>
+          <p>Isi data akun VPN kamu. Setelah klik tombol, kamu akan diarahkan ke halaman pembayaran QRIS.</p>
+
+          <form id="order-form">
+            <label>Username</label>
+            <input name="username" required />
+
+            <label>Password</label>
+            <input name="password" required />
+
+            <label>Pilih Server</label>
+            <select name="server_id" required>
+              <option value="1">Server SG 1</option>
+              <option value="2">Server SG 2</option>
+              <option value="3">Server ID</option>
+            </select>
+
+            <!-- hidden amount, diisi dari kartu paket -->
+            <input type="hidden" name="amount" id="amount-input" />
+
+            <button type="submit" class="btn btn-primary" style="width:100%;margin-top:4px;">
+              Bayar & Buat Akun
+            </button>
+            <div id="order-status" class="order-status"></div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about">
+      <h2 class="section-title">Tentang RM Premium</h2>
+      <div class="about-grid">
+        <p class="section-sub">
+          RM Premium VPN adalah sistem penjualan akun VPN yang menggabungkan Telegram Bot dan halaman web
+          agar pembeli bisa order dari mana saja. Fokus utama kami adalah otomatisasi penuh & stabilitas.
+        </p>
+        <div class="about-box">
+          <b>Kenapa banyak seller pindah ke sistem otomatis?</b><br /><br />
+          • Tidak perlu cek transfer manual<br />
+          • Mengurangi human error saat input akun<br />
+          • Hemat waktu, tinggal monitor saja dari Telegram<br />
+          • Customer bisa beli kapan saja tanpa perlu menunggu admin online
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    © <span id="year"></span> RM Premium VPN. All rights reserved.
+  </footer>
+
+  <script>
+    // Tahun otomatis
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Toggle mobile nav
+    const navToggle = document.getElementById('nav-toggle');
+    const navMobile = document.getElementById('nav-mobile');
+
+    navToggle.addEventListener('click', () => {
+      const isOpen = navMobile.style.display === 'flex';
+      navMobile.style.display = isOpen ? 'none' : 'flex';
+    });
+
+    // Paket kartu -> set amount di form
+    const planCards = document.querySelectorAll('.plan-card');
+    const amountInput = document.getElementById('amount-input');
+    const orderStatus = document.getElementById('order-status');
+
+    function setActivePlan(amount) {
+      planCards.forEach(card => {
+        if (card.getAttribute('data-amount') === amount) {
+          card.classList.add('active');
+        } else {
+          card.classList.remove('active');
+        }
+      });
+      amountInput.value = amount;
+    }
+
+    planCards.forEach(card => {
+      card.addEventListener('click', () => {
+        const amount = card.getAttribute('data-amount');
+        setActivePlan(amount);
+      });
+    });
+
+    // default pilih paket 5k
+    setActivePlan('5000');
+
+    // Form order submit
+    const orderForm = document.getElementById('order-form');
+
+    orderForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      orderStatus.textContent = 'Membuat pesanan...';
+      orderStatus.className = 'order-status';
+
+      const formData = new FormData(orderForm);
+      const body = Object.fromEntries(formData.entries());
+
+      if (!body.amount) {
+        orderStatus.textContent = 'Silakan pilih paket terlebih dahulu.';
+        orderStatus.classList.add('error');
+        return;
+      }
+
+      try {
+        const resp = await fetch('/api/web/order', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body)
+        });
+
+        const data = await resp.json();
+
+        if (!data.success) {
+          orderStatus.textContent = data.message || 'Gagal membuat pesanan.';
+          orderStatus.classList.add('error');
+          return;
+        }
+
+        orderStatus.textContent = 'Mengalihkan ke halaman pembayaran...';
+        orderStatus.classList.add('success');
+
+        window.location.href = data.paymentUrl;
+      } catch (err) {
+        console.error(err);
+        orderStatus.textContent = 'Terjadi kesalahan jaringan. Coba lagi.';
+        orderStatus.classList.add('error');
+      }
+    });
+  </script>
 </body>
-</html>
+          </html>
