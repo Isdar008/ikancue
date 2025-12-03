@@ -21,7 +21,7 @@
   <section id="login" class="page hidden">
     <div class="container">
       <h2>Login Bebas</h2>
-      <p>*Email dan Password bebas. Data tersimpan di browser Anda.</p>
+      <p class="muted">Email & Password bebas, hanya disimpan di browser kamu.</p>
 
       <input id="email" type="email" placeholder="Masukkan email">
       <input id="password" type="password" placeholder="Masukkan password">
@@ -31,22 +31,146 @@
     </div>
   </section>
 
-  <!-- DASHBOARD PAGE -->
+  <!-- APP / DASHBOARD -->
   <section id="dashboard" class="page hidden">
-    <div class="container">
-      <h2>Halo, <span id="userEmail"></span></h2>
-      <p>Selamat datang kembali di dashboard XTRIMER.</p>
+    <div class="app-shell">
 
-      <div class="card">
-        <h3>Informasi Akun</h3>
-        <p>Email: <span id="infoEmail"></span></p>
-        <p>Password: <span id="infoPass"></span></p>
-      </div>
+      <!-- HEADER -->
+      <header class="app-header">
+        <div class="brand">
+          <span class="logo-dot"></span>
+          <div>
+            <div class="brand-title">XTRIMER PANEL</div>
+            <div class="brand-sub">VPN Management</div>
+          </div>
+        </div>
+        <div class="user-box">
+          <span class="user-label">Masuk sebagai</span>
+          <span class="user-email" id="userEmailHeader"></span>
+          <button class="btn danger small" onclick="logout()">Logout</button>
+        </div>
+      </header>
 
-      <button onclick="logout()" class="btn danger full">Logout</button>
+      <!-- NAV -->
+      <nav class="app-nav">
+        <button class="nav-btn active" onclick="openAppPage('overview', this)">Overview</button>
+        <button class="nav-btn" onclick="openAppPage('servers', this)">Server</button>
+        <button class="nav-btn" onclick="openAppPage('create', this)">Buat Akun</button>
+        <button class="nav-btn" onclick="openAppPage('renew', this)">Perpanjang</button>
+        <button class="nav-btn" onclick="openAppPage('topup', this)">Topup</button>
+      </nav>
+
+      <!-- MAIN CONTENT -->
+      <main class="app-main">
+
+        <!-- OVERVIEW -->
+        <div id="app-overview" class="app-page active">
+          <div class="grid-2">
+            <div class="card">
+              <h3>Informasi Login</h3>
+              <p>Email: <span id="infoEmail"></span></p>
+              <p>Password: <span id="infoPass"></span></p>
+            </div>
+            <div class="card">
+              <h3>Status Akun (Dummy)</h3>
+              <p>Saldo: <strong>Rp 0</strong></p>
+              <p>Total Akun Dibuat: <strong>0</strong></p>
+              <p>Level: <strong>Member</strong></p>
+              <p class="muted small">Nanti bisa diisi dari API app.js.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- SERVER LIST -->
+        <div id="app-servers" class="app-page">
+          <h3>Daftar Server</h3>
+          <p class="muted small">Data masih dummy. Nanti tinggal diganti ambil dari API server lu.</p>
+          <div id="serverList" class="server-list">
+            <!-- akan diisi dari script.js -->
+          </div>
+        </div>
+
+        <!-- BUAT AKUN -->
+        <div id="app-create" class="app-page">
+          <h3>Buat Akun VPN</h3>
+          <p class="muted small">Form ini sementara hanya simulasi. Nanti tombolnya bisa dihubungkan ke endpoint create akun.</p>
+
+          <div class="card">
+            <label>Jenis Akun</label>
+            <select id="createType">
+              <option value="ssh">SSH</option>
+              <option value="vmess">VMESS</option>
+              <option value="vless">VLESS</option>
+              <option value="trojan">TROJAN</option>
+            </select>
+
+            <label>Server</label>
+            <select id="createServer">
+              <option value="sg-1">SG 1</option>
+              <option value="sg-2">SG 2</option>
+              <option value="id-1">ID 1</option>
+            </select>
+
+            <label>Username Akun</label>
+            <input id="createUser" type="text" placeholder="misal: uservpn123">
+
+            <label>Masa Aktif (hari)</label>
+            <input id="createDays" type="number" min="1" value="30">
+
+            <button class="btn primary full" onclick="submitCreate()">Buat Akun (Simulasi)</button>
+          </div>
+        </div>
+
+        <!-- RENEW AKUN -->
+        <div id="app-renew" class="app-page">
+          <h3>Perpanjang Akun</h3>
+          <p class="muted small">Nanti disambungkan ke endpoint renew di app.js.</p>
+
+          <div class="card">
+            <label>Jenis Akun</label>
+            <select id="renewType">
+              <option value="ssh">SSH</option>
+              <option value="vmess">VMESS</option>
+              <option value="vless">VLESS</option>
+              <option value="trojan">TROJAN</option>
+            </select>
+
+            <label>Username Akun</label>
+            <input id="renewUser" type="text" placeholder="username yang mau diperpanjang">
+
+            <label>Tambahan Hari</label>
+            <input id="renewDays" type="number" min="1" value="30">
+
+            <button class="btn primary full" onclick="submitRenew()">Perpanjang (Simulasi)</button>
+          </div>
+        </div>
+
+        <!-- TOPUP -->
+        <div id="app-topup" class="app-page">
+          <h3>Topup Saldo</h3>
+          <p class="muted small">Bagian ini bisa dihubungkan ke sistem topup + QRIS yang sudah ada di bot/app.js.</p>
+
+          <div class="card">
+            <label>Nominal Topup (Rp)</label>
+            <input id="topupAmount" type="number" min="1000" step="1000" value="10000">
+
+            <button class="btn primary full" onclick="submitTopup()">Buat Request Topup (Simulasi)</button>
+          </div>
+
+          <div class="card">
+            <h4>Riwayat Topup (Dummy)</h4>
+            <ul class="dummy-list">
+              <li>#INV-001 • Rp 10.000 • Pending</li>
+              <li>#INV-000 • Rp 25.000 • Sukses</li>
+            </ul>
+            <p class="muted small">Nanti bisa diisi dari tabel <code>topup_log</code> di database.</p>
+          </div>
+        </div>
+
+      </main>
     </div>
   </section>
 
-<script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
-</html>
+                                                      </html>
