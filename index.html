@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>⚡ TunXtrimer VPN Panel</title>
+
+  <style>
+    /* Global Reset & Background */
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #1f2937 0%, #0f172a 100%);
+      font-family: 'Inter', system-ui, sans-serif; /* Menggunakan font Inter/system-ui */
+      color: #e5e7eb;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    /* Main Container */
+    .box {
+      width: 100%;
+      max-width: 440px; /* Lebar sedikit diperbesar */
+      background: rgba(17, 24, 39, 0.9);
+      padding: 30px; /* Padding sedikit lebih besar */
+      border-radius: 25px; /* Sudut lebih melengkung */
+      border: 1px solid rgba(75, 85, 99, 0.3);
+      backdrop-filter: blur(20px);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.7);
+    }
+
+    /* Header */
+    h1 {
+      text-align: center;
+      margin-bottom: 4px;
+      font-size: 26px; /* Font size lebih besar */
+      font-weight: 800; /* Lebih tebal */
+      color: #fff;
+      text-shadow: 0 0 10px rgba(99, 102, 241, 0.5); /* Efek glow halus */
+    }
+
+    .subtitle {
+      text-align: center;
+      font-size: 14px;
+      color: #9ca3af;
+      margin-bottom: 24px;
+    }
+
+    /* Menu Grid (The Buttons) */
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr); /* Tetap 2 kolom */
+      gap: 15px; /* Jarak antar tombol lebih besar */
+      margin-bottom: 25px;
+    }
+
+    .btn {
+      padding: 15px;
+      background: #374151; /* Warna tombol baru */
+      border: none;
+      border-radius: 16px;
+      color: #fff;
+      font-weight: 700;
+      font-size: 16px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Warna Tombol Premium */
+    .btn:nth-child(1), .btn:nth-child(2), .btn:nth-child(3), .btn:nth-child(4) {
+      background: linear-gradient(45deg, #4f46e5, #6366f1);
+    }
+    .btn:hover:nth-child(1), .btn:hover:nth-child(2), .btn:hover:nth-child(3), .btn:hover:nth-child(4) {
+        transform: translateY(-3px) scale(1.02);
+        box-shadow: 0 8px 15px rgba(99, 102, 241, 0.4);
+    }
+
+    /* Warna Tombol Trial */
+    .btn:nth-child(5), .btn:nth-child(6), .btn:nth-child(7), .btn:nth-child(8) {
+      background: #1f2937;
+      border: 1px solid #6b7280;
+      color: #9ca3af;
+    }
+     .btn:hover:nth-child(5), .btn:hover:nth-child(6), .btn:hover:nth-child(7), .btn:hover:nth-child(8) {
+        background: #374151;
+        transform: translateY(-1px);
+        color: #fff;
+    }
+    
+    /* Hover Effect */
+    .btn:active {
+        transform: translateY(0);
+        opacity: 0.9;
+    }
+
+
+    /* ===== INFO PREMIUM ACCOUNT ===== */
+    .section-title {
+      font-size: 14px;
+      font-weight: 700;
+      margin-top: 10px;
+      margin-bottom: 12px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+    }
+
+    .section-title::before {
+        content: '💰';
+        margin-right: 8px;
+        font-size: 18px;
+    }
+
+    .plans {
+      border-radius: 18px;
+      padding: 15px;
+      background: #1f2937;
+      border: 1px solid rgba(99, 102, 241, 0.3);
+    }
+
+    .plan-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start; /* Ubah ke flex-start */
+      padding: 8px 0;
+      border-bottom: 1px dashed #374151;
+    }
+
+    .plan-row:last-child {
+      border-bottom: none;
+    }
+
+    .plan-info {
+        flex-grow: 1;
+        padding-right: 15px;
+    }
+
+    .plan-name {
+      font-weight: 700;
+      color: #fff;
+      font-size: 15px;
+      margin-bottom: 2px;
+    }
+
+    .plan-note {
+      font-size: 11px;
+      color: #a5b4fc; /* Warna yang lebih cerah */
+      line-height: 1.4;
+    }
+
+    .plan-prices {
+        text-align: right;
+    }
+
+    .plan-price {
+      font-size: 14px;
+      font-weight: 700;
+      color: #a5b4fc;
+      margin-top: 2px;
+      padding: 2px 0;
+    }
+    
+    .plan-price:nth-child(2) {
+        color: #fca5a5; /* Warna berbeda untuk harga 30 hari */
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="box">
+  <h1>⚡ TunXtrimer VPN Panel</h1>
+  <div class="subtitle">
+    Pilih jenis akun VPN **Premium** atau **Trial** yang ingin kamu buat.
+  </div>
+
+  <div class="menu-grid">
+    <div class="btn" onclick="go('create/ssh')">SSH Premium</div>
+    <div class="btn" onclick="go('create/vmess')">VMESS Premium</div>
+    <div class="btn" onclick="go('create/vless')">VLESS Premium</div>
+    <div class="btn" onclick="go('create/trojan')">TROJAN Premium</div>
+
+    <div class="btn" onclick="go('trial/ssh')">Trial SSH</div>
+    <div class="btn" onclick="go('trial/vmess')">Trial VMESS</div>
+    <div class="btn" onclick="go('trial/vless')">Trial VLESS</div>
+    <div class="btn" onclick="go('trial/trojan')">Trial TROJAN</div>
+  </div>
+
+  <div class="section-title">Informasi Harga Akun Premium</div>
+  <div class="plans">
+
+    <div class="plan-row">
+      <div class="plan-info">
+        <div class="plan-name">SSH</div>
+        <div class="plan-note">15/30 Hari • Limit 2 IP • Stabil untuk **Game & Harian**.</div>
+      </div>
+      <div class="plan-prices">
+        <div class="plan-price">Rp 5.000</div>
+        <div class="plan-price">Rp 10.000</div>
+      </div>
+    </div>
+
+    <div class="plan-row">
+      <div class="plan-info">
+        <div class="plan-name">VMESS</div>
+        <div class="plan-note">15/30 Hari • Limit 2 IP • **Ringan & Cepat**, cocok **Streaming**.</div>
+      </div>
+      <div class="plan-prices">
+        <div class="plan-price">Rp 5.000</div>
+        <div class="plan-price">Rp 10.000</div>
+      </div>
+    </div>
+
+    <div class="plan-row">
+      <div class="plan-info">
+        <div class="plan-name">VLESS</div>
+        <div class="plan-note">15/30 Hari • Limit 2 IP • Stabil **Bug/SNI**, cocok **Opok**.</div>
+      </div>
+      <div class="plan-prices">
+        <div class="plan-price">Rp 5.000</div>
+        <div class="plan-price">Rp 10.000</div>
+      </div>
+    </div>
+
+    <div class="plan-row">
+      <div class="plan-info">
+        <div class="plan-name">TROJAN</div>
+        <div class="plan-note">15/30 Hari • Limit 2 IP • **Enkripsi kuat** & koneksi stabil.</div>
+      </div>
+      <div class="plan-prices">
+        <div class="plan-price">Rp 5.000</div>
+        <div class="plan-price">Rp 10.000</div>
+      </div>
+    </div>
+
+  </div>
+
+<script>
+  function go(path) {
+    window.location.href = "/" + path;
+  }
+</script>
+
+</body>
+</html>
