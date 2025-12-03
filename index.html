@@ -17,15 +17,16 @@
     .container { max-width: 420px; margin: auto; text-align: center; }
     .center { margin-top: 22vh; }
 
-    h1,h2 { margin-top: 0; }
+    h1,h2,h3,h4 { margin-top: 0; }
     .muted { color:#999;}
+    .small { font-size: 12px; }
 
-    input {
+    input, select {
       width:100%; padding:12px; margin:8px 0 16px;
       border-radius:8px; border:1px solid #222;
       background:#0c0f14; color:#f5f5f5; outline:none;
     }
-    input:focus { border-color:#2c6cf6; }
+    input:focus, select:focus { border-color:#2c6cf6; }
 
     .btn {
       padding:12px; border:none; border-radius:8px;
@@ -35,12 +36,77 @@
     .secondary { background:#262a33; color:white; }
     .danger { background:#d62828; color:white; }
     .full { width:100%; }
+    .small-btn { padding:6px 10px; font-size:12px; }
 
-    /* DASHBOARD SIMPLE */
     .card {
       background:#0c0f14; padding:16px;
       border-radius:12px; margin-top:16px; text-align:left;
       box-shadow:0 0 0 1px #111;
+    }
+
+    /* APP SHELL DASHBOARD */
+    .app-shell { max-width: 960px; margin:auto; }
+    .app-header {
+      display:flex; justify-content:space-between;
+      align-items:center; gap:12px; margin-bottom:16px;
+    }
+    .brand { display:flex; align-items:center; gap:10px; }
+    .logo-dot {
+      width:24px; height:24px; border-radius:50%;
+      background: radial-gradient(circle at 30% 30%, #5cf4ff, #2c6cf6);
+    }
+    .brand-title { font-weight:bold; font-size:16px; }
+    .brand-sub { font-size:12px; color:#888; }
+    .user-box { display:flex; align-items:center; gap:8px; font-size:13px; }
+    .user-label { color:#999; }
+    .user-email { font-weight:bold; }
+
+    .app-nav {
+      display:flex; gap:8px; overflow-x:auto;
+      padding-bottom:8px; margin-bottom:12px;
+    }
+    .nav-btn {
+      border:none; padding:8px 14px; border-radius:999px;
+      background:#161922; color:#ccc; font-size:13px;
+      white-space:nowrap; cursor:pointer;
+    }
+    .nav-btn.active { background:#2c6cf6; color:white; }
+
+    .app-main { border-radius:16px; background:#05070a; }
+    .app-page { display:none; }
+    .app-page.active { display:block; }
+
+    .grid-2 {
+      display:grid;
+      grid-template-columns:1.1fr 0.9fr;
+      gap:16px;
+    }
+
+    .server-list {
+      display:grid;
+      grid-template-columns:repeat(auto-fill, minmax(230px, 1fr));
+      gap:12px;
+    }
+    .server-card {
+      background:#0c0f14; padding:14px;
+      border-radius:10px; box-shadow:0 0 0 1px #111;
+      font-size:14px;
+    }
+    .server-name { font-weight:bold; margin-bottom:4px; }
+    .server-meta { font-size:12px; color:#aaa; }
+    .badge {
+      display:inline-block; padding:2px 8px;
+      border-radius:999px; font-size:11px; margin-top:4px;
+    }
+    .badge.green { background:#16391c; color:#5cff82; }
+    .badge.red { background:#3a181a; color:#ff7b8a; }
+
+    .dummy-list { padding-left:18px; margin:6px 0 0; }
+    .dummy-list li { margin-bottom:4px; }
+
+    @media (max-width: 700px) {
+      .app-header { flex-direction:column; align-items:flex-start; }
+      .grid-2 { grid-template-columns:1fr; }
     }
   </style>
 </head>
@@ -49,7 +115,7 @@
   <!-- WELCOME PAGE -->
   <section id="welcome" class="page active">
     <div class="container center">
-      <h1>🌟 Selamat Datang di XTRIMER PANEL</h1>
+      <h1>🚀 Selamat Datang di XTRIMER PANEL</h1>
       <p>Dashboard pribadi untuk mengelola akun VPN Anda.</p>
       <button id="btnMulai" class="btn primary">Mulai</button>
     </div>
@@ -71,27 +137,150 @@
 
   <!-- DASHBOARD PAGE -->
   <section id="dashboard" class="page">
-    <div class="container">
-      <h2>Halo, <span id="userEmail"></span></h2>
-      <p>Selamat datang kembali di dashboard XTRIMER.</p>
+    <div class="app-shell">
 
-      <div class="card">
-        <h3>Informasi Akun</h3>
-        <p>Email: <span id="infoEmail"></span></p>
-        <p>Password: <span id="infoPass"></span></p>
-      </div>
+      <!-- HEADER -->
+      <header class="app-header">
+        <div class="brand">
+          <span class="logo-dot"></span>
+          <div>
+            <div class="brand-title">XTRIMER PANEL</div>
+            <div class="brand-sub">VPN Management</div>
+          </div>
+        </div>
+        <div class="user-box">
+          <span class="user-label">Masuk sebagai</span>
+          <span class="user-email" id="userEmailHeader"></span>
+          <button id="btnLogout" class="btn danger small-btn">Logout</button>
+        </div>
+      </header>
 
-      <button id="btnLogout" class="btn danger full">Logout</button>
+      <!-- NAV -->
+      <nav class="app-nav">
+        <button class="nav-btn active" data-target="overview">Overview</button>
+        <button class="nav-btn" data-target="servers">Server</button>
+        <button class="nav-btn" data-target="create">Buat Akun</button>
+        <button class="nav-btn" data-target="renew">Perpanjang</button>
+        <button class="nav-btn" data-target="topup">Topup</button>
+      </nav>
+
+      <!-- MAIN CONTENT -->
+      <main class="app-main">
+
+        <!-- OVERVIEW -->
+        <div id="app-overview" class="app-page active">
+          <div class="grid-2">
+            <div class="card">
+              <h3>Informasi Login</h3>
+              <p>Email: <span id="infoEmail"></span></p>
+              <p>Password: <span id="infoPass"></span></p>
+            </div>
+            <div class="card">
+              <h3>Status Akun (Dummy)</h3>
+              <p>Saldo: <strong>Rp 0</strong></p>
+              <p>Total Akun Dibuat: <strong>0</strong></p>
+              <p>Level: <strong>Member</strong></p>
+              <p class="muted small">Nanti bisa diisi dari API app.js.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- SERVER LIST -->
+        <div id="app-servers" class="app-page">
+          <h3>Daftar Server</h3>
+          <p class="muted small">Masih dummy. Nanti diganti ambil dari database Server.</p>
+          <div id="serverList" class="server-list"></div>
+        </div>
+
+        <!-- BUAT AKUN -->
+        <div id="app-create" class="app-page">
+          <h3>Buat Akun VPN</h3>
+          <p class="muted small">Saat ini cuma simulasi. Nanti tombol akan tembak ke API create akun.</p>
+
+          <div class="card">
+            <label>Jenis Akun</label>
+            <select id="createType">
+              <option value="ssh">SSH</option>
+              <option value="vmess">VMESS</option>
+              <option value="vless">VLESS</option>
+              <option value="trojan">TROJAN</option>
+            </select>
+
+            <label>Server</label>
+            <select id="createServer">
+              <option value="sg-1">SG 1</option>
+              <option value="sg-2">SG 2</option>
+              <option value="id-1">ID 1</option>
+            </select>
+
+            <label>Username Akun</label>
+            <input id="createUser" type="text" placeholder="misal: uservpn123">
+
+            <label>Masa Aktif (hari)</label>
+            <input id="createDays" type="number" min="1" value="30">
+
+            <button class="btn primary full" id="btnCreate">Buat Akun (Simulasi)</button>
+          </div>
+        </div>
+
+        <!-- RENEW AKUN -->
+        <div id="app-renew" class="app-page">
+          <h3>Perpanjang Akun</h3>
+          <p class="muted small">Nanti akan disambung ke endpoint renew di backend.</p>
+
+          <div class="card">
+            <label>Jenis Akun</label>
+            <select id="renewType">
+              <option value="ssh">SSH</option>
+              <option value="vmess">VMESS</option>
+              <option value="vless">VLESS</option>
+              <option value="trojan">TROJAN</option>
+            </select>
+
+            <label>Username Akun</label>
+            <input id="renewUser" type="text" placeholder="username yang mau diperpanjang">
+
+            <label>Tambahan Hari</label>
+            <input id="renewDays" type="number" min="1" value="30">
+
+            <button class="btn primary full" id="btnRenew">Perpanjang (Simulasi)</button>
+          </div>
+        </div>
+
+        <!-- TOPUP -->
+        <div id="app-topup" class="app-page">
+          <h3>Topup Saldo</h3>
+          <p class="muted small">Bisa dihubungkan ke sistem QRIS / Pakasir yang sudah ada.</p>
+
+          <div class="card">
+            <label>Nominal Topup (Rp)</label>
+            <input id="topupAmount" type="number" min="1000" step="1000" value="10000">
+
+            <button class="btn primary full" id="btnTopup">Buat Request Topup (Simulasi)</button>
+          </div>
+
+          <div class="card">
+            <h4>Riwayat Topup (Dummy)</h4>
+            <ul class="dummy-list">
+              <li>#INV-001 • Rp 10.000 • Pending</li>
+              <li>#INV-000 • Rp 25.000 • Sukses</li>
+            </ul>
+            <p class="muted small">Nanti bisa diisi dari tabel <code>topup_log</code>.</p>
+          </div>
+        </div>
+
+      </main>
     </div>
   </section>
 
-  <!-- JS INLINE, DIJAMIN KELOAD -->
   <script>
+    // ===== helper untuk ganti page utama (welcome/login/dashboard) =====
     function showPage(id) {
       document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
       document.getElementById(id).classList.add('active');
     }
 
+    // ===== LOGIN & DASHBOARD =====
     function loadDashboard() {
       const email = localStorage.getItem("xt_email");
       const pass  = localStorage.getItem("xt_pass");
@@ -99,13 +288,15 @@
         showPage('welcome');
         return;
       }
-      document.getElementById('userEmail').innerText = email;
+      document.getElementById('userEmailHeader').innerText = email;
       document.getElementById('infoEmail').innerText = email;
       document.getElementById('infoPass').innerText  = pass;
+
       showPage('dashboard');
+      openAppPage('overview');
+      renderDummyServers();
     }
 
-    // event tombol
     document.getElementById('btnMulai').addEventListener('click', () => {
       showPage('login');
     });
@@ -132,7 +323,100 @@
       showPage('welcome');
     });
 
-    // cek auto login saat pertama buka
+    // ===== NAVIGASI DALAM DASHBOARD =====
+    function openAppPage(name) {
+      document.querySelectorAll('.app-page').forEach(p => p.classList.remove('active'));
+      const target = document.getElementById('app-' + name);
+      if (target) target.classList.add('active');
+
+      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.nav-btn').forEach(b => {
+        if (b.dataset.target === name) b.classList.add('active');
+      });
+    }
+
+    document.querySelectorAll('.nav-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const name = btn.dataset.target;
+        openAppPage(name);
+      });
+    });
+
+    // ===== DUMMY SERVER LIST =====
+    const dummyServers = [
+      { name:'SG-1 Premium', location:'Singapore', isp:'DigitalOcean', status:'online',  note:'Ping rendah, cocok gaming.' },
+      { name:'SG-2 Premium', location:'Singapore', isp:'Vultr',        status:'online',  note:'Koneksi stabil harian.' },
+      { name:'ID-1 Route',   location:'Indonesia', isp:'Biznet',       status:'online',  note:'Cocok streaming lokal.' },
+      { name:'US-1',         location:'United States', isp:'OVH',      status:'offline', note:'Sedang maintenance.' }
+    ];
+
+    function renderDummyServers() {
+      const wrap = document.getElementById('serverList');
+      if (!wrap) return;
+      wrap.innerHTML = dummyServers.map(s => {
+        const statusClass = s.status === 'online' ? 'green' : 'red';
+        const statusText  = s.status === 'online' ? 'Online' : 'Offline';
+        return `
+          <div class="server-card">
+            <div class="server-name">${s.name}</div>
+            <div class="server-meta">${s.location} • ${s.isp}</div>
+            <span class="badge ${statusClass}">${statusText}</span>
+            <p class="muted small" style="margin-top:8px;">${s.note}</p>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // ===== FORM SIMULASI BUAT AKUN =====
+    document.getElementById('btnCreate').addEventListener('click', () => {
+      const type   = document.getElementById('createType').value;
+      const server = document.getElementById('createServer').value;
+      const user   = document.getElementById('createUser').value.trim();
+      const days   = parseInt(document.getElementById('createDays').value, 10);
+
+      if (!user || !days) {
+        alert('Username & hari tidak boleh kosong!');
+        return;
+      }
+
+      alert(
+        `Simulasi: Buat akun ${type.toUpperCase()} di server ${server}\n`+
+        `User: ${user}\nHari: ${days}\n\nNanti tombol ini tinggal diarahkan ke endpoint API.`
+      );
+    });
+
+    // ===== FORM SIMULASI RENEW =====
+    document.getElementById('btnRenew').addEventListener('click', () => {
+      const type = document.getElementById('renewType').value;
+      const user = document.getElementById('renewUser').value.trim();
+      const days = parseInt(document.getElementById('renewDays').value, 10);
+
+      if (!user || !days) {
+        alert('Username & hari tidak boleh kosong!');
+        return;
+      }
+
+      alert(
+        `Simulasi: Perpanjang akun ${type.toUpperCase()}\n`+
+        `User: ${user}\nTambah hari: ${days}\n\nNanti bisa diarahkan ke endpoint renew.`
+      );
+    });
+
+    // ===== FORM SIMULASI TOPUP =====
+    document.getElementById('btnTopup').addEventListener('click', () => {
+      const amount = parseInt(document.getElementById('topupAmount').value, 10);
+      if (!amount || amount < 1000) {
+        alert('Nominal minimal 1.000');
+        return;
+      }
+      const email = localStorage.getItem('xt_email') || '-';
+      alert(
+        `Simulasi: Request topup Rp ${amount.toLocaleString('id-ID')} untuk ${email}.\n`+
+        `Nanti disambungkan ke API topup / QRIS backend.`
+      );
+    });
+
+    // auto cek login saat pertama kali buka
     loadDashboard();
   </script>
 </body>
