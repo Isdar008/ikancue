@@ -2,7 +2,11 @@
 // CONFIG
 // =====================================
 const API_BASE = "/api/web"; // karena panel di domain yang sama
-
+// email yang dianggap admin panel
+const ADMIN_EMAILS = [
+  "istiqwamantunnel@gmail.com",   // ganti / tambah sesuai kebutuhan
+  // "admin2@gmail.com",
+];
 // =====================================
 // HELPER
 // =====================================
@@ -162,6 +166,15 @@ function loadDashboard() {
   document.getElementById("userEmailHeader").innerText = email;
   document.getElementById("infoEmail").innerText = email;
   document.getElementById("infoPass").innerText = pass;
+
+  // 🔐 cek apakah email ini admin
+  const isAdmin = ADMIN_EMAILS.includes(email.toLowerCase());
+  localStorage.setItem("xt_is_admin", isAdmin ? "1" : "0");
+
+  const navAdmin = document.getElementById("navAdmin");
+  if (navAdmin) {
+    navAdmin.style.display = isAdmin ? "inline-flex" : "none";
+  }
 
   showPage("dashboard");
   openAppPage("overview");
@@ -329,21 +342,20 @@ if (btnDoReset) {
 // =====================================
 // NAVIGATION (Overview/Server/Buat/Renew/Topup)
 // =====================================
+functon openAppPage(name) {
 function openAppPage(name) {
-  document
-    .querySelectorAll(".app-page")
-    .forEach((p) => p.classList.remove("active"));
-  const target = document.getElementById("app-" + name);
-  if (target) target.classList.add("active");
+  document.querySelectorAll(".app-page").forEach(p => p.classList.remove("active"));
+  document.getElementById("app-" + name).classList.add("active");
 
-  document
-    .querySelectorAll(".nav-btn")
-    .forEach((btn) => btn.classList.remove("active"));
-  const navBtn = document.querySelector(`.nav-btn[data-target="${name}"]`);
-  if (navBtn) navBtn.classList.add("active");
+  document.querySelectorAll(".nav-btn").forEach(btn => btn.classList.remove("active"));
+  document.querySelector(`.nav-btn[data-target="${name}"]`).classList.add("active");
 
+  // saat buka tab Topup → load history user
   if (name === "topup") {
     loadTopupHistory();
+  } else if (name === "admin") {
+    // saat buka tab Admin → load history panel
+    loadTopupHistoryAdmin();
   }
 }
 
@@ -572,7 +584,48 @@ async function loadTopupHistory() {
     empty.style.display = "none";
   }
 }
+async function loadTopupHistoryAdmin() {
+  const list = document.getElementById("topupHistoryAdmin");
+  const empty = document.getElementById("topupHistoryAdminEmpty");
+  if (!list || !empty) return;
 
+  list.innerHTML = "<li>Memuat...</li>";
+  empty.style.display = "none";
+
+  try {
+    // admin lihat seluruh riwayat (backend kita memang sudah global)
+    const res = await fetch(`${API_BASE}/topup-history`);
+    const json = await res.json();
+
+    if (!json.ok || !json.items || json.items.length === 0) {
+      list.innerHTML = "";
+      empty.textContent = "Belum ada riwayat topup.";
+      empty.style.display = "block";
+      return;
+    }
+
+    list.innerHTML = json.items
+      .map((item) => {
+        const waktu = item.created_at
+          ? new Date(item.created_at).toLocaleString("id-ID")
+          : "-";
+        const statusText = (item.status || "-").toString().toUpperCase();
+        const refText = item.reference ? ` • Ref: ${item.reference}` : "";
+        const methodText = item.method ? ` • ${item.method}` : "";
+
+        return `
+          <li>
+            #${item.id || "-"} • ${fmtRupiah(item.amount)} • ${statusText}${refText}${methodText} • ${waktu}
+          </li>
+        `;
+      })
+      .join("");
+  } catch (e) {
+    console.warn("Gagal load history admin:", e);
+    list.innerHTML = "<li>Gagal memuat riwayat.</li>";
+    empty.style.display = "none";
+  }
+    }
 // =====================================
 // START PANEL
 // =====================================
