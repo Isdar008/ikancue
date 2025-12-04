@@ -191,14 +191,14 @@ if (btnAdminAddSaldo) {
     lockButton(btn, true);
     try {
       const res = await fetch(`${API_BASE}/admin/add-balance`, {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({
-    username: targetUsername,   // ⬅️ pakai targetUsername
-    amount,
-    note,
-  }),
-});
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: targetUsername,   // 🔥 kirim nama/ email member ke backend
+          amount,
+          note,
+        }),
+      });
 
       const json = await res.json().catch(() => ({}));
       if (!res.ok || !json.ok) {
@@ -209,8 +209,7 @@ if (btnAdminAddSaldo) {
         `Saldo ${fmtRupiah(amount)} berhasil ditambahkan ke ${targetUsername}.`
       );
 
-      // kalau admin nambah saldo dirinya sendiri (username sama),
-      // kamu boleh tambahin cek kalau di status pakai username.
+      // reload riwayat panel
       loadTopupHistoryAdmin();
     } catch (e) {
       alert(e.message || "Gagal menambah saldo.");
