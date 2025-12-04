@@ -754,12 +754,12 @@ select:focus {
   width: 100%;
   padding: 10px 12px 12px;
   border-radius: 16px;
-  background: transparent;
+  /* bg & border biar kayak kartu */
+  background: rgba(15, 23, 42, 0.98);
   color: #e5e7eb;
-  font-family: "JetBrains Mono", "Fira Code", monospace;
-  font-size: 12px;
-  line-height: 1.45;
-  white-space: pre-wrap;   /* \n jadi baris baru */
+  font-size: 13px;
+  line-height: 1.5;
+  white-space: normal; /* jangan pre-wrap lagi */
 }
 
 /* tombol bawah modal */
@@ -784,4 +784,4 @@ select:focus {
   .result-actions .btn.full {
     flex: 1 1 0;
   }
-}
+     }
