@@ -1,132 +1,499 @@
 /* =========================
-   HERO WELCOME ala landing page
+   CSS VARIABLES & GLOBAL RESET (Megah)
+   ========================= */
+:root {
+  --color-dark-base: #0a0e1a; /* Lebih gelap dari sebelumnya */
+  --color-dark-surface: #101426; /* Background Card / Input */
+  --color-dark-code: #070b14; /* Background Kode */
+  --color-primary-light: #52aaff;
+  --color-primary-dark: #3a7aff;
+  --color-text-light: #e0e6f7;
+  --color-text-muted: #8b94a9;
+  --color-border: #293145;
+  --color-highlight: #4caf50; /* Green highlight */
+  --font-main: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-main);
+}
+
+body {
+  background: var(--color-dark-base);
+  color: var(--color-text-light);
+  min-height: 100vh;
+}
+
+/* =========================
+   TYPOGRAPHY & UTIL (Megah)
+   ========================= */
+h1, h2, h3, h4 {
+  margin-bottom: 12px;
+  font-weight: 700;
+  letter-spacing: -0.01em; /* Lebih modern */
+}
+
+.section-title-megah {
+  font-size: 24px;
+  margin-bottom: 16px;
+  border-left: 3px solid var(--color-primary-light);
+  padding-left: 10px;
+}
+
+.subsection-title-megah {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+p {
+  margin-bottom: 8px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.muted {
+  color: var(--color-text-muted);
+}
+
+.small {
+  font-size: 13px;
+}
+
+.highlight-text {
+  color: var(--color-highlight);
+  font-weight: 700;
+}
+
+.link-megah {
+  color: var(--color-primary-light);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.link-megah:hover {
+  color: var(--color-primary-light);
+  text-decoration: underline;
+}
+
+/* =========================
+   TOP BAR (Megah)
+   ========================= */
+.site-header-megah {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: rgba(10, 14, 26, 0.9); /* Sedikit transparansi */
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.site-title-megah {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: linear-gradient(90deg, #b2f5ff, var(--color-primary-light));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.site-tagline-megah {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+.site-badge-megah {
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: linear-gradient(45deg, rgba(62, 107, 250, 0.15), rgba(82, 170, 255, 0.1));
+  color: var(--color-primary-light);
+  border: 1px solid rgba(62, 107, 250, 0.5);
+  font-weight: 600;
+}
+
+/* =========================
+   HERO WELCOME (Megah)
    ========================= */
 #welcome {
   min-height: calc(100vh - 60px);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 32px 18px 40px;
-  background: radial-gradient(circle at top, #020617 0, #020617 40%, #020617 100%);
+  padding: 40px 18px;
+  /* Gradient yang lebih halus dan fokus ke tengah */
+  background: radial-gradient(circle at center top, rgba(58, 122, 255, 0.1), var(--color-dark-base) 65%);
 }
 
-.hero-inner {
-  max-width: 680px;
-  width: 100%;
-}
-
-.hero-kicker {
-  font-size: 12px;
-  letter-spacing: 0.18em;
+.hero-kicker-megah {
+  font-size: 13px;
+  letter-spacing: 0.25em;
   text-transform: uppercase;
-  color: #60a5fa;
-  margin-bottom: 10px;
+  color: var(--color-primary-light);
+  font-weight: 600;
+  margin-bottom: 12px;
 }
 
-.hero-title {
-  font-size: 30px;
+.hero-title-megah {
+  font-size: 44px;
   line-height: 1.1;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  margin-bottom: 14px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: 18px;
 }
 
-.hero-subtitle {
-  font-size: 14px;
-  line-height: 1.6;
-  color: #9ca3af;
-  max-width: 520px;
-}
-
-.hero-actions {
-  margin-top: 22px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.hero-main-btn {
-  padding-inline: 22px;
-  padding-block: 10px;
-  font-size: 15px;
-}
-
-/* lebih gede di layar lebar */
-@media (min-width: 768px) {
-  .hero-title {
-    font-size: 40px;
-  }
-  .hero-subtitle {
-    font-size: 15px;
-  }
+.hero-subtitle-megah {
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--color-text-muted);
+  max-width: 600px;
 }
 
 /* =========================
-   MODAL HASIL (CREATE / RENEW) - versi FINAL
+   BUTTONS (Megah)
    ========================= */
-.result-modal {
+.btn {
+  border: none;
+  border-radius: 12px; /* Lebih kotak, lebih elegan */
+  padding: 10px 18px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  white-space: nowrap;
+  font-weight: 600;
+}
+
+.btn.primary-megah {
+  background: linear-gradient(135deg, var(--color-primary-light), var(--color-primary-dark));
+  color: white;
+  box-shadow: 0 10px 25px rgba(58, 122, 255, 0.4);
+}
+
+.btn.primary-megah:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 35px rgba(58, 122, 255, 0.55);
+}
+
+.btn.secondary-megah {
+  background: var(--color-dark-surface);
+  color: var(--color-text-light);
+  border: 1px solid var(--color-border);
+}
+
+.btn.secondary-megah:hover {
+  background: #1a1e30;
+  transform: translateY(-1px);
+}
+
+.btn.danger-megah {
+  background: #f43f5e;
+  color: white;
+  box-shadow: 0 4px 10px rgba(244, 63, 94, 0.3);
+}
+
+.btn.danger-megah:hover {
+  transform: translateY(-1px);
+}
+
+.btn.small-btn {
+  padding: 7px 12px;
+  font-size: 12px;
+  border-radius: 8px;
+}
+
+/* =========================
+   INPUTS (Megah)
+   ========================= */
+.input-label-megah {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-light);
+  margin-top: 12px;
+  margin-bottom: 4px;
+}
+
+input, select {
+  width: 100%;
+  padding: 10px 12px;
+  margin-top: 0;
+  margin-bottom: 12px;
+  border-radius: 10px;
+  border: 1px solid var(--color-border);
+  background: var(--color-dark-surface);
+  color: var(--color-text-light);
+  font-size: 14px;
+  transition: all 0.2s ease;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2); /* Shadow dalam */
+}
+
+input::placeholder {
+  color: #5d667c;
+}
+
+input:focus, select:focus {
+  outline: none;
+  border-color: var(--color-primary-light);
+  box-shadow: 0 0 0 2px rgba(58, 122, 255, 0.4), inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* =========================
+   PAGE WRAPPER & CONTAINER (Megah)
+   ========================= */
+.page {
+  display: none;
+  padding: 30px 16px 50px;
+}
+
+.container-megah {
+  max-width: 440px;
+  margin: 0 auto;
+  padding: 30px;
+  background: var(--color-dark-surface);
+  border-radius: 20px;
+  border: 1px solid var(--color-border);
+  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.5);
+}
+
+/* =========================
+   APP SHELL (Megah)
+   ========================= */
+.app-shell-megah {
+  max-width: 1200px;
+  margin: 0 auto;
+  border-radius: 24px;
+  padding: 24px 24px 30px;
+  /* Background lebih halus */
+  background: linear-gradient(150deg, #141829, var(--color-dark-base) 80%);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.7);
+}
+
+/* HEADER DALAM DASHBOARD */
+.app-header-megah {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px dashed var(--color-border);
+}
+
+.logo-dot-megah {
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  background: radial-gradient(circle at 30% 20%, var(--color-primary-light), var(--color-primary-dark));
+  box-shadow: 0 0 15px var(--color-primary-dark);
+}
+
+.brand-title-megah {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.brand-sub-megah {
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.user-email-megah {
+  font-size: 13px;
+  padding: 6px 12px;
+  border-radius: 10px;
+  background: var(--color-dark-code);
+  border: 1px solid var(--color-border);
+  font-weight: 500;
+}
+
+/* =========================
+   NAV (Megah)
+   ========================= */
+.app-nav-megah {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.nav-btn-megah {
+  flex: 0 0 auto;
+  border-radius: 10px;
+  border: 1px solid var(--color-border);
+  padding: 8px 16px;
+  font-size: 14px;
+  background: var(--color-dark-surface);
+  color: var(--color-text-light);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.nav-btn-megah:hover {
+  background: #1a1e30;
+  color: var(--color-primary-light);
+  transform: translateY(-1px);
+}
+
+.nav-btn-megah.active {
+  background: linear-gradient(90deg, var(--color-primary-light), var(--color-primary-dark));
+  border-color: var(--color-primary-light);
+  color: white;
+  box-shadow: 0 4px 12px rgba(58, 122, 255, 0.3);
+  transform: translateY(-1px);
+}
+
+/* =========================
+   CARD (Megah)
+   ========================= */
+.card-megah {
+  background: var(--color-dark-surface);
+  border-radius: 18px;
+  padding: 20px;
+  border: 1px solid var(--color-border);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  margin-bottom: 16px;
+}
+
+.card-title-megah {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding-bottom: 8px;
+}
+
+/* SERVER LIST */
+.server-card-megah {
+  position: relative;
+  background: radial-gradient(circle at top left, #1a223a, var(--color-dark-surface));
+  border-radius: 18px;
+  padding: 16px;
+  border: 1px solid var(--color-border);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.server-card-megah:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5), 0 0 10px rgba(58, 122, 255, 0.2);
+}
+
+.badge-megah {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 11px;
+  padding: 4px 9px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  font-weight: 600;
+}
+
+.badge.green {
+  background: rgba(76, 175, 80, 0.15);
+  color: #a5d6a7;
+  border-color: #4caf50;
+}
+
+.badge.red {
+  background: rgba(244, 63, 94, 0.15);
+  color: #ffcdd2;
+  border-color: #f43f5e;
+}
+
+/* LIST RIWAYAT */
+.dummy-list-megah {
+  list-style: none;
+  font-size: 13px;
+  padding-left: 0;
+}
+
+.dummy-list-megah li {
+  padding: 8px 0;
+  border-bottom: 1px dashed var(--color-border);
+  display: flex;
+  justify-content: space-between;
+  color: var(--color-text-muted);
+}
+
+.dummy-list-megah li strong {
+  color: var(--color-text-light);
+}
+
+
+/* =========================
+   MODAL HASIL (Megah)
+   ========================= */
+.result-modal-megah {
   position: fixed;
   inset: 0;
   z-index: 999;
-  display: none;             /* default: sembunyi */
+  display: none;
   align-items: center;
   justify-content: center;
   padding: 16px;
 }
 
-/* saat JS kasih class .show -> tampil */
-.result-modal.show {
+.result-modal-megah.show {
   display: flex;
 }
 
-.result-backdrop {
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.55);
-  z-index: 1;
-}
-
-.result-card {
+.result-card-megah {
   position: relative;
-  max-width: 480px;
+  max-width: 520px;
   width: 100%;
-  max-height: 85vh;
+  max-height: 90vh;
   overflow: auto;
-  z-index: 2;               /* di atas backdrop, biar tombol bisa diklik */
-  background: #020617;
-  border-radius: 18px;
-  padding: 16px 16px 18px;
-  box-shadow: 0 20px 60px rgba(15, 23, 42, 0.9);
-  border: 1px solid rgba(148, 163, 184, 0.45);
+  z-index: 2;
+  background: var(--color-dark-surface);
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.8);
+  border: 1px solid var(--color-border);
 }
 
-.result-text {
+.result-text-megah {
   width: 100%;
-  min-height: 260px;
+  min-height: 280px;
   resize: vertical;
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 10px 12px;
-  background: #020617;
-  color: #e5e7eb;
-  font-family: "JetBrains Mono", "Fira Code", monospace;
-  font-size: 12px;
-  line-height: 1.4;
-  white-space: pre-wrap;  /* biar \n jadi baris baru */
+  border-radius: 12px;
+  border: 1px solid var(--color-border);
+  padding: 15px;
+  background: var(--color-dark-code);
+  color: #90ee90; /* Warna hijau muda untuk code */
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.4);
 }
 
-/* tombol di dalam modal */
-.result-card .btn.full {
-  width: 100%;
-  margin-top: 8px;
+/* Media Query Responsif */
+@media (min-width: 768px) {
+  .hero-title-megah {
+    font-size: 56px;
+  }
 }
 
-@media (min-width: 640px) {
-  .result-card .btn.full {
-    width: 48%;
+@media (max-width: 640px) {
+  .app-shell-megah {
+    padding: 18px 12px 24px;
+    border-radius: 0;
   }
 
-  .result-card .btn.full:first-child {
-    margin-right: 4%;
+  .app-header-megah {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .user-box-megah {
+    justify-content: flex-start;
   }
 }
