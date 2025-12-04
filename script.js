@@ -3,9 +3,6 @@
 // =====================================
 const API_BASE = "/api/web"; // karena panel di domain yang sama
 // email yang dianggap admin panel
-global.ADMIN_EMAILS = ["istiqwamantunnel@gmail.com"];
-console.log("DEBUG ADMIN_EMAILS =", global.ADMIN_EMAILS);
-
 const ADMIN_EMAILS = [
   "istiqwamantunnel@gmail.com",   // ganti / tambah sesuai kebutuhan
   // "admin2@gmail.com",
@@ -158,20 +155,20 @@ function fillServerSelects() {
   selRenew.innerHTML = html;
 }
 // =====================================
-// ADMIN: TAMBAH SALDO MANUAL (pakai user_id / Telegram ID)
+// ADMIN: TAMBAH SALDO MANUAL
 // =====================================
 const btnAdminAddSaldo = document.getElementById("btnAdminAddSaldo");
 if (btnAdminAddSaldo) {
   btnAdminAddSaldo.onclick = async (ev) => {
     const btn = ev.currentTarget;
 
-    const adminEmail = (localStorage.getItem("xt_email") || "").trim();
+    const adminEmail = localStorage.getItem("xt_email") || "";
     const isAdmin = localStorage.getItem("xt_is_admin") === "1";
 
     const rawUserId = document.getElementById("adminTargetUser").value.trim();
-    const userId = parseInt(rawUserId, 10);
-    const amount = parseInt(document.getElementById("adminAmount").value, 10);
-    const note = document.getElementById("adminNote").value.trim();
+    const userId    = parseInt(rawUserId, 10); // ID Telegram numerik
+    const amount    = parseInt(document.getElementById("adminAmount").value, 10);
+    const note      = document.getElementById("adminNote").value.trim();
 
     if (!adminEmail || !isAdmin) {
       alert("Hanya admin yang boleh menggunakan fitur ini.");
