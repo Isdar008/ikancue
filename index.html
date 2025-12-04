@@ -263,22 +263,24 @@
 
   <!-- FORM TAMBAH SALDO -->
   <div class="card">
-    <h4>Tambah Saldo Manual</h4>
-    <p class="muted small">
-      Gunakan fitur ini dengan hati-hati. Semua perubahan tercatat di log topup.
-    </p>
+  <h4>Tambah Saldo Manual</h4>
+  <p class="muted small">
+    Masukkan <strong>User ID</strong> member (dari bot) dan nominal saldo.
+  </p>
 
-    <label>Username Member</label>
-    <input id="adminTargetUser" type="text" placeholder="username member, misal: uservpn123">
+  <label>User ID Member</label>
+  <input id="adminTargetUser" type="number" placeholder="misal: 12345">
 
-    <label>Nominal (Rp)</label>
-    <input id="adminAmount" type="number" min="1000" step="1000" value="10000">
+  <label>Nominal (Rp)</label>
+  <input id="adminAmount" type="number" min="1000" step="1000" value="10000">
 
-    <label>Catatan (opsional)</label>
-    <input id="adminNote" type="text" placeholder="misal: bonus reseller, koreksi saldo">
+  <label>Catatan</label>
+  <input id="adminNote" type="text" placeholder="misal: bonus, koreksi, dsb.">
 
-    <button class="btn primary full" id="btnAdminAddSaldo">Tambah Saldo</button>
-  </div>
+  <button class="btn primary full" id="btnAdminAddSaldo">
+    Tambah Saldo
+  </button>
+</div>
 
   <!-- RIWAYAT TOPUP PANEL -->
   <div class="card">
