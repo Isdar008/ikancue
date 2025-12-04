@@ -194,7 +194,8 @@ if (btnAdminAddSaldo) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          username: targetUsername,   // 🔥 kirim nama/ email member ke backend
+          adminEmail,              // 🔥 kirim email admin
+          username: targetUsername, // 🔥 email panel member
           amount,
           note,
         }),
@@ -209,7 +210,6 @@ if (btnAdminAddSaldo) {
         `Saldo ${fmtRupiah(amount)} berhasil ditambahkan ke ${targetUsername}.`
       );
 
-      // reload riwayat panel
       loadTopupHistoryAdmin();
     } catch (e) {
       alert(e.message || "Gagal menambah saldo.");
