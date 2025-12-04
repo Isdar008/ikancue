@@ -261,37 +261,39 @@
     Halaman ini hanya muncul untuk email admin yang terdaftar.
   </p>
 
-  <!-- FORM TAMBAH SALDO -->
-<div class="card">
-  <h4>Tambah Saldo Manual</h4>
-  <p class="muted small">
-    Masukkan <strong>User ID Telegram</strong> member (ID dari bot) dan nominal saldo.
-  </p>
+  <div class="admin-grid">
+    <!-- FORM TAMBAH SALDO -->
+    <div class="card">
+      <h4>Tambah Saldo Manual</h4>
+      <p class="muted small">
+        Masukkan <strong>Email user panel</strong> & nominal saldo.
+      </p>
 
-  <label>User ID Member</label>
-  <input id="adminTargetUser" type="number" placeholder="misal: 123456789">
+      <label>Email User</label>
+      <input
+        id="adminTargetUser"
+        type="email"
+        placeholder="misal: user@gmail.com"
+      />
 
-  <label>Nominal (Rp)</label>
-  <input id="adminAmount" type="number" min="1000" step="1000" value="10000">
+      <label>Nominal (Rp)</label>
+      <input id="adminAmount" type="number" min="1000" step="1000" value="10000" />
 
-  <label>Catatan (opsional)</label>
-  <input id="adminNote" type="text" placeholder="misal: bonus, koreksi, dsb.">
+      <label>Catatan (opsional)</label>
+      <input id="adminNote" type="text" placeholder="misal: bonus, koreksi, dsb." />
 
-  <button class="btn primary full" id="btnAdminAddSaldo">
-    Tambah Saldo
-  </button>
-</div>
+      <button class="btn primary full" id="btnAdminAddSaldo">Tambah Saldo</button>
+    </div>
 
-  <!-- RIWAYAT TOPUP PANEL -->
-  <div class="card">
-    <h4>Riwayat Topup Panel</h4>
-    <p class="muted small">
-      Menampilkan 20 transaksi topup terakhir di sistem.
-    </p>
-    <ul id="topupHistoryAdmin" class="dummy-list"></ul>
-    <p id="topupHistoryAdminEmpty" class="muted small">
-      Belum ada riwayat topup.
-    </p>
+    <!-- RIWAYAT TOPUP PANEL -->
+    <div class="card">
+      <h4>Riwayat Topup Panel</h4>
+      <p class="muted small">Menampilkan 20 transaksi topup terakhir di sistem.</p>
+      <ul id="topupHistoryAdmin" class="dummy-list"></ul>
+      <p id="topupHistoryAdminEmpty" class="muted small">
+        Belum ada riwayat topup.
+      </p>
+    </div>
   </div>
 </div>
 
