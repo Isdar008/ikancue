@@ -442,7 +442,7 @@ function showResultModal(title, subtitle, rawMsg, accType) {
 
   titleEl.textContent = title || "";
   subEl.textContent = subtitle || "";
-  bodyEl.textContent = rawMsg || "";
+  bodyEl.innerHTML = rawMsg || "";
 
   // update pill type (SSH / VMESS / VLESS / TROJAN)
   if (pillEl && accType) {
