@@ -162,19 +162,12 @@ if (btnAdminAddSaldo) {
   btnAdminAddSaldo.onclick = async (ev) => {
     const btn = ev.currentTarget;
 
-    const adminEmail = localStorage.getItem("xt_email") || "";
-    const isAdmin    = localStorage.getItem("xt_is_admin") === "1";
+    const adminEmail = (localStorage.getItem("xt_email") || "").trim();
+    const isAdmin = localStorage.getItem("xt_is_admin") === "1";
 
-    const targetEmail = document
-      .getElementById("adminTargetUser")
-      .value
-      .trim()
-      .toLowerCase();
-
-    const amount = parseInt(
-      document.getElementById("adminAmount").value,
-      10
-    );
+    const rawUserId = document.getElementById("adminTargetUser").value.trim();
+    const userId = parseInt(rawUserId, 10);
+    const amount = parseInt(document.getElementById("adminAmount").value, 10);
     const note = document.getElementById("adminNote").value.trim();
 
     if (!adminEmail || !isAdmin) {
@@ -182,12 +175,12 @@ if (btnAdminAddSaldo) {
       return;
     }
 
-    if (!targetEmail || !amount || amount <= 0) {
-      alert("Email member & nominal wajib diisi dengan benar.");
+    if (!rawUserId || isNaN(userId) || !amount || amount <= 0) {
+      alert("User ID & nominal wajib diisi dengan benar.");
       return;
     }
 
-    if (!confirm(`Tambah saldo ${fmtRupiah(amount)} ke ${targetEmail}?`)) {
+    if (!confirm(`Tambah saldo ${fmtRupiah(amount)} ke User ID ${userId}?`)) {
       return;
     }
 
@@ -198,7 +191,7 @@ if (btnAdminAddSaldo) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           adminEmail,
-          username: targetEmail, // ⬅️ email member, sama dengan backend
+          userId,
           amount,
           note
         }),
@@ -209,7 +202,7 @@ if (btnAdminAddSaldo) {
         throw new Error(json.error || "Gagal menambah saldo.");
       }
 
-      alert(`Saldo ${fmtRupiah(amount)} berhasil ditambahkan ke ${targetEmail}.`);
+      alert(`Saldo ${fmtRupiah(amount)} berhasil ditambahkan ke User ID ${userId}.`);
       loadTopupHistoryAdmin();
     } catch (e) {
       alert(e.message || "Gagal menambah saldo.");
