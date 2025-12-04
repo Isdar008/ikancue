@@ -423,20 +423,42 @@ document.querySelectorAll(".nav-btn").forEach((btn) => {
 // =====================================
 // MODAL HASIL (CREATE / RENEW)
 // =====================================
-function showResultModal(title, subtitle, rawMsg) {
+function showResultModal(title, subtitle, rawMsg, accType) {
   const overlay = document.getElementById("resultModal");
   const titleEl = document.getElementById("modalTitle");
   const subEl = document.getElementById("modalSubtitle");
   const bodyEl = document.getElementById("modalBody");
+  const pillEl = document.getElementById("modalTypePill");
+  const successTextEl = document.getElementById("modalSuccessText");
 
   if (!overlay || !titleEl || !bodyEl) {
     alert(rawMsg || "Berhasil.");
     return;
   }
 
+  // simpan untuk fitur copy
+  lastModalMessage = rawMsg || "";
+  lastModalType = (accType || "").toLowerCase();
+
   titleEl.textContent = title || "";
   subEl.textContent = subtitle || "";
   bodyEl.textContent = rawMsg || "";
+
+  // update pill type (SSH / VMESS / VLESS / TROJAN)
+  if (pillEl && accType) {
+    const upper = accType.toUpperCase();
+    pillEl.textContent =
+      upper === "SSH" ? "SSH PREMIUM" : `${upper} PREMIUM`;
+  }
+
+  // teks success menyesuaikan tipe
+  if (successTextEl && accType) {
+    const upper = accType.toUpperCase();
+    successTextEl.textContent =
+      upper === "SSH"
+        ? "Akun SSH kamu berhasil dibuat dan siap dipakai."
+        : `Akun ${upper} kamu berhasil dibuat dan siap dipakai.`;
+  }
 
   overlay.classList.add("show");
 }
@@ -454,22 +476,64 @@ if (modalClose) {
 const modalCopy = document.getElementById("modalCopy");
 if (modalCopy) {
   modalCopy.onclick = async () => {
-    const bodyEl = document.getElementById("modalBody");
-    if (!bodyEl) return;
+    const text =
+      lastModalMessage ||
+      (document.getElementById("modalBody")?.innerText || "");
 
-    const text = bodyEl.innerText || "";
     if (!text.trim()) return;
 
     try {
       await navigator.clipboard.writeText(text);
-      alert("Config berhasil disalin ✅");
+      alert("Semua config berhasil disalin ✅");
     } catch (e) {
+      const bodyEl = document.getElementById("modalBody");
+      if (!bodyEl) return;
       const range = document.createRange();
       range.selectNodeContents(bodyEl);
       const sel = window.getSelection();
       sel.removeAllRanges();
       sel.addRange(range);
       alert("Teks sudah diselect, tekan Salin di perangkat kamu.");
+    }
+  };
+}
+const modalCopyMain = document.getElementById("modalCopyMain");
+if (modalCopyMain) {
+  modalCopyMain.onclick = async () => {
+    if (!lastModalMessage) return;
+
+    const lines = lastModalMessage.split(/\r?\n/);
+    let text = "";
+
+    if (lastModalType === "ssh") {
+      // ambil bagian [Informasi Akun] saja
+      let start = lines.findIndex((l) =>
+        l.trim().toLowerCase().startsWith("[informasi akun]")
+      );
+      if (start === -1) start = 0;
+
+      let end = lines.length;
+      for (let i = start + 1; i < lines.length; i++) {
+        if (lines[i].trim().startsWith("[")) {
+          end = i;
+          break;
+        }
+      }
+      text = lines.slice(start, end).join("\n").trim();
+    } else {
+      // VMESS / VLESS / TROJAN: ambil semua baris yang berisi '://'
+      const linkLines = lines.filter((l) => l.includes("://"));
+      text = (linkLines.join("\n") || lastModalMessage).trim();
+    }
+
+    if (!text) return;
+
+    try {
+      await navigator.clipboard.writeText(text);
+      alert("Detail akun berhasil disalin ✅");
+    } catch (e) {
+      // fallback: tampilkan di prompt biar bisa di-copy manual
+      window.prompt("Salin detail akun secara manual:", text);
     }
   };
 }
@@ -542,10 +606,11 @@ if (btnCreate) {
       if (!json.ok) throw new Error(json.error);
 
       showResultModal(
-        "Akun berhasil dibuat",
-        `Server: ${json.data.serverName} • Harga: ${fmtRupiah(json.data.totalHarga)}`,
-        json.data.message
-      );
+  "Akun berhasil dibuat",
+  `Server: ${json.data.serverName} • Harga: ${fmtRupiah(json.data.totalHarga)}`,
+  json.data.message,
+  type   // << kirim jenis akun (ssh/vmess/vless/trojan)
+);
 
       loadStatusFromApi();
     } catch (e) {
@@ -586,10 +651,11 @@ if (btnRenew) {
       if (!json.ok) throw new Error(json.error);
 
       showResultModal(
-        "Akun berhasil diperpanjang",
-        `Server: ${json.data.serverName} • Harga: ${fmtRupiah(json.data.totalHarga)}`,
-        json.data.message
-      );
+  "Akun berhasil diperpanjang",
+  `Server: ${json.data.serverName} • Harga: ${fmtRupiah(json.data.totalHarga)}`,
+  json.data.message,
+  type   // kirim jenis akun juga
+);
 
       loadStatusFromApi();
     } catch (e) {
