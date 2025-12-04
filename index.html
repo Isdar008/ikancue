@@ -4,12 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>XTRIMER TUNNEL</title>
-  <!-- pastikan style.css ada di folder yang sama (public/) -->
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>
 
-  <!-- GLOBAL TOP BAR -->
+  <!-- TOP BAR -->
   <header class="site-header">
     <div class="site-header-inner">
       <div class="site-title-wrap">
@@ -22,315 +21,25 @@
     </div>
   </header>
 
-  <!-- WELCOME PAGE -->
-  <section id="welcome" class="page active">
-  <div class="hero-inner">
-    <p class="hero-kicker">XTRIMER TUNNEL</p>
-    <h1 class="hero-title">
-      Access high-speed premium SSH, Xray, Trojan & Shadowsocks VPN
-    </h1>
-    <p class="hero-subtitle">
-      Buat & kelola akun VPN pribadi kamu dengan server kencang dan bandwidth lega,
-      langsung dari panel web yang simpel dan elegan.
-    </p>
+  <!-- HERO / LANDING -->
+  <section id="welcome">
+    <div class="hero-inner">
+      <p class="hero-kicker">XTRIMER TUNNEL</p>
+      <h1 class="hero-title">
+        Access high-speed premium SSH, Xray, Trojan & Shadowsocks VPN
+      </h1>
+      <p class="hero-subtitle">
+        Buat & kelola akun VPN pribadi kamu dengan server kencang dan bandwidth lega,
+        langsung dari panel web yang simpel dan elegan.
+      </p>
 
-    <div class="hero-actions">
-      <!-- ini tetap pakai id btnMulai biar script.js nggak rusak -->
-      <button id="btnMulai" class="btn primary hero-main-btn">
-        Masuk ke Panel
-      </button>
-    </div>
-  </div>
-</section>
-
-  <!-- LOGIN PAGE -->
-  <section id="login" class="page">
-    <div class="container">
-      <h2>Login Panel</h2>
-      <p class="muted small">Gunakan email asli kamu. Satu email = satu akun panel.</p>
-
-      <!-- FORM LOGIN BIASA -->
-      <div id="loginBox">
-        <input id="email" type="email" placeholder="Masukkan email">
-        <input id="password" type="password" placeholder="Masukkan password">
-
-        <button id="btnLogin" class="btn primary full">Masuk</button>
-        <button id="btnBack" class="btn secondary full">Kembali</button>
-
-        <button id="btnForgot" class="btn secondary full" style="margin-top:8px;">
-          Lupa Password?
-        </button>
-      </div>
-
-      <!-- FORM RESET PASSWORD (LANGKAH 1: KIRIM KODE) -->
-      <div id="resetStep1" style="display:none; margin-top:18px;">
-        <h3 style="margin-bottom:8px;">Reset Password</h3>
-        <p class="muted small">
-          Masukkan email akun panel kamu. Kami akan mengirim kode verifikasi ke email tersebut.
-        </p>
-        <input id="resetEmail" type="email" placeholder="Email yang terdaftar">
-
-        <button id="btnSendReset" class="btn primary full">Kirim Kode ke Email</button>
-        <button id="btnResetBack1" class="btn secondary full">Kembali ke Login</button>
-      </div>
-
-      <!-- FORM RESET PASSWORD (LANGKAH 2: KODE + PASSWORD BARU) -->
-      <div id="resetStep2" style="display:none; margin-top:18px;">
-        <h3 style="margin-bottom:8px;">Masukkan Kode & Password Baru</h3>
-        <p class="muted small">
-          Cek email kamu, masukkan kode yang diterima lalu buat password baru.
-        </p>
-
-        <input id="resetCode" type="text" placeholder="Kode verifikasi (6 digit)">
-        <input id="resetNewPass" type="password" placeholder="Password baru">
-
-        <button id="btnDoReset" class="btn primary full">Reset Password</button>
-        <button id="btnResetBack2" class="btn secondary full">Kembali ke Login</button>
+      <div class="hero-actions">
+        <a href="/panel.html" class="btn primary hero-main-btn">
+          Masuk ke Panel
+        </a>
       </div>
     </div>
   </section>
 
-  <!-- DASHBOARD PAGE -->
-  <section id="dashboard" class="page">
-    <div class="app-shell">
-
-      <!-- HEADER DASHBOARD -->
-      <header class="app-header">
-        <div class="brand">
-          <span class="logo-dot"></span>
-          <div>
-            <div class="brand-title">XTRIMER PANEL</div>
-            <div class="brand-sub">VPN Management</div>
-          </div>
-        </div>
-        <div class="user-box">
-          <span class="user-label">Masuk sebagai</span>
-          <span class="user-email" id="userEmailHeader"></span>
-          <button id="btnLogout" class="btn danger small-btn">Logout</button>
-        </div>
-      </header>
-
-      <!-- NAV -->
-      <nav class="app-nav">
-  <button class="nav-btn active" data-target="overview">Overview</button>
-  <button class="nav-btn" data-target="servers">Server</button>
-  <button class="nav-btn" data-target="create">Buat Akun</button>
-  <button class="nav-btn" data-target="renew">Perpanjang</button>
-  <button class="nav-btn" data-target="topup">Topup</button>
-  <!-- ðŸ” hanya ditampilkan kalau email admin -->
-  <button class="nav-btn" data-target="admin" id="navAdmin" style="display:none;">
-    Admin
-  </button>
-      </nav>
-
-      <!-- MAIN CONTENT -->
-      <main class="app-main">
-
-        <!-- OVERVIEW -->
-        <div id="app-overview" class="app-page active">
-          <div class="grid-2">
-            <div class="card">
-              <h3>Informasi Login</h3>
-              <p>Email: <span id="infoEmail"></span></p>
-              <p>Password: <span id="infoPass"></span></p>
-            </div>
-            <div class="card">
-              <h3>Status Akun</h3>
-              <p>Saldo: <strong id="statusSaldo">Rp 0</strong></p>
-              <p>Total Akun Dibuat: <strong id="statusTotalAkun">0</strong></p>
-              <p>Level: <strong id="statusLevel">Member</strong></p>
-              <p class="muted small">Data diambil dari API backend.</p>
-            </div>
-          </div>
-        </div>
-<!-- ... app-page lain ... -->
-
-      <!-- MODAL HASIL AKUN (CREATE & RENEW) -->
-<div id="resultModal" class="result-modal">
-  <div class="result-backdrop"></div>
-
-  <div class="result-card">
-    <h3 id="modalTitle">Akun berhasil dibuat</h3>
-    <p id="modalSubtitle" class="muted small"></p>
-
-    <!-- teks config / hasil create/renew -->
-    <pre id="modalBody" class="result-text"></pre>
-
-    <!-- tombol aksi -->
-    <button id="modalCopy" class="btn secondary full">Salin Config</button>
-    <button id="modalClose" class="btn primary full">Tutup</button>
-  </div>
-</div>
-
-        <!-- SERVER LIST -->
-        <div id="app-servers" class="app-page">
-          <h3>Daftar Server</h3>
-          <p class="muted small">
-            Data diambil dari tabel <code>Server</code> di backend.
-          </p>
-          <div id="serverList" class="server-list"></div>
-        </div>
-
-        <!-- BUAT AKUN -->
-        <div id="app-create" class="app-page">
-          <h3>Buat Akun VPN</h3>
-          <p class="muted small">
-            Tombol ini akan menembak endpoint API create akun.
-          </p>
-
-          <div class="card">
-            <label>Jenis Akun</label>
-            <select id="createType">
-              <option value="ssh">SSH</option>
-              <option value="vmess">VMESS</option>
-              <option value="vless">VLESS</option>
-              <option value="trojan">TROJAN</option>
-            </select>
-
-            <label>Server</label>
-            <select id="createServer"></select>
-
-            <label>Username Akun</label>
-            <input id="createUser" type="text" placeholder="misal: uservpn123">
-
-            <!--  Password khusus SSH -->
-            <label>Password SSH</label>
-            <input id="createPass" type="password" placeholder="Password akun SSH">
-
-            <label>Masa Aktif (hari)</label>
-            <input id="createDays" type="number" min="1" value="30">
-
-            <button class="btn primary full" id="btnCreate">Buat Akun</button>
-          </div>
-        </div>
-
-        <!-- RENEW AKUN -->
-        <div id="app-renew" class="app-page">
-          <h3>Perpanjang Akun</h3>
-          <p class="muted small">Terhubung ke endpoint renew backend.</p>
-
-          <div class="card">
-            <label>Jenis Akun</label>
-            <select id="renewType">
-              <option value="ssh">SSH</option>
-              <option value="vmess">VMESS</option>
-              <option value="vless">VLESS</option>
-              <option value="trojan">TROJAN</option>
-            </select>
-
-            <label>Server</label>
-            <select id="renewServer"></select>
-
-            <label>Username Akun</label>
-            <input id="renewUser" type="text" placeholder="username yang mau diperpanjang">
-
-            <label>Tambahan Hari</label>
-            <input id="renewDays" type="number" min="1" value="30">
-
-            <button class="btn primary full" id="btnRenew">Perpanjang</button>
-          </div>
-        </div>
-
-        <!-- TOPUP -->
-        <div id="app-topup" class="app-page">
-          <h3>Topup Saldo</h3>
-          <p class="muted small">
-            Bisa dihubungkan ke sistem QRIS / Pakasir yang sudah ada.
-          </p>
-
-          <!-- FORM TOPUP -->
-          <div class="card">
-            <label>Nominal Topup (Rp)</label>
-            <input id="topupAmount" type="number" min="1000" step="1000" value="10000">
-
-            <button class="btn primary full" id="btnTopup">Buat Request Topup</button>
-          </div>
-
-          <!-- KARTU QRIS PEMBAYARAN -->
-          <div class="card" id="topupPaymentCard" style="display:none;">
-            <h4>QRIS Pembayaran</h4>
-            <p class="muted small">
-              Scan QR di bawah ini dengan aplikasi e-wallet / m-banking kamu.
-            </p>
-
-            <div style="text-align:center; margin:12px 0;">
-              <img
-                id="qrisImage"
-                src=""
-                alt="QRIS"
-                style="max-width:220px; width:100%; border-radius:12px; display:none;"
-              >
-            </div>
-
-            <p id="paymentInfo" class="muted small"></p>
-
-            <a
-              id="paymentLink"
-              href="#"
-              target="_blank"
-              style="display:none; font-size:13px;"
-            >
-              Buka halaman pembayaran
-            </a>
-          </div>
-
-          <!-- RIWAYAT TOPUP USER -->
-          <div class="card">
-            <h4>Riwayat Topup</h4>
-            <ul id="topupHistory" class="dummy-list"></ul>
-            <p id="topupHistoryEmpty" class="muted small">
-              Belum ada riwayat topup.
-            </p>
-          </div>
-        </div>
-
-       <!-- ADMIN PANEL (TERPISAH, BUKAN DI DALAM TOPUP) -->
-<div id="app-admin" class="app-page">
-  <h3>Admin Panel</h3>
-  <p class="muted small">
-    Halaman ini hanya muncul untuk email admin yang terdaftar.
-  </p>
-
-  <div class="admin-grid">
-    <!-- FORM TAMBAH SALDO -->
-    <div class="card">
-      <h4>Tambah Saldo Manual</h4>
-      <p class="muted small">
-        Masukkan <strong>Email user panel</strong> & nominal saldo.
-      </p>
-
-      <label>Email User</label>
-      <input
-        id="adminTargetUser"
-        type="email"
-        placeholder="misal: user@gmail.com"
-      />
-
-      <label>Nominal (Rp)</label>
-      <input id="adminAmount" type="number" min="1000" step="1000" value="10000" />
-
-      <label>Catatan (opsional)</label>
-      <input id="adminNote" type="text" placeholder="misal: bonus, koreksi, dsb." />
-
-      <button class="btn primary full" id="btnAdminAddSaldo">Tambah Saldo</button>
-    </div>
-
-    <!-- RIWAYAT TOPUP PANEL -->
-    <div class="card">
-      <h4>Riwayat Topup Panel</h4>
-      <p class="muted small">Menampilkan 20 transaksi topup terakhir di sistem.</p>
-      <ul id="topupHistoryAdmin" class="dummy-list"></ul>
-      <p id="topupHistoryAdminEmpty" class="muted small">
-        Belum ada riwayat topup.
-      </p>
-    </div>
-  </div>
-</div>
-
-      </main>
-    </div>
-  </section>
-
-  <script src="/script.js"></script>
 </body>
-          </html>
+</html>
