@@ -253,18 +253,38 @@
     </div>
   </section>
 
-  <!-- MODAL HASIL CREATE / RENEW -->
-  <div id="resultModal" class="result-modal">
-    <div class="result-backdrop"></div>
-    <div class="result-card">
+  <!-- MODAL HASIL AKUN (CREATE & RENEW) -->
+<div id="resultModal" class="result-modal">
+  <div class="result-backdrop"></div>
+
+  <div class="result-card">
+    <!-- HEADER GRADIENT ALA SSH OCEAN -->
+    <div class="result-header">
       <h3 id="modalTitle">Akun berhasil dibuat</h3>
-      <p id="modalSubtitle" class="muted small"></p>
+      <span id="modalTypePill" class="result-pill">SSH PREMIUM</span>
+      <p id="modalSubtitle" class="result-subtitle"></p>
+    </div>
+
+    <!-- ALERT SUCCESS HIJAU -->
+    <div class="result-success">
+      <div class="result-success-icon">✔</div>
+      <div class="result-success-text">
+        <strong>Success!</strong>
+        <span id="modalSuccessText">
+          Akun kamu berhasil dibuat dan siap dipakai.
+        </span>
+      </div>
+    </div>
+
+    <!-- CARD DETAIL AKUN (MONOSPACE) -->
+    <div class="result-detail-card">
       <pre id="modalBody" class="result-text"></pre>
+    </div>
+
+    <!-- TOMBOL AKSI -->
+    <div class="result-actions">
       <button id="modalCopy" class="btn secondary full">Salin Config</button>
       <button id="modalClose" class="btn primary full">Tutup</button>
     </div>
   </div>
-
-  <script src="/script.js"></script>
-</body>
-</html>
+</div>
