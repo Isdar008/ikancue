@@ -4,7 +4,34 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>XTRIMER PANEL - Dashboard</title>
+
+  <!-- CSS utama -->
   <link rel="stylesheet" href="/style.css">
+
+  <!-- OVERRIDE KECIL BIAR LOGIN BISA DIKLIK & MODAL GAK NUTUP SEMUA -->
+  <style>
+    /* pastikan halaman login ada di atas elemen lain */
+    #login.page {
+      position: relative;
+      z-index: 10;
+    }
+
+    /* modal hasil akun: default bener-bener hilang & tidak blok klik */
+    .result-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      pointer-events: none;
+    }
+    .result-modal.show {
+      display: flex;
+      pointer-events: auto;
+    }
+  </style>
 </head>
 <body>
 
@@ -33,7 +60,7 @@
         <input id="password" type="password" placeholder="Masukkan password">
 
         <button id="btnLogin" class="btn primary full">Masuk</button>
-        <!-- tombol kembali sudah tidak perlu, bisa dihapus atau dibiarkan -->
+        <!-- tombol kembali sudah tidak perlu -->
         <button id="btnBack" class="btn secondary full" style="display:none;">Kembali</button>
 
         <button id="btnForgot" class="btn secondary full" style="margin-top:8px;">
@@ -129,37 +156,37 @@
         </div>
 
         <!-- BUAT AKUN -->
-<div id="app-create" class="app-page">
-  <h3>Buat Akun VPN</h3>
-  <p class="muted small">Tombol ini akan menembak endpoint API create akun.</p>
+        <div id="app-create" class="app-page">
+          <h3>Buat Akun VPN</h3>
+          <p class="muted small">Tombol ini akan menembak endpoint API create akun.</p>
 
-  <div class="card">
-    <label>Jenis Akun</label>
-    <select id="createType">
-      <option value="ssh">SSH</option>
-      <option value="vmess">VMESS</option>
-      <option value="vless">VLESS</option>
-      <option value="trojan">TROJAN</option>
-    </select>
+          <div class="card">
+            <label>Jenis Akun</label>
+            <select id="createType">
+              <option value="ssh">SSH</option>
+              <option value="vmess">VMESS</option>
+              <option value="vless">VLESS</option>
+              <option value="trojan">TROJAN</option>
+            </select>
 
-    <label>Server</label>
-    <select id="createServer"></select>
+            <label>Server</label>
+            <select id="createServer"></select>
 
-    <label>Username Akun</label>
-    <input id="createUser" type="text" placeholder="misal: uservpn123">
+            <label>Username Akun</label>
+            <input id="createUser" type="text" placeholder="misal: uservpn123">
 
-    <!-- 🔥 Wrapper supaya bisa hide otomatis -->
-    <div id="createPassWrap">
-      <label>Password SSH</label>
-      <input id="createPass" type="password" placeholder="Password akun SSH">
-    </div>
+            <!-- wrapper supaya bisa di-hide kalau non SSH -->
+            <div id="createPassWrap">
+              <label>Password SSH</label>
+              <input id="createPass" type="password" placeholder="Password akun SSH">
+            </div>
 
-    <label>Masa Aktif (hari)</label>
-    <input id="createDays" type="number" min="1" value="30">
+            <label>Masa Aktif (hari)</label>
+            <input id="createDays" type="number" min="1" value="30">
 
-    <button class="btn primary full" id="btnCreate">Buat Akun</button>
-  </div>
-</div>
+            <button class="btn primary full" id="btnCreate">Buat Akun</button>
+          </div>
+        </div>
 
         <!-- RENEW -->
         <div id="app-renew" class="app-page">
@@ -254,52 +281,42 @@
   </section>
 
   <!-- MODAL HASIL AKUN (CREATE & RENEW) -->
-<div id="resultModal" class="result-modal">
-  <div class="result-backdrop"></div>
+  <div id="resultModal" class="result-modal">
+    <div class="result-backdrop"></div>
 
-  <div class="result-card">
-    <!-- HEADER GRADIENT ALA SSH OCEAN -->
-    <div class="result-header">
-      <h3 id="modalTitle">Akun berhasil dibuat</h3>
-      <span id="modalTypePill" class="result-pill">SSH PREMIUM</span>
-      <p id="modalSubtitle" class="result-subtitle"></p>
-    </div>
+    <div class="result-card">
+      <!-- HEADER GRADIENT -->
+      <div class="result-header">
+        <h3 id="modalTitle">Akun berhasil dibuat</h3>
+        <span id="modalTypePill" class="result-pill">SSH PREMIUM</span>
+        <p id="modalSubtitle" class="result-subtitle"></p>
+      </div>
 
-    <!-- ALERT SUCCESS HIJAU -->
-    <div class="result-success">
-      <div class="result-success-icon">✔</div>
-      <div class="result-success-text">
-        <strong>Success!</strong>
-        <span id="modalSuccessText">
-          Akun kamu berhasil dibuat dan siap dipakai.
-        </span>
+      <!-- ALERT SUCCESS HIJAU -->
+      <div class="result-success">
+        <div class="result-success-icon">✔</div>
+        <div class="result-success-text">
+          <strong>Success!</strong>
+          <span id="modalSuccessText">
+            Akun kamu berhasil dibuat dan siap dipakai.
+          </span>
+        </div>
+      </div>
+
+      <!-- CARD DETAIL AKUN -->
+      <div class="result-detail-card">
+        <pre id="modalBody" class="result-text"></pre>
+      </div>
+
+      <!-- TOMBOL AKSI -->
+      <div class="result-actions">
+        <button id="modalCopy" class="btn secondary full">Salin Config</button>
+        <button id="modalClose" class="btn primary full">Tutup</button>
       </div>
     </div>
-
-    <!-- CARD DETAIL AKUN (MONOSPACE) -->
-    <div class="result-detail-card">
-      <pre id="modalBody" class="result-text"></pre>
-    </div>
-
-    <!-- TOMBOL AKSI -->
-    <div class="result-actions">
-      <button id="modalCopy" class="btn secondary full">Salin Config</button>
-      <button id="modalClose" class="btn primary full">Tutup</button>
-    </div>
   </div>
-</div>
-<!-- JAVASCRIPT PANEL -->
-  <script src="/panel.js" defer></script>
 
-  <!-- TEST sementara: pastikan tombol bisa diklik -->
-  <script>
-    const btnTest = document.getElementById('btnLogin');
-    if (btnTest) {
-      btnTest.addEventListener('click', () => {
-        console.log('Klik tombol login terdeteksi');
-        // alert('Tombol login KE-CLICK ✅ (test)'); // boleh hidupin kalau mau
-      });
-    }
-  </script>
+  <!-- JS PANEL (ganti /panel.js kalau nama file JS kamu beda) -->
+  <script src="/panel.js" defer></script>
 </body>
 </html>
