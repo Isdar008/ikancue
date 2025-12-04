@@ -472,22 +472,24 @@ if (modalClose) {
   };
 }
 
-// tombol salin
+// =========================
+// COPY: SALIN SEMUA & DETAIL
+// =========================
+
+// "Salin Semua" -> ambil semua teks di dalam modalBody
 const modalCopy = document.getElementById("modalCopy");
 if (modalCopy) {
   modalCopy.onclick = async () => {
-    const text =
-      lastModalMessage ||
-      (document.getElementById("modalBody")?.innerText || "");
+    const bodyEl = document.getElementById("modalBody");
+    if (!bodyEl) return;
 
-    if (!text.trim()) return;
+    const text = (bodyEl.innerText || "").trim();
+    if (!text) return;
 
     try {
       await navigator.clipboard.writeText(text);
       alert("Semua config berhasil disalin ✅");
     } catch (e) {
-      const bodyEl = document.getElementById("modalBody");
-      if (!bodyEl) return;
       const range = document.createRange();
       range.selectNodeContents(bodyEl);
       const sel = window.getSelection();
@@ -497,47 +499,47 @@ if (modalCopy) {
     }
   };
 }
+
+// "Salin Detail Akun" -> hanya Server/User/Pass/UUID + link-link utama
 const modalCopyMain = document.getElementById("modalCopyMain");
 if (modalCopyMain) {
   modalCopyMain.onclick = async () => {
-    if (!lastModalMessage) return;
+    const bodyEl = document.getElementById("modalBody");
+    if (!bodyEl) return;
 
-    const lines = lastModalMessage.split(/\r?\n/);
-    let text = "";
+    const mainBox = bodyEl.querySelector(".mini-box");       // box pertama (server, user, dll)
+    const linkEls = bodyEl.querySelectorAll(".scroll-x");    // semua baris link (tls/nontls/grpc/dll)
 
-    if (lastModalType === "ssh") {
-      // ambil bagian [Informasi Akun] saja
-      let start = lines.findIndex((l) =>
-        l.trim().toLowerCase().startsWith("[informasi akun]")
-      );
-      if (start === -1) start = 0;
+    let parts = [];
 
-      let end = lines.length;
-      for (let i = start + 1; i < lines.length; i++) {
-        if (lines[i].trim().startsWith("[")) {
-          end = i;
-          break;
-        }
-      }
-      text = lines.slice(start, end).join("\n").trim();
-    } else {
-      // VMESS / VLESS / TROJAN: ambil semua baris yang berisi '://'
-      const linkLines = lines.filter((l) => l.includes("://"));
-      text = (linkLines.join("\n") || lastModalMessage).trim();
+    if (mainBox) {
+      parts.push(mainBox.innerText.trim());
     }
 
+    if (linkEls.length) {
+      const linksText = Array.from(linkEls)
+        .map((el) => {
+          const label =
+            el.parentElement?.querySelector("strong")?.innerText || "";
+          const linkText = el.innerText.trim();
+          return label ? `${label}\n${linkText}` : linkText;
+        })
+        .join("\n\n");
+
+      parts.push(linksText);
+    }
+
+    const text = parts.join("\n\n").trim();
     if (!text) return;
 
     try {
       await navigator.clipboard.writeText(text);
       alert("Detail akun berhasil disalin ✅");
     } catch (e) {
-      // fallback: tampilkan di prompt biar bisa di-copy manual
       window.prompt("Salin detail akun secara manual:", text);
     }
   };
 }
-
 // ============================
 // HIDE PASSWORD UNTUK NON-SSH
 // ============================
