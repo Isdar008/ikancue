@@ -3,7 +3,10 @@
 // =====================================
 const API_BASE = "/api/web"; // karena panel di domain yang sama
 // email yang dianggap admin panel
-
+const ADMIN_EMAILS = [
+  "istiqwamantunnel@gmail.com",   // ganti / tambah sesuai kebutuhan
+  // "admin2@gmail.com",
+];
 // =====================================
 // HELPER
 // =====================================
@@ -159,17 +162,9 @@ if (btnAdminAddSaldo) {
   btnAdminAddSaldo.onclick = async (ev) => {
     const btn = ev.currentTarget;
 
-    const adminEmail = localStorage.getItem("xt_email") || "";
-    const isAdmin = localStorage.getItem("xt_is_admin") === "1";
-
     const targetUsername = document.getElementById("adminTargetUser").value.trim();
     const amount = parseInt(document.getElementById("adminAmount").value, 10);
     const note = document.getElementById("adminNote").value.trim();
-
-    if (!adminEmail || !isAdmin) {
-      alert("Hanya admin yang boleh menggunakan fitur ini.");
-      return;
-    }
 
     if (!targetUsername || !amount || amount <= 0) {
       alert("Username member & nominal wajib diisi.");
@@ -186,7 +181,6 @@ if (btnAdminAddSaldo) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          adminEmail,
           username: targetUsername,
           amount,
           note
