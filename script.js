@@ -154,7 +154,78 @@ function fillServerSelects() {
   selCreate.innerHTML = html;
   selRenew.innerHTML = html;
 }
+// =====================================
+// ADMIN: TAMBAH SALDO MANUAL
+// =====================================
+const btnAdminAddSaldo = document.getElementById("btnAdminAddSaldo");
+if (btnAdminAddSaldo) {
+  btnAdminAddSaldo.onclick = async (ev) => {
+    const btn = ev.currentTarget;
 
+    const adminEmail = localStorage.getItem("xt_email") || "";
+    const isAdmin = localStorage.getItem("xt_is_admin") === "1";
+    const targetEmail = document
+      .getElementById("adminTargetEmail")
+      .value.trim();
+    const amount = parseInt(
+      document.getElementById("adminAmount").value,
+      10
+    );
+    const note = document.getElementById("adminNote").value.trim();
+
+    // cek hak akses
+    if (!adminEmail || !isAdmin) {
+      alert("Hanya admin yang boleh menggunakan fitur ini.");
+      return;
+    }
+
+    if (!targetEmail || !amount || amount <= 0) {
+      alert("Email member & nominal wajib diisi.");
+      return;
+    }
+
+    if (!confirm(`Tambah saldo ${fmtRupiah(amount)} ke ${targetEmail}?`)) {
+      return;
+    }
+
+    lockButton(btn, true);
+    try {
+      const res = await fetch(`${API_BASE}/admin/add-balance`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          adminEmail,
+          targetEmail,
+          amount,
+          note,
+        }),
+      });
+
+      const json = await res.json().catch(() => ({}));
+      if (!res.ok || !json.ok) {
+        throw new Error(json.error || "Gagal menambah saldo.");
+      }
+
+      alert(
+        `Saldo ${fmtRupiah(amount)} berhasil ditambahkan ke ${targetEmail}.`
+      );
+
+      // Kalau admin nambah saldo ke dirinya sendiri, refresh status & riwayat user
+      const currentEmail = localStorage.getItem("xt_email");
+      if (currentEmail && currentEmail === targetEmail) {
+        loadStatusFromApi();
+        loadTopupHistory();
+      }
+
+      // Refresh riwayat panel admin
+      loadTopupHistoryAdmin();
+    } catch (e) {
+      alert(e.message || "Gagal menambah saldo.");
+    } finally {
+      lockButton(btn, false);
+    }
+  };
+}
 // =====================================
 // LOGIN SYSTEM
 // =====================================
@@ -499,22 +570,22 @@ if (btnTopup) {
         )}`;
 
         // ambil URL QR / base64 dari backend
-  const qrUrl =
-    data.qrImageBase64 ||   // ⚡ dari backend kamu sekarang
-    data.qrImageUrl ||
-    data.qrisImageUrl ||
-    data.qr_url ||
-    data.qris_image ||
-    data.qrisImage ||
-    data.qrImage ||
-    "";
+        const qrUrl =
+          data.qrImageBase64 || // dari backend kamu sekarang
+          data.qrImageUrl ||
+          data.qrisImageUrl ||
+          data.qr_url ||
+          data.qris_image ||
+          data.qrisImage ||
+          data.qrImage ||
+          "";
 
-  if (qrUrl) {
-    img.src = qrUrl;
-    img.style.display = "block";
-  } else {
-    img.style.display = "none";
-  }
+        if (qrUrl) {
+          img.src = qrUrl;
+          img.style.display = "block";
+        } else {
+          img.style.display = "none";
+        }
 
         if (data.paymentUrl) {
           linkEl.href = data.paymentUrl;
