@@ -557,3 +557,143 @@ select:focus {
     justify-content: flex-start;
   }
 }
+/* =====================================================
+   THEME V2 – NEON / GLASSMORPHISM STYLE
+   ===================================================== */
+
+/* Background full page lebih hidup */
+body {
+  background:
+    radial-gradient(circle at 0% 0%, rgba(37, 99, 235, 0.2), transparent 55%),
+    radial-gradient(circle at 100% 0%, rgba(236, 72, 153, 0.18), transparent 55%),
+    #020617;
+  color: #e5e7eb;
+}
+
+/* HERO lebih center & fokus di mobile */
+#welcome {
+  align-items: flex-start;
+  padding-top: 72px;
+}
+
+@media (max-width: 640px) {
+  #welcome {
+    align-items: flex-start;
+  }
+  .hero-inner {
+    text-align: left;
+  }
+  .hero-title {
+    font-size: 26px;
+  }
+}
+
+/* Tombol utama lebih glowing */
+.hero-main-btn {
+  box-shadow: 0 0 25px rgba(59, 130, 246, 0.45);
+}
+
+/* APP SHELL jadi kartu kaca dengan glow */
+.app-shell {
+  position: relative;
+  margin-top: 32px;
+  border-radius: 22px;
+  padding: 20px 18px 24px;
+  background: linear-gradient(145deg, rgba(15,23,42,0.9), rgba(15,23,42,0.7));
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  box-shadow:
+    0 24px 60px rgba(15, 23, 42, 0.9),
+    0 0 0 1px rgba(15, 23, 42, 0.7);
+  overflow: hidden;
+}
+
+/* blob glow di belakang dashboard */
+.app-shell::before {
+  content: "";
+  position: absolute;
+  inset: -40%;
+  background:
+    radial-gradient(circle at 10% 0%, rgba(59, 130, 246, 0.28), transparent 55%),
+    radial-gradient(circle at 90% 10%, rgba(236, 72, 153, 0.22), transparent 55%);
+  opacity: 0.6;
+  filter: blur(32px);
+  z-index: -1;
+}
+
+/* Header dashboard lebih rapih */
+.app-header {
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.9);
+}
+
+/* NAV tabs lebih modern */
+.app-nav {
+  margin-top: 10px;
+  padding: 6px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(30, 64, 175, 0.6);
+}
+
+.nav-btn {
+  padding-inline: 18px;
+  padding-block: 7px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  background: transparent;
+  border-radius: 999px;
+  border: none;
+}
+
+.nav-btn.active {
+  background: radial-gradient(circle at 0 0, #60a5fa, #4f46e5);
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.6);
+}
+
+/* Card jadi lebih glassy */
+.card {
+  background: linear-gradient(145deg, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.8));
+  border-radius: 18px;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.9);
+}
+
+/* Server card lebih clean */
+.server-card {
+  background: linear-gradient(150deg, rgba(15, 23, 42, 0.96), rgba(15, 23, 42, 0.85));
+  border-radius: 18px;
+  border: 1px solid rgba(55, 65, 81, 0.8);
+  box-shadow: 0 14px 32px rgba(15, 23, 42, 0.9);
+}
+
+/* Badge status server lebih chip-like */
+.badge {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+}
+
+/* Modal config ikut glass style */
+.result-card {
+  background: radial-gradient(circle at top, rgba(15,23,42,0.95), rgba(15,23,42,0.92));
+  border-radius: 20px;
+  border: 1px solid rgba(148, 163, 184, 0.5);
+}
+
+.result-text {
+  background: rgba(15, 23, 42, 0.95);
+}
+
+/* Tombol umum: beri hover halus */
+.btn:hover {
+  transform: translateY(-1px);
+  opacity: 0.96;
+}
+
+/* Sedikit spacing di bawah hero biar nggak nempel layar */
+@media (min-width: 768px) {
+  #welcome {
+    padding-bottom: 80px;
+  }
+                         }
