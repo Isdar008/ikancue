@@ -19,12 +19,24 @@ function lockButton(btn, locked) {
 // =====================================
 function showPage(id) {
   document.querySelectorAll(".page").forEach((p) => p.classList.remove("active"));
-  document.getElementById(id).classList.add("active");
+  const page = document.getElementById(id);
+  if (page) page.classList.add("active");
+
+  // kalau ke halaman login, pastikan mode login normal
+  if (id === "login") {
+    showResetStep(0);
+  }
 }
+
+// =====================================
+// RESET PASSWORD MODE (0=login normal, 1=step1, 2=step2)
+// =====================================
 function showResetStep(step) {
   const boxLogin = document.getElementById("loginBox");
   const s1 = document.getElementById("resetStep1");
   const s2 = document.getElementById("resetStep2");
+
+  if (!boxLogin || !s1 || !s2) return;
 
   if (step === 0) {
     boxLogin.style.display = "block";
@@ -40,6 +52,7 @@ function showResetStep(step) {
     s2.style.display = "block";
   }
 }
+
 // =====================================
 // DASHBOARD DATA
 // =====================================
@@ -51,7 +64,6 @@ async function loadStatusFromApi() {
     const email = localStorage.getItem("xt_email") || "";
 
     if (!email) {
-      // belum login, reset tampilan
       document.getElementById("statusSaldo").textContent = "Rp 0";
       document.getElementById("statusTotalAkun").textContent = "0";
       document.getElementById("statusLevel").textContent = "MEMBER";
@@ -90,6 +102,8 @@ async function loadServersFromApi() {
 
 function renderServers() {
   const wrap = document.getElementById("serverList");
+  if (!wrap) return;
+
   if (!cachedServers.length) {
     wrap.innerHTML = "<p class='muted small'>Server kosong / gagal memuat.</p>";
     return;
@@ -120,6 +134,8 @@ function renderServers() {
 function fillServerSelects() {
   const selCreate = document.getElementById("createServer");
   const selRenew = document.getElementById("renewServer");
+
+  if (!selCreate || !selRenew) return;
 
   if (!cachedServers.length) {
     selCreate.innerHTML = "<option value=''>Server kosong</option>";
@@ -154,128 +170,161 @@ function loadDashboard() {
   loadServersFromApi();
 }
 
-document.getElementById("btnMulai").onclick = () => showPage("login");
-document.getElementById("btnBack").onclick = () => showPage("welcome");
-document.getElementById("btnForgot").onclick = () => {
-  const email = document.getElementById("email").value.trim();
-  const resetEmailInput = document.getElementById("resetEmail");
-  if (email && resetEmailInput) resetEmailInput.value = email;
-  showResetStep(1);
-};
+const btnMulai = document.getElementById("btnMulai");
+if (btnMulai) btnMulai.onclick = () => showPage("login");
 
-document.getElementById("btnResetBack1").onclick =
-document.getElementById("btnResetBack2").onclick = () => {
-  showResetStep(0);
-};
-document.getElementById("btnSendReset").addEventListener("click", async (ev) => {
-  const btn = ev.currentTarget;
-  const email = document.getElementById("resetEmail").value.trim();
-  if (!email) {
-    alert("Email tidak boleh kosong.");
-    return;
-  }
+const btnBack = document.getElementById("btnBack");
+if (btnBack) btnBack.onclick = () => showPage("welcome");
 
-  lockButton(btn, true);
-  try {
-    const res = await fetch(`${API_BASE}/request-reset`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email })
-    });
-    const json = await res.json().catch(() => ({}));
-    if (!res.ok || !json.ok) {
-      throw new Error(json.error || "Gagal mengirim kode reset.");
+// login normal
+const btnLogin = document.getElementById("btnLogin");
+if (btnLogin) {
+  btnLogin.addEventListener("click", async (ev) => {
+    const btn = ev.currentTarget;
+    const email = document.getElementById("email").value.trim();
+    const pass = document.getElementById("password").value.trim();
+
+    if (!email || !pass) {
+      alert("Email & password tidak boleh kosong!");
+      return;
     }
 
-    alert("Kode reset sudah dikirim ke email kamu.");
-    showResetStep(2);
-  } catch (e) {
-    alert(e.message || "Gagal mengirim kode reset.");
-  } finally {
-    lockButton(btn, false);
-  }
-});
-document.getElementById("btnDoReset").addEventListener("click", async (ev) => {
-  const btn = ev.currentTarget;
-  const email = document.getElementById("resetEmail").value.trim();
-  const code  = document.getElementById("resetCode").value.trim();
-  const newPass = document.getElementById("resetNewPass").value.trim();
+    lockButton(btn, true);
 
-  if (!email || !code || !newPass) {
-    alert("Email, kode, dan password baru wajib diisi.");
-    return;
-  }
+    try {
+      const res = await fetch(`${API_BASE}/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password: pass }),
+      });
 
-  lockButton(btn, true);
-  try {
-    const res = await fetch(`${API_BASE}/confirm-reset`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, code, newPassword: newPass })
-    });
-    const json = await res.json().catch(() => ({}));
-    if (!res.ok || !json.ok) {
-      throw new Error(json.error || "Gagal reset password.");
+      const json = await res.json().catch(() => ({}));
+
+      if (!res.ok || !json.ok) {
+        throw new Error(json.error || "Gagal login.");
+      }
+
+      localStorage.setItem("xt_email", json.data.email);
+      localStorage.setItem("xt_pass", pass);
+
+      if (json.data.isNew) {
+        alert("Berhasil daftar & login dengan email baru.");
+      }
+
+      loadDashboard();
+    } catch (e) {
+      alert(e.message || "Gagal login.");
+    } finally {
+      lockButton(btn, false);
+    }
+  });
+}
+
+// logout
+const btnLogout = document.getElementById("btnLogout");
+if (btnLogout) {
+  btnLogout.onclick = () => {
+    localStorage.removeItem("xt_email");
+    localStorage.removeItem("xt_pass");
+    showPage("welcome");
+  };
+}
+
+// =====================================
+// RESET PASSWORD (FRONTEND)
+// =====================================
+
+// Lupa password → masuk step1
+const btnForgot = document.getElementById("btnForgot");
+if (btnForgot) {
+  btnForgot.onclick = () => {
+    const email = document.getElementById("email").value.trim();
+    const resetEmailInput = document.getElementById("resetEmail");
+    if (email && resetEmailInput) resetEmailInput.value = email;
+    showResetStep(1);
+  };
+}
+
+// Kembali ke login dari step1 / step2
+const btnResetBack1 = document.getElementById("btnResetBack1");
+if (btnResetBack1) {
+  btnResetBack1.onclick = () => showResetStep(0);
+}
+const btnResetBack2 = document.getElementById("btnResetBack2");
+if (btnResetBack2) {
+  btnResetBack2.onclick = () => showResetStep(0);
+}
+
+// Kirim kode ke email
+const btnSendReset = document.getElementById("btnSendReset");
+if (btnSendReset) {
+  btnSendReset.addEventListener("click", async (ev) => {
+    const btn = ev.currentTarget;
+    const email = document.getElementById("resetEmail").value.trim();
+    if (!email) {
+      alert("Email tidak boleh kosong.");
+      return;
     }
 
-    alert("Password berhasil direset. Silakan login dengan password baru.");
-    // isi form login dan kembali ke login
-    document.getElementById("email").value = email;
-    document.getElementById("password").value = newPass;
-    showResetStep(0);
-  } catch (e) {
-    alert(e.message || "Gagal reset password.");
-  } finally {
-    lockButton(btn, false);
-  }
-});
+    lockButton(btn, true);
+    try {
+      const res = await fetch(`${API_BASE}/request-reset`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      const json = await res.json().catch(() => ({}));
+      if (!res.ok || !json.ok) {
+        throw new Error(json.error || "Gagal mengirim kode reset.");
+      }
 
-document.getElementById("btnLogin").addEventListener("click", async (ev) => {
-  const btn = ev.currentTarget;
-  const email = document.getElementById("email").value.trim();
-  const pass = document.getElementById("password").value.trim();
+      alert("Kode reset sudah dikirim ke email kamu.");
+      showResetStep(2);
+    } catch (e) {
+      alert(e.message || "Gagal mengirim kode reset.");
+    } finally {
+      lockButton(btn, false);
+    }
+  });
+}
 
-  if (!email || !pass) {
-    alert("Email & password tidak boleh kosong!");
-    return;
-  }
+// Konfirmasi reset password
+const btnDoReset = document.getElementById("btnDoReset");
+if (btnDoReset) {
+  btnDoReset.addEventListener("click", async (ev) => {
+    const btn = ev.currentTarget;
+    const email = document.getElementById("resetEmail").value.trim();
+    const code = document.getElementById("resetCode").value.trim();
+    const newPass = document.getElementById("resetNewPass").value.trim();
 
-  lockButton(btn, true);
-
-  try {
-    const res = await fetch(`${API_BASE}/login`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password: pass }),
-    });
-
-    const json = await res.json().catch(() => ({}));
-
-    if (!res.ok || !json.ok) {
-      throw new Error(json.error || "Gagal login.");
+    if (!email || !code || !newPass) {
+      alert("Email, kode, dan password baru wajib diisi.");
+      return;
     }
 
-    // simpan di browser
-    localStorage.setItem("xt_email", json.data.email);
-    localStorage.setItem("xt_pass", pass);
+    lockButton(btn, true);
+    try {
+      const res = await fetch(`${API_BASE}/confirm-reset`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, code, newPassword: newPass }),
+      });
+      const json = await res.json().catch(() => ({}));
+      if (!res.ok || !json.ok) {
+        throw new Error(json.error || "Gagal reset password.");
+      }
 
-    if (json.data.isNew) {
-      alert("Berhasil daftar & login dengan email baru.");
+      alert("Password berhasil direset. Silakan login dengan password baru.");
+      document.getElementById("email").value = email;
+      document.getElementById("password").value = newPass;
+      showResetStep(0);
+    } catch (e) {
+      alert(e.message || "Gagal reset password.");
+    } finally {
+      lockButton(btn, false);
     }
-
-    loadDashboard();
-  } catch (e) {
-    alert(e.message || "Gagal login.");
-  } finally {
-    lockButton(btn, false);
-  }
-});
-
-document.getElementById("btnLogout").onclick = () => {
-  localStorage.removeItem("xt_email");
-  localStorage.removeItem("xt_pass");
-  showPage("welcome");
-};
+  });
+}
 
 // =====================================
 // NAVIGATION (Overview/Server/Buat/Renew/Topup)
@@ -284,16 +333,15 @@ function openAppPage(name) {
   document
     .querySelectorAll(".app-page")
     .forEach((p) => p.classList.remove("active"));
-  document.getElementById("app-" + name).classList.add("active");
+  const target = document.getElementById("app-" + name);
+  if (target) target.classList.add("active");
 
   document
     .querySelectorAll(".nav-btn")
     .forEach((btn) => btn.classList.remove("active"));
-  document
-    .querySelector(`.nav-btn[data-target="${name}"]`)
-    .classList.add("active");
+  const navBtn = document.querySelector(`.nav-btn[data-target="${name}"]`);
+  if (navBtn) navBtn.classList.add("active");
 
-  // saat buka tab Topup → load history
   if (name === "topup") {
     loadTopupHistory();
   }
@@ -306,134 +354,173 @@ document.querySelectorAll(".nav-btn").forEach((btn) => {
 // =====================================
 // FORM: BUAT AKUN
 // =====================================
-document.getElementById("btnCreate").onclick = async (ev) => {
-  const btn = ev.target;
-  const type = document.getElementById("createType").value;
-  const serverId = parseInt(document.getElementById("createServer").value);
-  const username = document.getElementById("createUser").value.trim();
-  const password = document.getElementById("createPass").value.trim();
-  const days = parseInt(document.getElementById("createDays").value);
-  const email = localStorage.getItem("xt_email") || "";
+const btnCreate = document.getElementById("btnCreate");
+if (btnCreate) {
+  btnCreate.onclick = async (ev) => {
+    const btn = ev.target;
+    const type = document.getElementById("createType").value;
+    const serverId = parseInt(document.getElementById("createServer").value);
+    const username = document.getElementById("createUser").value.trim();
+    const password = document.getElementById("createPass")
+      ? document.getElementById("createPass").value.trim()
+      : "";
+    const days = parseInt(document.getElementById("createDays").value);
+    const email = localStorage.getItem("xt_email") || "";
 
-  if (!serverId || !username || !days) {
-    return alert("Lengkapi semua form!");
-  }
+    if (!serverId || !username || !days)
+      return alert("Lengkapi semua form!");
 
-  // 🔐 Kalau SSH, password wajib diisi
-  if (type === "ssh" && !password) {
-    return alert("Password SSH wajib diisi untuk akun SSH.");
-  }
+    if (type === "ssh" && !password) {
+      return alert("Password SSH wajib diisi untuk akun SSH.");
+    }
 
-  lockButton(btn, true);
+    lockButton(btn, true);
 
-  try {
-    const res = await fetch(`${API_BASE}/create-account`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, type, serverId, username, days, password }),
-    });
+    try {
+      const res = await fetch(`${API_BASE}/create-account`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email,
+          type,
+          serverId,
+          username,
+          days,
+          password,
+        }),
+      });
 
-    const json = await res.json();
-    if (!json.ok) throw new Error(json.error);
+      const json = await res.json();
+      if (!json.ok) throw new Error(json.error);
 
-    alert(
-      `Akun berhasil dibuat:\nServer: ${json.data.serverName}\nHarga: ${fmtRupiah(
-        json.data.totalHarga
-      )}\n\n${json.data.message}`
-    );
+      alert(
+        `Akun berhasil dibuat:\nServer: ${json.data.serverName}\nHarga: ${fmtRupiah(
+          json.data.totalHarga
+        )}\n\n${json.data.message}`
+      );
 
-    loadStatusFromApi();
-  } catch (e) {
-    alert("Gagal membuat akun: " + e.message);
-  }
+      loadStatusFromApi();
+    } catch (e) {
+      alert("Gagal membuat akun: " + e.message);
+    }
 
-  lockButton(btn, false);
-};
+    lockButton(btn, false);
+  };
+}
 
 // =====================================
 // FORM: RENEW AKUN
 // =====================================
-document.getElementById("btnRenew").onclick = async (ev) => {
-  const btn = ev.target;
-  const type = document.getElementById("renewType").value;
-  const serverId = parseInt(document.getElementById("renewServer").value);
-  const username = document.getElementById("renewUser").value.trim();
-  const days = parseInt(document.getElementById("renewDays").value);
+const btnRenew = document.getElementById("btnRenew");
+if (btnRenew) {
+  btnRenew.onclick = async (ev) => {
+    const btn = ev.target;
+    const type = document.getElementById("renewType").value;
+    const serverId = parseInt(document.getElementById("renewServer").value);
+    const username = document.getElementById("renewUser").value.trim();
+    const days = parseInt(document.getElementById("renewDays").value);
 
-  if (!serverId || !username || !days)
-    return alert("Lengkapi semua form!");
+    if (!serverId || !username || !days)
+      return alert("Lengkapi semua form!");
 
-  lockButton(btn, true);
+    lockButton(btn, true);
 
-  try {
-    const res = await fetch(`${API_BASE}/renew-account`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ type, serverId, username, days }),
-    });
+    try {
+      const res = await fetch(`${API_BASE}/renew-account`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type, serverId, username, days }),
+      });
 
-    const json = await res.json();
-    if (!json.ok) throw new Error(json.error);
+      const json = await res.json();
+      if (!json.ok) throw new Error(json.error);
 
-    alert(
-      `Akun berhasil diperpanjang!\nServer: ${json.data.serverName}\nHarga: ${fmtRupiah(
-        json.data.totalHarga
-      )}\n\n${json.data.message}`
-    );
+      alert(
+        `Akun berhasil diperpanjang!\nServer: ${json.data.serverName}\nHarga: ${fmtRupiah(
+          json.data.totalHarga
+        )}\n\n${json.data.message}`
+      );
 
-    loadStatusFromApi();
-  } catch (e) {
-    alert("Gagal perpanjang akun: " + e.message);
-  }
-
-  lockButton(btn, false);
-};
-
-// =====================================
-// TOPUP: FORM + HISTORY
-// =====================================
-
-// -- lakukan request topup
-document.getElementById("btnTopup").onclick = async (ev) => {
-  const btn = ev.target;
-  const amount = parseInt(document.getElementById("topupAmount").value);
-  const email = localStorage.getItem("xt_email");
-
-  if (!amount || amount < 1000) return alert("Minimal topup Rp 1.000");
-  if (!email) return alert("Login dulu");
-
-  lockButton(btn, true);
-
-  try {
-    const res = await fetch(`${API_BASE}/topup`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, amount }),
-    });
-
-    const json = await res.json();
-    if (!json.ok) throw new Error(json.error);
-
-    alert("Invoice dibuat. Buka halaman pembayaran...");
-
-    if (json.data.paymentUrl) {
-      window.open(json.data.paymentUrl, "_blank");
+      loadStatusFromApi();
+    } catch (e) {
+      alert("Gagal perpanjang akun: " + e.message);
     }
 
-    // reload riwayat
-    loadTopupHistory();
-  } catch (e) {
-    alert("Gagal request topup: " + e.message);
-  }
+    lockButton(btn, false);
+  };
+}
 
-  lockButton(btn, false);
-};
+// =====================================
+// TOPUP: FORM + HISTORY + QRIS
+// =====================================
+const btnTopup = document.getElementById("btnTopup");
+if (btnTopup) {
+  btnTopup.onclick = async (ev) => {
+    const btn = ev.target;
+    const amount = parseInt(document.getElementById("topupAmount").value);
+    const email = localStorage.getItem("xt_email");
+
+    if (!amount || amount < 1000) return alert("Minimal topup Rp 1.000");
+    if (!email) return alert("Login dulu");
+
+    lockButton(btn, true);
+
+    try {
+      const res = await fetch(`${API_BASE}/topup`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, amount }),
+      });
+
+      const json = await res.json();
+      if (!json.ok) throw new Error(json.error);
+
+      const data = json.data || {};
+
+      const card = document.getElementById("topupPaymentCard");
+      const img = document.getElementById("qrisImage");
+      const infoEl = document.getElementById("paymentInfo");
+      const linkEl = document.getElementById("paymentLink");
+
+      if (card && img && infoEl && linkEl) {
+        infoEl.textContent = `Invoice: ${data.orderId || "-"} • Nominal: ${fmtRupiah(
+          data.amount || amount
+        )}`;
+
+        const qrUrl = data.qrImageUrl || data.qrisImageUrl || "";
+        if (qrUrl) {
+          img.src = qrUrl;
+          img.style.display = "block";
+        } else {
+          img.style.display = "none";
+        }
+
+        if (data.paymentUrl) {
+          linkEl.href = data.paymentUrl;
+          linkEl.style.display = "inline-block";
+        } else {
+          linkEl.style.display = "none";
+        }
+
+        card.style.display = "block";
+      }
+
+      loadTopupHistory();
+    } catch (e) {
+      alert("Gagal request topup: " + e.message);
+    }
+
+    lockButton(btn, false);
+  };
+}
 
 // -- load riwayat topup
 async function loadTopupHistory() {
   const email = localStorage.getItem("xt_email");
   const list = document.getElementById("topupHistory");
   const empty = document.getElementById("topupHistoryEmpty");
+
+  if (!list || !empty) return;
 
   if (!email) {
     list.innerHTML = "";
