@@ -25,7 +25,7 @@
   <!-- WELCOME PAGE -->
   <section id="welcome" class="page active">
     <div class="container center">
-      <h1>🚀 Selamat Datang di XTRIMER PANEL</h1>
+      <h1>ðŸš€ Selamat Datang di XTRIMER PANEL</h1>
       <p>Dashboard pribadi untuk mengelola akun VPN Anda.</p>
       <button id="btnMulai" class="btn primary">Mulai</button>
     </div>
@@ -105,7 +105,7 @@
   <button class="nav-btn" data-target="create">Buat Akun</button>
   <button class="nav-btn" data-target="renew">Perpanjang</button>
   <button class="nav-btn" data-target="topup">Topup</button>
-  <!-- 🔐 hanya ditampilkan kalau email admin -->
+  <!-- ðŸ” hanya ditampilkan kalau email admin -->
   <button class="nav-btn" data-target="admin" id="navAdmin" style="display:none;">
     Admin
   </button>
@@ -135,40 +135,44 @@
         <!-- SERVER LIST -->
         <div id="app-servers" class="app-page">
           <h3>Daftar Server</h3>
-          <p class="muted small">Data diambil dari tabel <code>Server</code> di backend.</p>
+          <p class="muted small">
+            Data diambil dari tabel <code>Server</code> di backend.
+          </p>
           <div id="serverList" class="server-list"></div>
         </div>
 
         <!-- BUAT AKUN -->
-<div id="app-create" class="app-page">
-  <h3>Buat Akun VPN</h3>
-  <p class="muted small">Tombol ini akan menembak endpoint API create akun.</p>
+        <div id="app-create" class="app-page">
+          <h3>Buat Akun VPN</h3>
+          <p class="muted small">
+            Tombol ini akan menembak endpoint API create akun.
+          </p>
 
-  <div class="card">
-    <label>Jenis Akun</label>
-    <select id="createType">
-      <option value="ssh">SSH</option>
-      <option value="vmess">VMESS</option>
-      <option value="vless">VLESS</option>
-      <option value="trojan">TROJAN</option>
-    </select>
+          <div class="card">
+            <label>Jenis Akun</label>
+            <select id="createType">
+              <option value="ssh">SSH</option>
+              <option value="vmess">VMESS</option>
+              <option value="vless">VLESS</option>
+              <option value="trojan">TROJAN</option>
+            </select>
 
-    <label>Server</label>
-    <select id="createServer"></select>
+            <label>Server</label>
+            <select id="createServer"></select>
 
-    <label>Username Akun</label>
-    <input id="createUser" type="text" placeholder="misal: uservpn123">
+            <label>Username Akun</label>
+            <input id="createUser" type="text" placeholder="misal: uservpn123">
 
-    <!-- 🔐 Password khusus SSH -->
-    <label>Password SSH</label>
-    <input id="createPass" type="password" placeholder="Password akun SSH">
+            <!-- 🔐 Password khusus SSH -->
+            <label>Password SSH</label>
+            <input id="createPass" type="password" placeholder="Password akun SSH">
 
-    <label>Masa Aktif (hari)</label>
-    <input id="createDays" type="number" min="1" value="30">
+            <label>Masa Aktif (hari)</label>
+            <input id="createDays" type="number" min="1" value="30">
 
-    <button class="btn primary full" id="btnCreate">Buat Akun</button>
-  </div>
-  </div>
+            <button class="btn primary full" id="btnCreate">Buat Akun</button>
+          </div>
+        </div>
 
         <!-- RENEW AKUN -->
         <div id="app-renew" class="app-page">
@@ -200,7 +204,9 @@
         <!-- TOPUP -->
         <div id="app-topup" class="app-page">
           <h3>Topup Saldo</h3>
-          <p class="muted small">Bisa dihubungkan ke sistem QRIS / Pakasir yang sudah ada.</p>
+          <p class="muted small">
+            Bisa dihubungkan ke sistem QRIS / Pakasir yang sudah ada.
+          </p>
 
           <!-- FORM TOPUP -->
           <div class="card">
@@ -210,26 +216,7 @@
             <button class="btn primary full" id="btnTopup">Buat Request Topup</button>
           </div>
 
-          <!-- ADMIN PANEL -->
-        <div id="app-admin" class="app-page">
-          <h3>Admin Panel</h3>
-          <p class="muted small">
-            Halaman ini hanya muncul untuk email admin yang terdaftar.
-          </p>
-
-          <div class="card">
-            <h4>Riwayat Topup Panel</h4>
-            <p class="muted small">
-              Menampilkan 20 transaksi topup terakhir di sistem.
-            </p>
-            <ul id="topupHistoryAdmin" class="dummy-list"></ul>
-            <p id="topupHistoryAdminEmpty" class="muted small">
-              Belum ada riwayat topup.
-            </p>
-          </div>
-        </div>
-          
-          <!-- 🔳 KARTU QRIS PEMBAYARAN (DIPAKAI OLEH script.js) -->
+          <!-- KARTU QRIS PEMBAYARAN -->
           <div class="card" id="topupPaymentCard" style="display:none;">
             <h4>QRIS Pembayaran</h4>
             <p class="muted small">
@@ -257,13 +244,34 @@
             </a>
           </div>
 
-          <!-- RIWAYAT TOPUP -->
+          <!-- RIWAYAT TOPUP USER -->
           <div class="card">
             <h4>Riwayat Topup</h4>
             <ul id="topupHistory" class="dummy-list"></ul>
-            <p id="topupHistoryEmpty" class="muted small">Belum ada riwayat topup.</p>
+            <p id="topupHistoryEmpty" class="muted small">
+              Belum ada riwayat topup.
+            </p>
           </div>
-  </div>
+        </div>
+
+        <!-- ADMIN PANEL (TERPISAH, BUKAN DI DALAM TOPUP) -->
+        <div id="app-admin" class="app-page">
+          <h3>Admin Panel</h3>
+          <p class="muted small">
+            Halaman ini hanya muncul untuk email admin yang terdaftar.
+          </p>
+
+          <div class="card">
+            <h4>Riwayat Topup Panel</h4>
+            <p class="muted small">
+              Menampilkan 20 transaksi topup terakhir di sistem.
+            </p>
+            <ul id="topupHistoryAdmin" class="dummy-list"></ul>
+            <p id="topupHistoryAdminEmpty" class="muted small">
+              Belum ada riwayat topup.
+            </p>
+          </div>
+        </div>
 
       </main>
     </div>
