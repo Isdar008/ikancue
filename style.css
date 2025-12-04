@@ -603,17 +603,53 @@ select:focus {
   background: rgba(0, 0, 0, 0.55);
 }
 
-/* kartu utama modal */
+/* === FIX: Modal lebih kecil & compact === */
 .result-card {
   position: relative;
   z-index: 1;
-  max-width: 520px;
-  width: 100%;
-  border-radius: 22px;
+  max-width: 380px;              /* lebih kecil */
+  width: 90%;                    /* biar tidak full */
+  border-radius: 18px;
   overflow: hidden;
-  box-shadow: 0 24px 80px rgba(15, 23, 42, 0.9);
+  padding-bottom: 8px;
+  background: radial-gradient(circle at top, #0f172a, #020617 70%);
   border: 1px solid rgba(148, 163, 184, 0.35);
-  background: radial-gradient(circle at top, #111827, #020617 65%);
+  box-shadow: 0 18px 55px rgba(15, 23, 42, 0.8);
+}
+
+/* Header lebih tipis */
+.result-header {
+  padding: 12px 14px;
+}
+
+/* Success message lebih kecil */
+.result-success {
+  margin: 10px 12px 0;
+  padding: 8px 10px;
+  border-radius: 10px;
+}
+
+/* Text area lebih kecil */
+.result-detail-card {
+  margin: 10px 12px 0;
+  border-radius: 14px;
+}
+
+.result-text {
+  font-size: 11px;
+  line-height: 1.38;
+  padding: 8px 10px;
+}
+
+/* Tombol bawah compact */
+.result-actions {
+  padding: 10px 12px 12px;
+  gap: 6px;
+}
+
+.result-actions .btn.full {
+  height: 38px;
+  font-size: 13px;
 }
 
 /* header biru gradient */
