@@ -165,7 +165,6 @@ if (btnAdminAddSaldo) {
     const adminEmail = localStorage.getItem("xt_email") || "";
     const isAdmin    = localStorage.getItem("xt_is_admin") === "1";
 
-    // 👉 ini email member yang kamu isi di form
     const targetEmail = document
       .getElementById("adminTargetUser")
       .value
@@ -198,8 +197,8 @@ if (btnAdminAddSaldo) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          adminEmail,         // email admin (buat validasi di backend)
-          username: targetEmail, // 👈 kirim email member ke backend
+          adminEmail,
+          username: targetEmail, // ⬅️ email member, sama dengan backend
           amount,
           note
         }),
