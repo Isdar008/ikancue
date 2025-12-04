@@ -421,39 +421,59 @@ document.querySelectorAll(".nav-btn").forEach((btn) => {
 // =====================================
 // MODAL HASIL (CREATE / RENEW)
 // =====================================
-function showResultModal(title, info, body) {
-  const modal = document.getElementById("resultModal");
-  const titleEl = document.getElementById("resultTitle");
-  const infoEl = document.getElementById("resultInfo");
-  const textEl = document.getElementById("resultText");
+function showResultModal(title, subtitle, rawMsg) {
+  const overlay = document.getElementById("resultModal");
+  const titleEl = document.getElementById("modalTitle");
+  const subEl = document.getElementById("modalSubtitle");
+  const bodyEl = document.getElementById("modalBody");
 
-  if (!modal || !titleEl || !infoEl || !textEl) {
-    // fallback kalau modal belum ada
-    alert(title + "\n" + info + "\n\n" + body);
+  // fallback kalau elemen hilang
+  if (!overlay || !titleEl || !bodyEl) {
+    alert(rawMsg || "Berhasil.");
     return;
   }
 
-  titleEl.textContent = title || "Hasil";
-  infoEl.textContent = info || "";
-  textEl.value = (body || "").replace(/\r\n/g, "\n");
+  titleEl.textContent = title || "";
+  subEl.textContent = subtitle || "";
+  bodyEl.textContent = rawMsg || "";
 
-  modal.style.display = "flex";
+  overlay.classList.add("show");
 }
 
-(function initResultModal() {
-  const modal = document.getElementById("resultModal");
-  const closeBtn = document.getElementById("resultClose");
-  if (!modal || !closeBtn) return;
-
-  const close = () => {
-    modal.style.display = "none";
+// tombol tutup
+const modalClose = document.getElementById("modalClose");
+if (modalClose) {
+  modalClose.onclick = () => {
+    const overlay = document.getElementById("resultModal");
+    if (overlay) overlay.classList.remove("show");
   };
+}
 
-  closeBtn.addEventListener("click", close);
-  modal.addEventListener("click", (e) => {
-    if (e.target === modal) close(); // klik area gelap = tutup
-  });
-})();
+// tombol salin
+const modalCopy = document.getElementById("modalCopy");
+if (modalCopy) {
+  modalCopy.onclick = async () => {
+    const bodyEl = document.getElementById("modalBody");
+    if (!bodyEl) return;
+
+    const text = bodyEl.innerText || "";
+    if (!text.trim()) return;
+
+    try {
+      // cara utama: clipboard API
+      await navigator.clipboard.writeText(text);
+      alert("Config berhasil disalin ✅");
+    } catch (e) {
+      // fallback: seleksi semua teks, biar user tinggal tekan salin
+      const range = document.createRange();
+      range.selectNodeContents(bodyEl);
+      const sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+      alert("Teks sudah diselect, tekan Salin di perangkat kamu.");
+    }
+  };
+}
 // =====================================
 // FORM: BUAT AKUN
 // =====================================
