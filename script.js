@@ -418,7 +418,42 @@ function openAppPage(name) {
 document.querySelectorAll(".nav-btn").forEach((btn) => {
   btn.onclick = () => openAppPage(btn.dataset.target);
 });
+// =====================================
+// MODAL HASIL (CREATE / RENEW)
+// =====================================
+function showResultModal(title, info, body) {
+  const modal = document.getElementById("resultModal");
+  const titleEl = document.getElementById("resultTitle");
+  const infoEl = document.getElementById("resultInfo");
+  const textEl = document.getElementById("resultText");
 
+  if (!modal || !titleEl || !infoEl || !textEl) {
+    // fallback kalau modal belum ada
+    alert(title + "\n" + info + "\n\n" + body);
+    return;
+  }
+
+  titleEl.textContent = title || "Hasil";
+  infoEl.textContent = info || "";
+  textEl.value = (body || "").replace(/\r\n/g, "\n");
+
+  modal.style.display = "flex";
+}
+
+(function initResultModal() {
+  const modal = document.getElementById("resultModal");
+  const closeBtn = document.getElementById("resultClose");
+  if (!modal || !closeBtn) return;
+
+  const close = () => {
+    modal.style.display = "none";
+  };
+
+  closeBtn.addEventListener("click", close);
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) close(); // klik area gelap = tutup
+  });
+})();
 // =====================================
 // FORM: BUAT AKUN
 // =====================================
@@ -461,13 +496,13 @@ if (btnCreate) {
       const json = await res.json();
       if (!json.ok) throw new Error(json.error);
 
-      alert(
-        `Akun berhasil dibuat:\nServer: ${json.data.serverName}\nHarga: ${fmtRupiah(
-          json.data.totalHarga
-        )}\n\n${json.data.message}`
-      );
+      showResultModal(
+  "Akun berhasil dibuat",
+  `Server: ${json.data.serverName} • Harga: ${fmtRupiah(json.data.totalHarga)}`,
+  json.data.message
+);
 
-      loadStatusFromApi();
+loadStatusFromApi();
     } catch (e) {
       alert("Gagal membuat akun: " + e.message);
     }
@@ -506,14 +541,13 @@ if (btnRenew) {
       const json = await res.json();
       if (!json.ok) throw new Error(json.error);
 
-      alert(
-        `Akun berhasil diperpanjang!\nServer: ${json.data.serverName}\nHarga: ${fmtRupiah(
-          json.data.totalHarga
-        )}\n\n${json.data.message}`
-      );
+      showResultModal(
+  "Akun berhasil diperpanjang",
+  `Server: ${json.data.serverName} • Harga: ${fmtRupiah(json.data.totalHarga)}`,
+  json.data.message
+);
 
-      // update saldo di overview
-      loadStatusFromApi();
+loadStatusFromApi();
     } catch (e) {
       alert("Gagal perpanjang akun: " + (e.message || "Error tidak diketahui"));
     }
