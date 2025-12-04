@@ -100,11 +100,15 @@
 
       <!-- NAV -->
       <nav class="app-nav">
-        <button class="nav-btn active" data-target="overview">Overview</button>
-        <button class="nav-btn" data-target="servers">Server</button>
-        <button class="nav-btn" data-target="create">Buat Akun</button>
-        <button class="nav-btn" data-target="renew">Perpanjang</button>
-        <button class="nav-btn" data-target="topup">Topup</button>
+  <button class="nav-btn active" data-target="overview">Overview</button>
+  <button class="nav-btn" data-target="servers">Server</button>
+  <button class="nav-btn" data-target="create">Buat Akun</button>
+  <button class="nav-btn" data-target="renew">Perpanjang</button>
+  <button class="nav-btn" data-target="topup">Topup</button>
+  <!-- 🔐 hanya ditampilkan kalau email admin -->
+  <button class="nav-btn" data-target="admin" id="navAdmin" style="display:none;">
+    Admin
+  </button>
       </nav>
 
       <!-- MAIN CONTENT -->
@@ -206,6 +210,25 @@
             <button class="btn primary full" id="btnTopup">Buat Request Topup</button>
           </div>
 
+          <!-- ADMIN PANEL -->
+        <div id="app-admin" class="app-page">
+          <h3>Admin Panel</h3>
+          <p class="muted small">
+            Halaman ini hanya muncul untuk email admin yang terdaftar.
+          </p>
+
+          <div class="card">
+            <h4>Riwayat Topup Panel</h4>
+            <p class="muted small">
+              Menampilkan 20 transaksi topup terakhir di sistem.
+            </p>
+            <ul id="topupHistoryAdmin" class="dummy-list"></ul>
+            <p id="topupHistoryAdminEmpty" class="muted small">
+              Belum ada riwayat topup.
+            </p>
+          </div>
+        </div>
+          
           <!-- 🔳 KARTU QRIS PEMBAYARAN (DIPAKAI OLEH script.js) -->
           <div class="card" id="topupPaymentCard" style="display:none;">
             <h4>QRIS Pembayaran</h4>
