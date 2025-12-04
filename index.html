@@ -163,7 +163,7 @@
             <label>Username Akun</label>
             <input id="createUser" type="text" placeholder="misal: uservpn123">
 
-            <!-- 🔐 Password khusus SSH -->
+            <!--  Password khusus SSH -->
             <label>Password SSH</label>
             <input id="createPass" type="password" placeholder="Password akun SSH">
 
@@ -254,24 +254,44 @@
           </div>
         </div>
 
-        <!-- ADMIN PANEL (TERPISAH, BUKAN DI DALAM TOPUP) -->
-        <div id="app-admin" class="app-page">
-          <h3>Admin Panel</h3>
-          <p class="muted small">
-            Halaman ini hanya muncul untuk email admin yang terdaftar.
-          </p>
+       <!-- ADMIN PANEL (TERPISAH, BUKAN DI DALAM TOPUP) -->
+<div id="app-admin" class="app-page">
+  <h3>Admin Panel</h3>
+  <p class="muted small">
+    Halaman ini hanya muncul untuk email admin yang terdaftar.
+  </p>
 
-          <div class="card">
-            <h4>Riwayat Topup Panel</h4>
-            <p class="muted small">
-              Menampilkan 20 transaksi topup terakhir di sistem.
-            </p>
-            <ul id="topupHistoryAdmin" class="dummy-list"></ul>
-            <p id="topupHistoryAdminEmpty" class="muted small">
-              Belum ada riwayat topup.
-            </p>
-          </div>
-        </div>
+  <!-- FORM TAMBAH SALDO -->
+  <div class="card">
+    <h4>Tambah Saldo Manual</h4>
+    <p class="muted small">
+      Gunakan fitur ini dengan hati-hati. Semua perubahan tercatat di log topup.
+    </p>
+
+    <label>Email Member</label>
+    <input id="adminTargetEmail" type="email" placeholder="email member, misal: user@gmail.com">
+
+    <label>Nominal (Rp)</label>
+    <input id="adminAmount" type="number" min="1000" step="1000" value="10000">
+
+    <label>Catatan (opsional)</label>
+    <input id="adminNote" type="text" placeholder="misal: bonus reseller, koreksi saldo">
+
+    <button class="btn primary full" id="btnAdminAddSaldo">Tambah Saldo</button>
+  </div>
+
+  <!-- RIWAYAT TOPUP PANEL -->
+  <div class="card">
+    <h4>Riwayat Topup Panel</h4>
+    <p class="muted small">
+      Menampilkan 20 transaksi topup terakhir di sistem (semua user).
+    </p>
+    <ul id="topupHistoryAdmin" class="dummy-list"></ul>
+    <p id="topupHistoryAdminEmpty" class="muted small">
+      Belum ada riwayat topup.
+    </p>
+  </div>
+</div>
 
       </main>
     </div>
