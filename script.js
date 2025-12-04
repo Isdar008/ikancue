@@ -162,36 +162,24 @@ if (btnAdminAddSaldo) {
   btnAdminAddSaldo.onclick = async (ev) => {
     const btn = ev.currentTarget;
 
-    // email admin dari localStorage (yang lagi login)
-    const adminEmail = (localStorage.getItem("xt_email") || "").trim();
+    const adminEmail = localStorage.getItem("xt_email") || "";
     const isAdmin = localStorage.getItem("xt_is_admin") === "1";
 
-    // email member yang mau ditambah saldo
-    const targetEmail = document
-      .getElementById("adminTargetUser")
-      .value.trim();
-
-    // nominal
-    const amount = parseInt(
-      document.getElementById("adminAmount").value,
-      10
-    ) || 0;
-
+    const targetUsername = document.getElementById("adminTargetUser").value.trim();
+    const amount = parseInt(document.getElementById("adminAmount").value, 10);
     const note = document.getElementById("adminNote").value.trim();
 
-    // cek admin
     if (!adminEmail || !isAdmin) {
       alert("Hanya admin yang boleh menggunakan fitur ini.");
       return;
     }
 
-    // validasi form
-    if (!targetEmail || !amount || amount <= 0) {
+    if (!targetUsername || !amount || amount <= 0) {
       alert("Username member & nominal wajib diisi.");
       return;
     }
 
-    if (!confirm(`Tambah saldo ${fmtRupiah(amount)} ke ${targetEmail}?`)) {
+    if (!confirm(`Tambah saldo ${fmtRupiah(amount)} ke ${targetUsername}?`)) {
       return;
     }
 
@@ -201,12 +189,11 @@ if (btnAdminAddSaldo) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          adminEmail,           // <- email admin
-          targetEmail,          // <- dipakai backend versi baru
-          username: targetEmail, // <- jaga2 kalau backend masih pakai 'username'
+          adminEmail,
+          username: targetUsername,
           amount,
-          note,
-        }),
+          note
+        })
       });
 
       const json = await res.json().catch(() => ({}));
@@ -214,14 +201,8 @@ if (btnAdminAddSaldo) {
         throw new Error(json.error || "Gagal menambah saldo.");
       }
 
-      alert(
-        `Saldo ${fmtRupiah(amount)} berhasil ditambahkan ke ${targetEmail}.`
-      );
-
-      // refresh riwayat topup panel
+      alert(`Saldo ${fmtRupiah(amount)} berhasil ditambahkan ke ${targetUsername}.`);
       loadTopupHistoryAdmin();
-      // refresh status saldo di overview
-      loadStatusFromApi();
     } catch (e) {
       alert(e.message || "Gagal menambah saldo.");
     } finally {
