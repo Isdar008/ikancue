@@ -3,6 +3,9 @@
 // =====================================
 const API_BASE = "/api/web"; // karena panel di domain yang sama
 // email yang dianggap admin panel
+global.ADMIN_EMAILS = ["istiqwamantunnel@gmail.com"];
+console.log("DEBUG ADMIN_EMAILS =", global.ADMIN_EMAILS);
+
 const ADMIN_EMAILS = [
   "istiqwamantunnel@gmail.com",   // ganti / tambah sesuai kebutuhan
   // "admin2@gmail.com",
