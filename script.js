@@ -155,18 +155,16 @@ function fillServerSelects() {
   selRenew.innerHTML = html;
 }
 // =====================================
-// ADMIN: TAMBAH SALDO MANUAL (PAKAI EMAIL MEMBER)
+// ADMIN: TAMBAH SALDO MANUAL (EMAIL WEB)
 // =====================================
 const btnAdminAddSaldo = document.getElementById("btnAdminAddSaldo");
 if (btnAdminAddSaldo) {
   btnAdminAddSaldo.onclick = async (ev) => {
     const btn = ev.currentTarget;
 
-    // email admin yang sedang login
     const adminEmail = (localStorage.getItem("xt_email") || "").trim().toLowerCase();
     const isAdmin = localStorage.getItem("xt_is_admin") === "1";
 
-    // form di halaman Admin → diisi EMAIL member
     const targetEmail = (document.getElementById("adminTargetUser").value || "")
       .trim()
       .toLowerCase();
@@ -179,7 +177,7 @@ if (btnAdminAddSaldo) {
     }
 
     if (!targetEmail || !amount || amount <= 0) {
-      alert("Email member & nominal wajib diisi.");
+      alert("Email user & nominal wajib diisi dengan benar.");
       return;
     }
 
