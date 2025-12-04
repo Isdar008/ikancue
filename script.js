@@ -342,7 +342,6 @@ if (btnDoReset) {
 // =====================================
 // NAVIGATION (Overview/Server/Buat/Renew/Topup)
 // =====================================
-functon openAppPage(name) {
 function openAppPage(name) {
   document.querySelectorAll(".app-page").forEach(p => p.classList.remove("active"));
   document.getElementById("app-" + name).classList.add("active");
