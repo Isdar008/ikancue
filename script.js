@@ -490,8 +490,11 @@ if (btnRenew) {
     const username = document.getElementById("renewUser").value.trim();
     const days = parseInt(document.getElementById("renewDays").value);
 
-    if (!serverId || !username || !days)
-      return alert("Lengkapi semua form!");
+    // 🆕 ambil email login dari localStorage
+    const email = localStorage.getItem("xt_email") || "";
+
+    if (!serverId || !username || !days || !email)
+      return alert("Lengkapi semua form & pastikan kamu sudah login.");
 
     lockButton(btn, true);
 
@@ -499,7 +502,7 @@ if (btnRenew) {
       const res = await fetch(`${API_BASE}/renew-account`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ type, serverId, username, days }),
+        body: JSON.stringify({ type, serverId, username, days, email }), // 🆕 kirim email
       });
 
       const json = await res.json();
@@ -511,15 +514,15 @@ if (btnRenew) {
         )}\n\n${json.data.message}`
       );
 
+      // update saldo di overview
       loadStatusFromApi();
     } catch (e) {
-      alert("Gagal perpanjang akun: " + e.message);
+      alert("Gagal perpanjang akun: " + (e.message || "Error tidak diketahui"));
     }
 
     lockButton(btn, false);
   };
 }
-
 // =====================================
 // TOPUP: FORM + HISTORY + QRIS
 // =====================================
