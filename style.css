@@ -697,3 +697,205 @@ body {
     padding-bottom: 80px;
   }
                          }
+
+/* =====================================================
+   PANEL V2 – tampilan lebih premium untuk dashboard
+   Tempel di PALING BAWAH style.css
+   ===================================================== */
+
+/* Sedikit jarak di atas panel */
+#dashboard {
+  padding-top: 32px;
+}
+
+/* FRAME PANEL */
+.app-shell {
+  max-width: 1120px;
+  margin: 0 auto 32px;
+  padding: 22px 18px 26px;
+  border-radius: 26px;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(59,130,246,0.35), transparent 55%),
+    radial-gradient(circle at 100% 0%, rgba(244,63,94,0.22), transparent 55%),
+    linear-gradient(135deg, #020617, #020617 35%, #020617);
+  border: 1px solid rgba(148,163,184,0.35);
+  box-shadow:
+    0 22px 65px rgba(15,23,42,0.9),
+    0 0 0 1px rgba(15,23,42,0.9) inset;
+}
+
+/* HEADER DALAM PANEL */
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(51,65,85,0.85);
+  margin-bottom: 16px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-dot {
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 25% 25%, #bfdbfe, #3b82f6);
+  box-shadow: 0 0 26px rgba(59,130,246,0.9);
+}
+
+.brand-title {
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.brand-sub {
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+.user-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.user-email {
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(148,163,184,0.45);
+  background: radial-gradient(circle at 0 0,#0f172a,#020617);
+  font-size: 13px;
+}
+
+/* NAV BAR DALAM PANEL */
+.app-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 10px;
+  margin-bottom: 18px;
+  border-radius: 999px;
+  background: radial-gradient(circle at 50% 0%, rgba(15,23,42,0.95), #020617);
+  border: 1px solid rgba(51,65,85,0.95);
+  box-shadow: 0 18px 40px rgba(15,23,42,0.85);
+}
+
+.nav-btn {
+  position: relative;
+  flex: 1 1 auto;
+  text-align: center;
+  padding: 7px 12px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  background: transparent;
+  font-size: 13px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: #9ca3af;
+  cursor: pointer;
+  transition:
+    background .13s ease,
+    box-shadow .13s ease,
+    color .13s ease,
+    transform .08s ease;
+}
+
+.nav-btn:hover {
+  color: #e5e7eb;
+}
+
+.nav-btn.active {
+  color: #ffffff;
+  background: radial-gradient(circle at 0% 0%, #4f46e5, #2563eb);
+  box-shadow:
+    0 0 0 1px rgba(191,219,254,0.5),
+    0 18px 35px rgba(37,99,235,0.7);
+  transform: translateY(-1px);
+}
+
+/* CARD UMUM DALAM PANEL */
+.card {
+  background:
+    radial-gradient(circle at 0 0, rgba(59,130,246,0.16), transparent 55%),
+    rgba(15,23,42,0.95);
+  border-radius: 20px;
+  padding: 16px 16px 18px;
+  border: 1px solid rgba(55,65,81,0.9);
+  box-shadow:
+    0 14px 40px rgba(15,23,42,0.9),
+    0 0 0 1px rgba(15,23,42,0.9) inset;
+  backdrop-filter: blur(18px);
+}
+
+.card h3,
+.card h4 {
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+/* GRID OVERVIEW */
+.grid-2 {
+  display: grid;
+  grid-template-columns: minmax(0,1.1fr) minmax(0,1fr);
+  gap: 18px;
+}
+
+/* Teks info login & status biar lebih jelas */
+#app-overview .card p {
+  font-size: 13px;
+}
+
+#statusSaldo {
+  font-size: 16px;
+}
+
+#statusLevel {
+  letter-spacing: .12em;
+}
+
+/* BUTTON IN PANEL – bikin lebih glow */
+.btn.primary {
+  background: radial-gradient(circle at 0 0,#4f46e5,#2563eb);
+  box-shadow: 0 12px 32px rgba(37,99,235,0.7);
+}
+
+.btn.primary:hover {
+  box-shadow: 0 16px 40px rgba(37,99,235,0.9);
+}
+
+.btn.danger {
+  background: linear-gradient(135deg,#f97373,#ef4444);
+  box-shadow: 0 10px 26px rgba(248,113,113,0.7);
+}
+
+/* RESPONSIVE PANEL */
+@media (max-width: 768px) {
+  .app-shell {
+    border-radius: 18px;
+    padding-inline: 14px;
+  }
+
+  .app-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .app-nav {
+    border-radius: 18px;
+  }
+
+  .grid-2 {
+    grid-template-columns: minmax(0,1fr);
+  }
+   }
