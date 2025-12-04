@@ -540,6 +540,25 @@ if (modalCopyMain) {
     }
   };
 }
+// ====== SERVICE CARD CTA → buka tab Buat Akun & set jenis ======
+document.querySelectorAll(".service-cta").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const t = btn.dataset.createType || "ssh";
+
+    // pindah ke tab Buat Akun
+    openAppPage("create");
+
+    // set select jenis akun
+    const sel = document.getElementById("createType");
+    if (sel) {
+      sel.value = t;
+      // kalau punya fungsi hide password ssh, panggil lagi
+      if (typeof updatePasswordVisibility === "function") {
+        updatePasswordVisibility();
+      }
+    }
+  });
+});
 // ============================
 // HIDE PASSWORD UNTUK NON-SSH
 // ============================
