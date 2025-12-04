@@ -3,111 +3,113 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>XTRIMER TUNNEL | Premium VPN Dashboard</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/style-megah.css">
+  <title>XTRIMER TUNNEL | VPN Dashboard Premium</title> 
+  
+  <meta name="description" content="Dashboard premium untuk mengelola akun SSH, Xray, Trojan, dan Shadowsocks VPN berkecepatan tinggi.">
+
+  <link rel="stylesheet" href="/style-pro.css"> 
 </head>
 <body>
 
-  <header class="site-header-megah">
+  <nav class="site-header"> 
     <div class="site-header-inner">
       <div class="site-title-wrap">
-        <div class="site-title-megah">XTRIMER PANEL</div>
-        <div class="site-tagline-megah">Simple VPN Dashboard</div>
+        <div class="site-title">XTRIMER PANEL</div>
+        <div class="site-tagline">Simple VPN Dashboard</div>
       </div>
       <div class="site-right">
-        <span class="site-badge-megah">v1.0 PREMIUM</span>
+        <span class="site-badge">v1.0</span>
       </div>
     </div>
-  </header>
+  </nav>
 
-  <section id="welcome" class="page active">
-  <div class="hero-inner">
-    <p class="hero-kicker-megah">XTRIMER TUNNEL</p>
-    <h1 class="hero-title-megah">
-      Access high-speed premium SSH, Xray, Trojan & Shadowsocks VPN
-    </h1>
-    <p class="hero-subtitle-megah">
-      Buat & kelola akun VPN pribadi kamu dengan server kencang dan bandwidth lega,
-      langsung dari panel web yang simpel dan elegan.
-    </p>
+  <main id="welcome" class="page active" role="region" aria-labelledby="hero-title">
+    <div class="hero-inner">
+      <p class="hero-kicker">XTRIMER TUNNEL</p>
+      <h1 id="hero-title" class="hero-title">
+        Access high-speed premium SSH, Xray, Trojan & Shadowsocks VPN
+      </h1>
+      <p class="hero-subtitle">
+        Buat & kelola akun VPN pribadi kamu dengan server kencang dan bandwidth lega,
+        langsung dari panel web yang simpel dan elegan.
+      </p>
 
-    <div class="hero-actions">
-      <button id="btnMulai" class="btn primary-megah hero-main-btn">
-        Masuk ke Panel
-      </button>
+      <div class="hero-actions">
+        <button id="btnMulai" class="btn primary hero-main-btn">
+          Masuk ke Panel
+        </button>
+      </div>
     </div>
-  </div>
-</section>
+  </main>
 
-  <section id="login" class="page">
-    <div class="container-megah">
-      <h2 class="section-title-megah">Login Panel</h2>
+  <section id="login" class="page" aria-labelledby="login-title">
+    <div class="container">
+      <h2 id="login-title">Login Panel</h2>
       <p class="muted small">Gunakan email asli kamu. Satu email = satu akun panel.</p>
 
       <div id="loginBox">
-        <input id="email" type="email" placeholder="Masukkan email">
-        <input id="password" type="password" placeholder="Masukkan password">
+        <input id="email" type="email" placeholder="Masukkan email" name="email" required autocomplete="email">
+        <input id="password" type="password" placeholder="Masukkan password" name="password" required autocomplete="current-password">
 
-        <button id="btnLogin" class="btn primary-megah full">Masuk</button>
-        <button id="btnBack" class="btn secondary-megah full">Kembali</button>
+        <button id="btnLogin" class="btn primary full">Masuk</button>
+        <button id="btnBack" class="btn secondary full">Kembali</button>
 
-        <button id="btnForgot" class="btn secondary-megah full" style="margin-top:8px;">
+        <button id="btnForgot" class="btn secondary full" style="margin-top:8px;">
           Lupa Password?
         </button>
       </div>
 
       <div id="resetStep1" style="display:none; margin-top:18px;">
-        <h3 class="subsection-title-megah">Reset Password</h3>
+        <h3 style="margin-bottom:8px;">Reset Password</h3>
         <p class="muted small">
           Masukkan email akun panel kamu. Kami akan mengirim kode verifikasi ke email tersebut.
         </p>
-        <input id="resetEmail" type="email" placeholder="Email yang terdaftar">
+        <input id="resetEmail" type="email" placeholder="Email yang terdaftar" name="reset_email" required autocomplete="email">
 
-        <button id="btnSendReset" class="btn primary-megah full">Kirim Kode ke Email</button>
-        <button id="btnResetBack1" class="btn secondary-megah full">Kembali ke Login</button>
+        <button id="btnSendReset" class="btn primary full">Kirim Kode ke Email</button>
+        <button id="btnResetBack1" class="btn secondary full">Kembali ke Login</button>
       </div>
 
       <div id="resetStep2" style="display:none; margin-top:18px;">
-        <h3 class="subsection-title-megah">Masukkan Kode & Password Baru</h3>
+        <h3 style="margin-bottom:8px;">Masukkan Kode & Password Baru</h3>
         <p class="muted small">
           Cek email kamu, masukkan kode yang diterima lalu buat password baru.
         </p>
 
-        <input id="resetCode" type="text" placeholder="Kode verifikasi (6 digit)">
-        <input id="resetNewPass" type="password" placeholder="Password baru">
+        <input id="resetCode" type="text" placeholder="Kode verifikasi (6 digit)" name="reset_code" required>
+        <input id="resetNewPass" type="password" placeholder="Password baru" name="new_password" required autocomplete="new-password">
 
-        <button id="btnDoReset" class="btn primary-megah full">Reset Password</button>
-        <button id="btnResetBack2" class="btn secondary-megah full">Kembali ke Login</button>
+        <button id="btnDoReset" class="btn primary full">Reset Password</button>
+        <button id="btnResetBack2" class="btn secondary full">Kembali ke Login</button>
       </div>
     </div>
   </section>
 
-  <section id="dashboard" class="page">
-    <div class="app-shell-megah">
+  <section id="dashboard" class="page" aria-labelledby="dashboard-title">
+    <div class="app-shell">
 
-      <header class="app-header-megah">
+      <header class="app-header">
         <div class="brand">
-          <span class="logo-dot-megah"></span>
+          <span class="logo-dot"></span>
           <div>
-            <div class="brand-title-megah">XTRIMER PANEL</div>
-            <div class="brand-sub-megah">VPN Management</div>
+            <div class="brand-title" id="dashboard-title">XTRIMER PANEL</div>
+            <div class="brand-sub">VPN Management</div>
           </div>
         </div>
-        <div class="user-box-megah">
+        <div class="user-box">
           <span class="user-label">Masuk sebagai</span>
-          <span class="user-email-megah" id="userEmailHeader"></span>
-          <button id="btnLogout" class="btn danger-megah small-btn">Logout</button>
+          <span class="user-email" id="userEmailHeader"></span>
+          <button id="btnLogout" class="btn danger small-btn">Logout</button>
         </div>
       </header>
 
-      <nav class="app-nav-megah">
-        <button class="nav-btn-megah active" data-target="overview">Overview</button>
-        <button class="nav-btn-megah" data-target="servers">Server</button>
-        <button class="nav-btn-megah" data-target="create">Buat Akun</button>
-        <button class="nav-btn-megah" data-target="renew">Perpanjang</button>
-        <button class="nav-btn-megah" data-target="topup">Topup</button>
-        <button class="nav-btn-megah admin" data-target="admin" id="navAdmin" style="display:none;">
+      <nav class="app-nav" aria-label="Menu Dashboard">
+        <button class="nav-btn active" data-target="overview" aria-controls="app-overview">Overview</button>
+        <button class="nav-btn" data-target="servers" aria-controls="app-servers">Server</button>
+        <button class="nav-btn" data-target="create" aria-controls="app-create">Buat Akun</button>
+        <button class="nav-btn" data-target="renew" aria-controls="app-renew">Perpanjang</button>
+        <button class="nav-btn" data-target="topup" aria-controls="app-topup">Topup</button>
+        <button class="nav-btn" data-target="admin" id="navAdmin" style="display:none;" aria-controls="app-admin">
           Admin
         </button>
       </nav>
@@ -116,128 +118,101 @@
 
         <div id="app-overview" class="app-page active">
           <div class="grid-2">
-            <div class="card-megah">
-              <h3 class="card-title-megah">Informasi Login</h3>
+            <div class="card">
+              <h3>Informasi Login</h3>
               <p>Email: <span id="infoEmail"></span></p>
               <p>Password: <span id="infoPass"></span></p>
             </div>
-            <div class="card-megah">
-              <h3 class="card-title-megah">Status Akun</h3>
-              <p>Saldo: <strong id="statusSaldo" class="highlight-text">Rp 0</strong></p>
-              <p>Total Akun Dibuat: <strong id="statusTotalAkun" class="highlight-text">0</strong></p>
-              <p>Level: <strong id="statusLevel" class="highlight-text">Member</strong></p>
+            <div class="card">
+              <h3>Status Akun</h3>
+              <p>Saldo: <strong id="statusSaldo">Rp 0</strong></p>
+              <p>Total Akun Dibuat: <strong id="statusTotalAkun">0</strong></p>
+              <p>Level: <strong id="statusLevel">Member</strong></p>
               <p class="muted small">Data diambil dari API backend.</p>
             </div>
           </div>
         </div>
-<div id="resultModal" class="result-modal-megah">
-  <div class="result-backdrop"></div>
-
-  <div class="result-card-megah">
-    <h3 id="modalTitle">Akun berhasil dibuat</h3>
-    <p id="modalSubtitle" class="muted small"></p>
-
-    <pre id="modalBody" class="result-text-megah"></pre>
-
-    <button id="modalCopy" class="btn secondary-megah full">Salin Config</button>
-    <button id="modalClose" class="btn primary-megah full">Tutup</button>
-  </div>
-</div>
-
+        
         <div id="app-servers" class="app-page">
-          <h3 class="section-title-megah">Daftar Server</h3>
+          <h3>Daftar Server</h3>
           <p class="muted small">
             Data diambil dari tabel <code>Server</code> di backend.
           </p>
-          <div id="serverList" class="server-list">
-            <div class="server-card-megah">
-              <div class="server-name">SG-Premium-01</div>
-              <div class="server-meta">Lokasi: Singapore</div>
-              <div class="server-meta">Speed: 1Gbps</div>
-              <span class="badge badge-megah green">Online</span>
-            </div>
-            <div class="server-card-megah">
-              <div class="server-name">US-Standard-03</div>
-              <div class="server-meta">Lokasi: USA</div>
-              <div class="server-meta">Speed: 100Mbps</div>
-              <span class="badge badge-megah red">Penuh</span>
-            </div>
-          </div>
+          <div id="serverList" class="server-list"></div>
         </div>
 
         <div id="app-create" class="app-page">
-          <h3 class="section-title-megah">Buat Akun VPN</h3>
+          <h3>Buat Akun VPN</h3>
           <p class="muted small">
             Tombol ini akan menembak endpoint API create akun.
           </p>
 
-          <div class="card-megah">
-            <label class="input-label-megah">Jenis Akun</label>
-            <select id="createType">
+          <div class="card">
+            <label for="createType">Jenis Akun</label>
+            <select id="createType" name="create_type">
               <option value="ssh">SSH</option>
               <option value="vmess">VMESS</option>
               <option value="vless">VLESS</option>
               <option value="trojan">TROJAN</option>
             </select>
 
-            <label class="input-label-megah">Server</label>
-            <select id="createServer"></select>
+            <label for="createServer">Server</label>
+            <select id="createServer" name="create_server"></select>
 
-            <label class="input-label-megah">Username Akun</label>
-            <input id="createUser" type="text" placeholder="misal: uservpn123">
+            <label for="createUser">Username Akun</label>
+            <input id="createUser" type="text" placeholder="misal: uservpn123" name="create_user" required>
 
-            <label class="input-label-megah">Password SSH</label>
-            <input id="createPass" type="password" placeholder="Password akun SSH">
+            <label for="createPass">Password SSH</label>
+            <input id="createPass" type="password" placeholder="Password akun SSH" name="create_pass">
 
-            <label class="input-label-megah">Masa Aktif (hari)</label>
-            <input id="createDays" type="number" min="1" value="30">
+            <label for="createDays">Masa Aktif (hari)</label>
+            <input id="createDays" type="number" min="1" value="30" name="create_days" required>
 
-            <button class="btn primary-megah full" id="btnCreate">Buat Akun</button>
+            <button class="btn primary full" id="btnCreate">Buat Akun</button>
           </div>
         </div>
 
         <div id="app-renew" class="app-page">
-          <h3 class="section-title-megah">Perpanjang Akun</h3>
+          <h3>Perpanjang Akun</h3>
           <p class="muted small">Terhubung ke endpoint renew backend.</p>
 
-          <div class="card-megah">
-            <label class="input-label-megah">Jenis Akun</label>
-            <select id="renewType">
+          <div class="card">
+            <label for="renewType">Jenis Akun</label>
+            <select id="renewType" name="renew_type">
               <option value="ssh">SSH</option>
               <option value="vmess">VMESS</option>
               <option value="vless">VLESS</option>
               <option value="trojan">TROJAN</option>
             </select>
 
-            <label class="input-label-megah">Server</label>
-            <select id="renewServer"></select>
+            <label for="renewServer">Server</label>
+            <select id="renewServer" name="renew_server"></select>
 
-            <label class="input-label-megah">Username Akun</label>
-            <input id="renewUser" type="text" placeholder="username yang mau diperpanjang">
+            <label for="renewUser">Username Akun</label>
+            <input id="renewUser" type="text" placeholder="username yang mau diperpanjang" name="renew_user" required>
 
-            <label class="input-label-megah">Tambahan Hari</label>
-            <input id="renewDays" type="number" min="1" value="30">
+            <label for="renewDays">Tambahan Hari</label>
+            <input id="renewDays" type="number" min="1" value="30" name="renew_days" required>
 
-            <button class="btn primary-megah full" id="btnRenew">Perpanjang</button>
+            <button class="btn primary full" id="btnRenew">Perpanjang</button>
           </div>
         </div>
 
         <div id="app-topup" class="app-page">
-          <h3 class="section-title-megah">Topup Saldo</h3>
+          <h3>Topup Saldo</h3>
           <p class="muted small">
             Bisa dihubungkan ke sistem QRIS / Pakasir yang sudah ada.
           </p>
 
-          <div class="card-megah">
-            <h4 class="card-title-megah">Request Topup</h4>
-            <label class="input-label-megah">Nominal Topup (Rp)</label>
-            <input id="topupAmount" type="number" min="1000" step="1000" value="10000">
+          <div class="card">
+            <label for="topupAmount">Nominal Topup (Rp)</label>
+            <input id="topupAmount" type="number" min="1000" step="1000" value="10000" name="topup_amount" required>
 
-            <button class="btn primary-megah full" id="btnTopup">Buat Request Topup</button>
+            <button class="btn primary full" id="btnTopup">Buat Request Topup</button>
           </div>
 
-          <div class="card-megah" id="topupPaymentCard" style="display:none;">
-            <h4 class="card-title-megah">QRIS Pembayaran</h4>
+          <div class="card" id="topupPaymentCard" style="display:none;">
+            <h4>QRIS Pembayaran</h4>
             <p class="muted small">
               Scan QR di bawah ini dengan aplikasi e-wallet / m-banking kamu.
             </p>
@@ -246,8 +221,8 @@
               <img
                 id="qrisImage"
                 src=""
-                alt="QRIS"
-                style="max-width:220px; width:100%; border-radius:12px; display:none; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);"
+                alt="QRIS Code Pembayaran"
+                style="max-width:220px; width:100%; border-radius:12px; display:none;"
               >
             </div>
 
@@ -257,16 +232,15 @@
               id="paymentLink"
               href="#"
               target="_blank"
-              class="link-megah"
               style="display:none; font-size:13px;"
             >
               Buka halaman pembayaran
             </a>
           </div>
 
-          <div class="card-megah">
-            <h4 class="card-title-megah">Riwayat Topup</h4>
-            <ul id="topupHistory" class="dummy-list-megah"></ul>
+          <div class="card">
+            <h4>Riwayat Topup</h4>
+            <ul id="topupHistory" class="dummy-list"></ul>
             <p id="topupHistoryEmpty" class="muted small">
               Belum ada riwayat topup.
             </p>
@@ -274,48 +248,60 @@
         </div>
 
        <div id="app-admin" class="app-page">
-  <h3 class="section-title-megah">Admin Panel</h3>
-  <p class="muted small">
-    Halaman ini hanya muncul untuk email admin yang terdaftar.
-  </p>
+          <h3>Admin Panel</h3>
+          <p class="muted small">
+            Halaman ini hanya muncul untuk email admin yang terdaftar.
+          </p>
 
-  <div class="admin-grid">
-    <div class="card-megah">
-      <h4 class="card-title-megah">Tambah Saldo Manual</h4>
-      <p class="muted small">
-        Masukkan <strong>Email user panel</strong> & nominal saldo.
-      </p>
+          <div class="admin-grid">
+            <div class="card">
+              <h4>Tambah Saldo Manual</h4>
+              <p class="muted small">
+                Masukkan <strong>Email user panel</strong> & nominal saldo.
+              </p>
 
-      <label class="input-label-megah">Email User</label>
-      <input
-        id="adminTargetUser"
-        type="email"
-        placeholder="misal: user@gmail.com"
-      />
+              <label for="adminTargetUser">Email User</label>
+              <input
+                id="adminTargetUser"
+                type="email"
+                placeholder="misal: user@gmail.com"
+                name="admin_target_user"
+                required
+              />
 
-      <label class="input-label-megah">Nominal (Rp)</label>
-      <input id="adminAmount" type="number" min="1000" step="1000" value="10000" />
+              <label for="adminAmount">Nominal (Rp)</label>
+              <input id="adminAmount" type="number" min="1000" step="1000" value="10000" name="admin_amount" required />
 
-      <label class="input-label-megah">Catatan (opsional)</label>
-      <input id="adminNote" type="text" placeholder="misal: bonus, koreksi, dsb." />
+              <label for="adminNote">Catatan (opsional)</label>
+              <input id="adminNote" type="text" placeholder="misal: bonus, koreksi, dsb." name="admin_note" />
 
-      <button class="btn primary-megah full" id="btnAdminAddSaldo">Tambah Saldo</button>
-    </div>
+              <button class="btn primary full" id="btnAdminAddSaldo">Tambah Saldo</button>
+            </div>
 
-    <div class="card-megah">
-      <h4 class="card-title-megah">Riwayat Topup Panel</h4>
-      <p class="muted small">Menampilkan 20 transaksi topup terakhir di sistem.</p>
-      <ul id="topupHistoryAdmin" class="dummy-list-megah"></ul>
-      <p id="topupHistoryAdminEmpty" class="muted small">
-        Belum ada riwayat topup.
-      </p>
-    </div>
-  </div>
-</div>
-
+            <div class="card">
+              <h4>Riwayat Topup Panel</h4>
+              <p class="muted small">Menampilkan 20 transaksi topup terakhir di sistem.</p>
+              <ul id="topupHistoryAdmin" class="dummy-list"></ul>
+              <p id="topupHistoryAdminEmpty" class="muted small">
+                Belum ada riwayat topup.
+              </p>
+            </div>
+          </div>
+        </div>
       </main>
     </div>
   </section>
+
+  <div id="resultModal" class="result-modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="result-backdrop"></div>
+    <div class="result-card">
+      <h3 id="modalTitle">Akun berhasil dibuat</h3>
+      <p id="modalSubtitle" class="muted small"></p>
+      <pre id="modalBody" class="result-text"></pre>
+      <button id="modalCopy" class="btn secondary full">Salin Config</button>
+      <button id="modalClose" class="btn primary full">Tutup</button>
+    </div>
+  </div>
 
   <script src="/script.js"></script>
 </body>
