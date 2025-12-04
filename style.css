@@ -749,17 +749,17 @@ select:focus {
   border: 1px solid rgba(148, 163, 184, 0.35);
 }
 
-/* teks config akun (monospace) */
+/* teks config akun (monospace) - versi compact */
 .result-text {
   width: 100%;
-  padding: 10px 12px 12px;
-  border-radius: 16px;
-  /* bg & border biar kayak kartu */
-  background: rgba(15, 23, 42, 0.98);
+  padding: 6px 8px;         /* lebih kecil */
+  border-radius: 10px;       /* lebih kecil */
+  background: rgba(15, 23, 42, 0.95);
   color: #e5e7eb;
-  font-size: 13px;
-  line-height: 1.5;
-  white-space: normal; /* jangan pre-wrap lagi */
+  font-size: 11.5px;         /* kecil tapi tetap jelas */
+  line-height: 1.35;         /* lebih rapat */
+  white-space: normal;       /* tetap wrap */
+  word-break: break-word;    /* link panjang auto wrap */
 }
 
 /* tombol bawah modal */
@@ -784,4 +784,4 @@ select:focus {
   .result-actions .btn.full {
     flex: 1 1 0;
   }
-     }
+}
