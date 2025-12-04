@@ -487,13 +487,23 @@ if (btnTopup) {
           data.amount || amount
         )}`;
 
-        const qrUrl = data.qrImageUrl || data.qrisImageUrl || "";
-        if (qrUrl) {
-          img.src = qrUrl;
-          img.style.display = "block";
-        } else {
-          img.style.display = "none";
-        }
+        // ambil URL QR / base64 dari backend
+  const qrUrl =
+    data.qrImageBase64 ||   // ⚡ dari backend kamu sekarang
+    data.qrImageUrl ||
+    data.qrisImageUrl ||
+    data.qr_url ||
+    data.qris_image ||
+    data.qrisImage ||
+    data.qrImage ||
+    "";
+
+  if (qrUrl) {
+    img.src = qrUrl;
+    img.style.display = "block";
+  } else {
+    img.style.display = "none";
+  }
 
         if (data.paymentUrl) {
           linkEl.href = data.paymentUrl;
