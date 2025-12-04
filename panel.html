@@ -288,3 +288,18 @@
     </div>
   </div>
 </div>
+<!-- JAVASCRIPT PANEL -->
+  <script src="/panel.js" defer></script>
+
+  <!-- TEST sementara: pastikan tombol bisa diklik -->
+  <script>
+    const btnTest = document.getElementById('btnLogin');
+    if (btnTest) {
+      btnTest.addEventListener('click', () => {
+        console.log('Klik tombol login terdeteksi');
+        // alert('Tombol login KE-CLICK ✅ (test)'); // boleh hidupin kalau mau
+      });
+    }
+  </script>
+</body>
+</html>
