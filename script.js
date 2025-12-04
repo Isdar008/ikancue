@@ -164,8 +164,9 @@ if (btnAdminAddSaldo) {
 
     const adminEmail = localStorage.getItem("xt_email") || "";
     const isAdmin = localStorage.getItem("xt_is_admin") === "1";
-    const targetEmail = document
-      .getElementById("adminTargetEmail")
+
+    const targetUsername = document
+      .getElementById("adminTargetUser")
       .value.trim();
     const amount = parseInt(
       document.getElementById("adminAmount").value,
@@ -173,18 +174,17 @@ if (btnAdminAddSaldo) {
     );
     const note = document.getElementById("adminNote").value.trim();
 
-    // cek hak akses
     if (!adminEmail || !isAdmin) {
       alert("Hanya admin yang boleh menggunakan fitur ini.");
       return;
     }
 
-    if (!targetEmail || !amount || amount <= 0) {
-      alert("Email member & nominal wajib diisi.");
+    if (!targetUsername || !amount || amount <= 0) {
+      alert("Username member & nominal wajib diisi.");
       return;
     }
 
-    if (!confirm(`Tambah saldo ${fmtRupiah(amount)} ke ${targetEmail}?`)) {
+    if (!confirm(`Tambah saldo ${fmtRupiah(amount)} ke ${targetUsername}?`)) {
       return;
     }
 
@@ -195,7 +195,7 @@ if (btnAdminAddSaldo) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           adminEmail,
-          targetEmail,
+          targetUsername,
           amount,
           note,
         }),
@@ -207,17 +207,11 @@ if (btnAdminAddSaldo) {
       }
 
       alert(
-        `Saldo ${fmtRupiah(amount)} berhasil ditambahkan ke ${targetEmail}.`
+        `Saldo ${fmtRupiah(amount)} berhasil ditambahkan ke ${targetUsername}.`
       );
 
-      // Kalau admin nambah saldo ke dirinya sendiri, refresh status & riwayat user
-      const currentEmail = localStorage.getItem("xt_email");
-      if (currentEmail && currentEmail === targetEmail) {
-        loadStatusFromApi();
-        loadTopupHistory();
-      }
-
-      // Refresh riwayat panel admin
+      // kalau admin nambah saldo dirinya sendiri (username sama),
+      // kamu boleh tambahin cek kalau di status pakai username.
       loadTopupHistoryAdmin();
     } catch (e) {
       alert(e.message || "Gagal menambah saldo.");
