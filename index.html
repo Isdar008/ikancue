@@ -134,19 +134,22 @@
 <!-- ... app-page lain ... -->
 
       <!-- MODAL HASIL AKUN (CREATE & RENEW) -->
-<div id="resultModal" class="dialog-backdrop">
-  <div class="dialog">
+<div id="resultModal" class="result-modal">
+  <div class="result-backdrop"></div>
+
+  <div class="result-card">
     <h3 id="modalTitle">Akun berhasil dibuat</h3>
     <p id="modalSubtitle" class="muted small"></p>
 
-    <pre id="modalBody" class="dialog-code"></pre>
+    <!-- teks config / hasil create/renew -->
+    <pre id="modalBody" class="result-text"></pre>
 
-    <div class="dialog-actions">
-      <button id="modalCopy" class="btn secondary full">Salin Config</button>
-      <button id="modalClose" class="btn primary full">Tutup</button>
-    </div>
+    <!-- tombol aksi -->
+    <button id="modalCopy" class="btn secondary full">Salin Config</button>
+    <button id="modalClose" class="btn primary full">Tutup</button>
   </div>
 </div>
+
         <!-- SERVER LIST -->
         <div id="app-servers" class="app-page">
           <h3>Daftar Server</h3>
