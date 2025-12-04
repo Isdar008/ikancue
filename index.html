@@ -198,6 +198,7 @@
           <h3>Topup Saldo</h3>
           <p class="muted small">Bisa dihubungkan ke sistem QRIS / Pakasir yang sudah ada.</p>
 
+          <!-- FORM TOPUP -->
           <div class="card">
             <label>Nominal Topup (Rp)</label>
             <input id="topupAmount" type="number" min="1000" step="1000" value="10000">
@@ -205,12 +206,41 @@
             <button class="btn primary full" id="btnTopup">Buat Request Topup</button>
           </div>
 
+          <!-- 🔳 KARTU QRIS PEMBAYARAN (DIPAKAI OLEH script.js) -->
+          <div class="card" id="topupPaymentCard" style="display:none;">
+            <h4>QRIS Pembayaran</h4>
+            <p class="muted small">
+              Scan QR di bawah ini dengan aplikasi e-wallet / m-banking kamu.
+            </p>
+
+            <div style="text-align:center; margin:12px 0;">
+              <img
+                id="qrisImage"
+                src=""
+                alt="QRIS"
+                style="max-width:220px; width:100%; border-radius:12px; display:none;"
+              >
+            </div>
+
+            <p id="paymentInfo" class="muted small"></p>
+
+            <a
+              id="paymentLink"
+              href="#"
+              target="_blank"
+              style="display:none; font-size:13px;"
+            >
+              Buka halaman pembayaran
+            </a>
+          </div>
+
+          <!-- RIWAYAT TOPUP -->
           <div class="card">
             <h4>Riwayat Topup</h4>
             <ul id="topupHistory" class="dummy-list"></ul>
             <p id="topupHistoryEmpty" class="muted small">Belum ada riwayat topup.</p>
           </div>
-        </div>
+  </div>
 
       </main>
     </div>
