@@ -1,321 +1,559 @@
 /* =========================
-   CSS VARIABLES (Pro)
+   HERO WELCOME ala landing page
    ========================= */
-:root {
-  --color-primary: #3b82f6; /* Blue utama */
-  --color-secondary: #1e40af; /* Blue gelap */
-  --color-dark-base: #0a0e1a; /* Background dasar */
-  --color-dark-surface: #131728; /* Background Card/Shell */
-  --color-border: rgba(148, 163, 184, 0.2); /* Border halus */
-  --color-text-light: #f0f4ff;
-  --color-text-muted: #94a3b8;
-  --color-highlight: #60a5fa;
-  --font-mono: "JetBrains Mono", "Fira Code", monospace;
-  --radius-xl: 16px;
-  --radius-lg: 12px;
+#welcome {
+  min-height: calc(100vh - 60px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 18px 40px;
+  background: radial-gradient(circle at top, #020617 0, #020617 40%, #020617 100%);
+}
+
+.hero-inner {
+  max-width: 680px;
+  width: 100%;
+}
+
+.hero-kicker {
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #60a5fa;
+  margin-bottom: 10px;
+}
+
+.hero-title {
+  font-size: 30px;
+  line-height: 1.1;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  margin-bottom: 14px;
+}
+
+.hero-subtitle {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #9ca3af;
+  max-width: 520px;
+}
+
+.hero-actions {
+  margin-top: 22px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.hero-main-btn {
+  padding-inline: 22px;
+  padding-block: 10px;
+  font-size: 15px;
+}
+
+/* lebih gede di layar lebar */
+@media (min-width: 768px) {
+  .hero-title {
+    font-size: 40px;
+  }
+  .hero-subtitle {
+    font-size: 15px;
+  }
 }
 
 /* =========================
-   GLOBAL RESET & BODY (Pro)
+   MODAL HASIL (CREATE / RENEW) - FINAL
+   ========================= */
+.result-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  display: none;             /* default: sembunyi */
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+/* saat JS kasih class .show -> tampil */
+.result-modal.show {
+  display: flex;
+}
+
+.result-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 1;
+}
+
+.result-card {
+  position: relative;
+  max-width: 480px;
+  width: 100%;
+  max-height: 85vh;
+  overflow: auto;
+  z-index: 2;               /* di atas backdrop, biar tombol bisa diklik */
+  background: #020617;
+  border-radius: 18px;
+  padding: 16px 16px 18px;
+  box-shadow: 0 20px 60px rgba(15, 23, 42, 0.9);
+  border: 1px solid rgba(148, 163, 184, 0.45);
+}
+
+.result-text {
+  width: 100%;
+  min-height: 260px;
+  resize: vertical;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 10px 12px;
+  background: #020617;
+  color: #e5e7eb;
+  font-family: "JetBrains Mono", "Fira Code", monospace;
+  font-size: 12px;
+  line-height: 1.4;
+  white-space: pre-wrap;  /* biar \n jadi baris baru */
+}
+
+/* tombol di dalam modal */
+.result-card .btn.full {
+  width: 100%;
+  margin-top: 8px;
+}
+
+@media (min-width: 640px) {
+  .result-card .btn.full {
+    width: 48%;
+  }
+
+  .result-card .btn.full:first-child {
+    margin-right: 4%;
+  }
+}
+
+/* =========================
+   GLOBAL RESET & BODY
    ========================= */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
     Roboto, Arial, sans-serif;
 }
 
 body {
-  background: var(--color-dark-base);
-  color: var(--color-text-light);
+  background: #050816;
+  color: #e5e7eb;
   min-height: 100vh;
-  /* Tambahkan subtle texture/gradient di body */
-  background-image: radial-gradient(circle at 15% 15%, rgba(59, 130, 246, 0.05), transparent 40%);
 }
 
 /* =========================
-   TYPOGRAPHY & UTIL (Pro)
-   ========================= */
-h1, h2, h3, h4 {
-  margin-bottom: 12px;
-  font-weight: 700; /* Lebih tebal */
-  letter-spacing: -0.02em; /* Lebih rapat, modern */
-}
-
-.muted {
-  color: var(--color-text-muted);
-}
-
-.small {
-  font-size: 13px;
-}
-
-/* =========================
-   TOP BAR (Pro)
+   TOP BAR
    ========================= */
 .site-header {
   position: sticky;
   top: 0;
   z-index: 20;
-  /* Glassmorphism effect */
-  background: rgba(19, 23, 40, 0.85);
-  backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--color-border);
+  background: rgba(5, 8, 22, 0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+.site-header-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.site-title-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
 .site-title {
-  font-size: 20px;
-  font-weight: 800; /* Super bold */
-  letter-spacing: 0.08em;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  /* Gradient text */
-  background: linear-gradient(90deg, #60a5fa, #3b82f6);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
 }
 
 .site-tagline {
   font-size: 12px;
-  color: var(--color-text-muted);
+  color: #9ca3af;
+}
+
+.site-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .site-badge {
   font-size: 11px;
-  padding: 4px 10px;
+  padding: 3px 8px;
   border-radius: 999px;
   background: rgba(59, 130, 246, 0.15);
-  color: var(--color-highlight);
+  color: #bfdbfe;
   border: 1px solid rgba(59, 130, 246, 0.5);
-  font-weight: 600;
 }
 
 /* =========================
-   HERO WELCOME (Pro)
+   PAGE WRAPPER
    ========================= */
-#welcome {
-  /* Hapus radial gradient yang terlalu kontras */
-  background: transparent;
+.page {
+  display: none;
+  padding: 24px 16px 40px;
 }
 
-.hero-kicker {
-  font-size: 13px;
-  letter-spacing: 0.2em;
-  color: var(--color-highlight);
-  font-weight: 600;
+.page.active {
+  display: block;
 }
 
-.hero-title {
-  font-size: 42px;
-  line-height: 1.1;
-  font-weight: 800;
-  margin-bottom: 18px;
+.container {
+  max-width: 420px;
+  margin: 0 auto;
 }
 
-.hero-subtitle {
-  font-size: 16px;
-  line-height: 1.7;
-  color: var(--color-text-muted);
-}
-
-.hero-main-btn {
-  border-radius: var(--radius-lg); /* Sudut lebih kotak */
+.container.center {
+  text-align: center;
 }
 
 /* =========================
-   BUTTONS (Pro)
+   TYPOGRAPHY & UTIL
    ========================= */
-.btn {
-  border-radius: var(--radius-lg); /* Default 999px diganti */
-  padding: 10px 18px; /* Lebih besar */
-  font-size: 15px;
+h1,
+h2,
+h3,
+h4 {
+  margin-bottom: 12px;
   font-weight: 600;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); /* Transisi lebih smooth */
 }
 
-.btn.primary {
-  background: linear-gradient(135deg, var(--color-highlight), var(--color-primary));
-  box-shadow: 0 12px 30px rgba(59, 130, 246, 0.4);
+p {
+  margin-bottom: 6px;
+  font-size: 14px;
 }
 
-.btn.primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 18px 40px rgba(59, 130, 246, 0.5);
+.muted {
+  color: #9ca3af;
 }
 
-.btn.secondary {
-  background: var(--color-dark-surface);
-  border: 1px solid var(--color-border);
-}
-
-.btn.secondary:hover {
-  background: #1a2033;
-  border-color: var(--color-highlight);
-  transform: translateY(-1px);
-}
-
-.btn.danger {
-  background: #f87171;
-  box-shadow: 0 4px 10px rgba(248, 113, 113, 0.3);
-}
-
-.btn.small-btn {
-  padding: 7px 12px;
+.small {
   font-size: 12px;
 }
 
 /* =========================
-   INPUTS (Pro)
+   BUTTONS
+   ========================= */
+.btn {
+  border: none;
+  border-radius: 999px;
+  padding: 8px 14px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: transform 0.08s ease, box-shadow 0.08s ease,
+    background 0.1s ease, opacity 0.1s ease;
+  white-space: nowrap;
+}
+
+.btn.primary {
+  background: linear-gradient(135deg, #2563eb, #4f46e5);
+  color: white;
+  box-shadow: 0 10px 25px rgba(37, 99, 235, 0.35);
+}
+
+.btn.primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 30px rgba(37, 99, 235, 0.45);
+}
+
+.btn.secondary {
+  background: rgba(15, 23, 42, 0.9);
+  color: #e5e7eb;
+  border: 1px solid rgba(148, 163, 184, 0.4);
+}
+
+.btn.secondary:hover {
+  background: rgba(30, 41, 59, 0.9);
+}
+
+.btn.danger {
+  background: #ef4444;
+  color: white;
+}
+
+.btn.small-btn {
+  padding: 6px 12px;
+  font-size: 13px;
+}
+
+.btn.full {
+  width: 100%;
+  margin-top: 8px;
+}
+
+/* =========================
+   INPUTS
    ========================= */
 input,
 select {
-  padding: 10px 12px; /* Lebih tinggi */
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--color-border);
-  background: var(--color-dark-surface);
-  color: var(--color-text-light);
+  width: 100%;
+  padding: 8px 10px;
+  margin-top: 4px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  background: rgba(15, 23, 42, 0.8);
+  color: #f9fafb;
   font-size: 14px;
-  transition: all 0.2s ease;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2); /* Shadow dalam */
+}
+
+input::placeholder {
+  color: #6b7280;
 }
 
 input:focus,
 select:focus {
-  border-color: var(--color-highlight);
-  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.4), inset 0 2px 4px rgba(0, 0, 0, 0.2);
+  outline: none;
+  border-color: #60a5fa;
+  box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.5);
 }
 
 /* =========================
-   APP SHELL (Pro)
+   APP SHELL
    ========================= */
 .app-shell {
-  max-width: 1200px; /* Lebih lebar */
-  border-radius: var(--radius-xl);
-  padding: 24px 24px 30px;
-  background: var(--color-dark-surface); /* Solid surface */
-  border: 1px solid var(--color-border);
-  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.6); /* Efek mengambang */
+  max-width: 1100px;
+  margin: 0 auto;
+  border-radius: 18px;
+  padding: 18px 16px 24px;
+  background: radial-gradient(circle at top, #111827, #020617 65%);
+  box-shadow: 0 20px 60px rgba(15, 23, 42, 0.65);
 }
 
 /* HEADER DALAM DASHBOARD */
 .app-header {
-  margin-bottom: 20px;
-  padding-bottom: 10px;
-  border-bottom: 1px dashed var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .logo-dot {
-  width: 30px;
-  height: 30px;
-  background: radial-gradient(circle at 30% 20%, #bfdbfe, #3b82f6);
-  box-shadow: 0 0 20px var(--color-primary); /* Glow yang lebih kuat */
+  width: 26px;
+  height: 26px;
+  border-radius: 999px;
+  background: radial-gradient(circle at 30% 20%, #60a5fa, #4f46e5);
+  box-shadow: 0 0 22px rgba(59, 130, 246, 0.7);
 }
 
 .brand-title {
-  font-size: 18px;
-  font-weight: 700;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.brand-sub {
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+.user-box {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  justify-content: flex-end;
+}
+
+.user-label {
+  font-size: 11px;
+  color: #9ca3af;
 }
 
 .user-email {
-  padding: 6px 12px;
-  border-radius: 10px;
-  background: var(--color-dark-base);
-  border: 1px solid var(--color-border);
-  font-weight: 500;
+  font-size: 13px;
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.9);
+  border: 1px solid rgba(148, 163, 184, 0.5);
 }
 
 /* =========================
-   NAV (Pro)
+   NAV
    ========================= */
 .app-nav {
-  gap: 10px;
-  margin-bottom: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
 }
 
 .nav-btn {
-  border-radius: var(--radius-lg); /* Dari 999px ke 12px */
-  padding: 8px 16px;
-  font-size: 14px;
-  background: var(--color-dark-base);
-  border: 1px solid var(--color-border);
-}
-
-.nav-btn:hover {
-  background: #1a2033;
+  flex: 0 0 auto;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  padding: 6px 14px;
+  font-size: 13px;
+  background: rgba(15, 23, 42, 0.9);
+  color: #e5e7eb;
+  cursor: pointer;
+  transition: background 0.1s ease, border-color 0.1s ease, color 0.1s ease;
 }
 
 .nav-btn.active {
-  background: linear-gradient(90deg, var(--color-highlight), var(--color-primary));
-  border-color: var(--color-highlight);
-  box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
+  background: linear-gradient(135deg, #2563eb, #4f46e5);
+  border-color: rgba(191, 219, 254, 0.8);
+  color: white;
 }
 
 /* =========================
-   CARD (Pro)
+   MAIN CONTENT
    ========================= */
+.app-main {
+  margin-top: 8px;
+}
+
+.app-page {
+  display: none;
+}
+
+.app-page.active {
+  display: block;
+}
+
+/* GRID UNTUK OVERVIEW */
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+/* CARD */
 .card {
-  background: var(--color-dark-base);
-  border-radius: var(--radius-xl);
-  padding: 20px;
-  border: 1px solid var(--color-border);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-  margin-bottom: 16px;
+  background: rgba(15, 23, 42, 0.9);
+  border-radius: 16px;
+  padding: 14px 14px 16px;
+  border: 1px solid rgba(75, 85, 99, 0.7);
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.6);
+  margin-bottom: 14px;
 }
 
 .card h3,
 .card h4 {
-  margin-bottom: 10px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  padding-bottom: 8px;
+  margin-bottom: 8px;
 }
 
-/* SERVER LIST (Pro) */
+/* SERVER LIST */
+.server-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 12px;
+}
+
 .server-card {
-  /* Hapus radial gradient agar lebih clean */
-  background: var(--color-dark-base);
-  border-radius: var(--radius-lg);
-  padding: 16px;
-  border: 1px solid var(--color-border);
-  transition: all 0.2s ease;
+  position: relative;
+  background: radial-gradient(circle at top left, #1f2937, #020617);
+  border-radius: 16px;
+  padding: 12px 12px 14px;
+  border: 1px solid rgba(75, 85, 99, 0.8);
 }
 
-.server-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5), 0 0 10px rgba(59, 130, 246, 0.2);
+.server-name {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.server-meta {
+  font-size: 12px;
+  color: #9ca3af;
+  margin-bottom: 3px;
 }
 
 .badge {
-  font-weight: 600;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  border: 1px solid transparent;
 }
 
 .badge.green {
-  color: #86efac; /* Warna lebih cerah */
-  border-color: #16a34a;
+  background: rgba(22, 163, 74, 0.15);
+  color: #bbf7d0;
+  border-color: rgba(34, 197, 94, 0.5);
 }
 
-/* MODAL HASIL (Pro) */
-.result-card {
-  background: var(--color-dark-surface);
-  border-radius: 20px;
-  padding: 20px;
-  border: 1px solid var(--color-border);
+.badge.red {
+  background: rgba(239, 68, 68, 0.15);
+  color: #fecaca;
+  border-color: rgba(248, 113, 113, 0.6);
 }
 
-.result-text {
-  min-height: 280px;
-  border-radius: var(--radius-lg);
-  background: #000000; /* Hitam pekat untuk kode */
-  color: #a7f3d0; /* Warna hijau mint untuk code */
-  font-family: var(--font-mono);
+/* LIST RIWAYAT */
+.dummy-list {
+  list-style: none;
   font-size: 13px;
-  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.dummy-list li {
+  padding: 6px 0;
+  border-bottom: 1px dashed rgba(75, 85, 99, 0.7);
+}
+
+/* KHUSUS TOPUP QRIS */
+#topupPaymentCard {
+  text-align: left;
 }
 
 /* =========================
-   RESPONSIVE (Pro)
+   ADMIN PAGE
+   ========================= */
+#app-admin .card {
+  margin-bottom: 16px;
+}
+
+/* Bisa pakai grid kalau mau form & history 2 kolom di desktop */
+@media (min-width: 900px) {
+  #app-admin .admin-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    gap: 16px;
+  }
+}
+
+/* =========================
+   RESPONSIVE
    ========================= */
 @media (max-width: 640px) {
+  .site-header-inner {
+    padding-inline: 12px;
+  }
+
   .app-shell {
+    padding: 14px 12px 20px;
     border-radius: 0;
+  }
+
+  .app-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .user-box {
+    justify-content: flex-start;
   }
 }
