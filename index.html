@@ -131,7 +131,27 @@
             </div>
           </div>
         </div>
+<!-- ... app-page lain ... -->
 
+      <!-- MODAL HASIL AKUN / RENEW -->
+      <div id="resultModal" class="result-modal" style="display:none;">
+        <div class="result-backdrop"></div>
+        <div class="result-card card">
+          <h3 id="resultTitle">Hasil</h3>
+          <p id="resultInfo" class="muted small"></p>
+
+          <textarea
+            id="resultText"
+            readonly
+            class="result-text"
+            spellcheck="false"
+          ></textarea>
+
+          <button id="resultClose" class="btn primary full" style="margin-top:10px;">
+            Tutup
+          </button>
+        </div>
+      </div>
         <!-- SERVER LIST -->
         <div id="app-servers" class="app-page">
           <h3>Daftar Server</h3>
