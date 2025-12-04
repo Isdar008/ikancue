@@ -3,10 +3,16 @@
   position: fixed;
   inset: 0;
   z-index: 999;
-  display: flex;
+  /* default: sembunyi */
+  display: none;
   align-items: center;
   justify-content: center;
   padding: 16px;
+}
+
+/* saat dikasih class .show dari JS -> tampil */
+.result-modal.show {
+  display: flex;
 }
 
 .result-backdrop {
