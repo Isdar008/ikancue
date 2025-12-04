@@ -476,6 +476,30 @@ if (modalCopy) {
     }
   };
 }
+// ============================
+// HIDE PASSWORD UNTUK NON-SSH
+// ============================
+const typeSelect = document.getElementById("createType");
+const passwordFieldWrap = document.getElementById("createPassWrap");
+
+function updatePasswordVisibility() {
+  if (!typeSelect || !passwordFieldWrap) return;
+
+  const t = typeSelect.value.toLowerCase();
+  if (t === "ssh") {
+    passwordFieldWrap.style.display = "block";
+  } else {
+    passwordFieldWrap.style.display = "none";
+  }
+}
+
+// load pertama
+updatePasswordVisibility();
+
+// ketika user ganti jenis akun
+if (typeSelect) {
+  typeSelect.addEventListener("change", updatePasswordVisibility);
+}
 // =====================================
 // FORM: BUAT AKUN
 // =====================================
