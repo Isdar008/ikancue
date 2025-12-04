@@ -7,6 +7,7 @@ const ADMIN_EMAILS = [
   "istiqwamantunnel@gmail.com",   // ganti / tambah sesuai kebutuhan
   // "admin2@gmail.com",
 ];
+
 // =====================================
 // HELPER
 // =====================================
@@ -19,7 +20,7 @@ function lockButton(btn, locked) {
 }
 
 // =====================================
-// PAGE SWITCHER (WELCOME / LOGIN / DASHBOARD)
+// PAGE SWITCHER (LOGIN / DASHBOARD)
 // =====================================
 function showPage(id) {
   document.querySelectorAll(".page").forEach((p) => p.classList.remove("active"));
@@ -154,6 +155,7 @@ function fillServerSelects() {
   selCreate.innerHTML = html;
   selRenew.innerHTML = html;
 }
+
 // =====================================
 // ADMIN: TAMBAH SALDO MANUAL (EMAIL WEB)
 // =====================================
@@ -212,6 +214,7 @@ if (btnAdminAddSaldo) {
     }
   };
 }
+
 // =====================================
 // LOGIN SYSTEM
 // =====================================
@@ -242,11 +245,9 @@ function loadDashboard() {
   loadServersFromApi();
 }
 
-const btnMulai = document.getElementById("btnMulai");
-if (btnMulai) btnMulai.onclick = () => showPage("login");
-
+// tombol back (sebenarnya di panel.html disembunyikan, tapi aman)
 const btnBack = document.getElementById("btnBack");
-if (btnBack) btnBack.onclick = () => showPage("welcome");
+if (btnBack) btnBack.onclick = () => showPage("login");
 
 // login normal
 const btnLogin = document.getElementById("btnLogin");
@@ -298,7 +299,7 @@ if (btnLogout) {
   btnLogout.onclick = () => {
     localStorage.removeItem("xt_email");
     localStorage.removeItem("xt_pass");
-    showPage("welcome");
+    showPage("login"); // ✅ balik ke form login (bukan welcome)
   };
 }
 
@@ -408,11 +409,9 @@ function openAppPage(name) {
   document.querySelectorAll(".nav-btn").forEach(btn => btn.classList.remove("active"));
   document.querySelector(`.nav-btn[data-target="${name}"]`).classList.add("active");
 
-  // saat buka tab Topup → load history user
   if (name === "topup") {
     loadTopupHistory();
   } else if (name === "admin") {
-    // saat buka tab Admin → load history panel
     loadTopupHistoryAdmin();
   }
 }
@@ -420,6 +419,7 @@ function openAppPage(name) {
 document.querySelectorAll(".nav-btn").forEach((btn) => {
   btn.onclick = () => openAppPage(btn.dataset.target);
 });
+
 // =====================================
 // MODAL HASIL (CREATE / RENEW)
 // =====================================
@@ -429,7 +429,6 @@ function showResultModal(title, subtitle, rawMsg) {
   const subEl = document.getElementById("modalSubtitle");
   const bodyEl = document.getElementById("modalBody");
 
-  // fallback kalau elemen hilang
   if (!overlay || !titleEl || !bodyEl) {
     alert(rawMsg || "Berhasil.");
     return;
@@ -462,11 +461,9 @@ if (modalCopy) {
     if (!text.trim()) return;
 
     try {
-      // cara utama: clipboard API
       await navigator.clipboard.writeText(text);
       alert("Config berhasil disalin ✅");
     } catch (e) {
-      // fallback: seleksi semua teks, biar user tinggal tekan salin
       const range = document.createRange();
       range.selectNodeContents(bodyEl);
       const sel = window.getSelection();
@@ -476,6 +473,7 @@ if (modalCopy) {
     }
   };
 }
+
 // ============================
 // HIDE PASSWORD UNTUK NON-SSH
 // ============================
@@ -500,6 +498,7 @@ updatePasswordVisibility();
 if (typeSelect) {
   typeSelect.addEventListener("change", updatePasswordVisibility);
 }
+
 // =====================================
 // FORM: BUAT AKUN
 // =====================================
@@ -543,12 +542,12 @@ if (btnCreate) {
       if (!json.ok) throw new Error(json.error);
 
       showResultModal(
-  "Akun berhasil dibuat",
-  `Server: ${json.data.serverName} • Harga: ${fmtRupiah(json.data.totalHarga)}`,
-  json.data.message
-);
+        "Akun berhasil dibuat",
+        `Server: ${json.data.serverName} • Harga: ${fmtRupiah(json.data.totalHarga)}`,
+        json.data.message
+      );
 
-loadStatusFromApi();
+      loadStatusFromApi();
     } catch (e) {
       alert("Gagal membuat akun: " + e.message);
     }
@@ -569,7 +568,6 @@ if (btnRenew) {
     const username = document.getElementById("renewUser").value.trim();
     const days = parseInt(document.getElementById("renewDays").value);
 
-    // 🆕 ambil email login dari localStorage
     const email = localStorage.getItem("xt_email") || "";
 
     if (!serverId || !username || !days || !email)
@@ -581,19 +579,19 @@ if (btnRenew) {
       const res = await fetch(`${API_BASE}/renew-account`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ type, serverId, username, days, email }), // 🆕 kirim email
+        body: JSON.stringify({ type, serverId, username, days, email }),
       });
 
       const json = await res.json();
       if (!json.ok) throw new Error(json.error);
 
       showResultModal(
-  "Akun berhasil diperpanjang",
-  `Server: ${json.data.serverName} • Harga: ${fmtRupiah(json.data.totalHarga)}`,
-  json.data.message
-);
+        "Akun berhasil diperpanjang",
+        `Server: ${json.data.serverName} • Harga: ${fmtRupiah(json.data.totalHarga)}`,
+        json.data.message
+      );
 
-loadStatusFromApi();
+      loadStatusFromApi();
     } catch (e) {
       alert("Gagal perpanjang akun: " + (e.message || "Error tidak diketahui"));
     }
@@ -601,6 +599,7 @@ loadStatusFromApi();
     lockButton(btn, false);
   };
 }
+
 // =====================================
 // TOPUP: FORM + HISTORY + QRIS
 // =====================================
@@ -638,9 +637,8 @@ if (btnTopup) {
           data.amount || amount
         )}`;
 
-        // ambil URL QR / base64 dari backend
         const qrUrl =
-          data.qrImageBase64 || // dari backend kamu sekarang
+          data.qrImageBase64 ||
           data.qrImageUrl ||
           data.qrisImageUrl ||
           data.qr_url ||
@@ -723,6 +721,7 @@ async function loadTopupHistory() {
     empty.style.display = "none";
   }
 }
+
 async function loadTopupHistoryAdmin() {
   const list = document.getElementById("topupHistoryAdmin");
   const empty = document.getElementById("topupHistoryAdminEmpty");
@@ -732,7 +731,6 @@ async function loadTopupHistoryAdmin() {
   empty.style.display = "none";
 
   try {
-    // admin lihat seluruh riwayat (backend kita memang sudah global)
     const res = await fetch(`${API_BASE}/topup-history`);
     const json = await res.json();
 
@@ -764,7 +762,8 @@ async function loadTopupHistoryAdmin() {
     list.innerHTML = "<li>Gagal memuat riwayat.</li>";
     empty.style.display = "none";
   }
-    }
+}
+
 // =====================================
 // START PANEL
 // =====================================
