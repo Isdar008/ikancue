@@ -242,22 +242,6 @@ function loadDashboard() {
   loadServersFromApi();
 }
 
-  // 🔐 cek apakah email ini admin
-  const isAdmin = ADMIN_EMAILS.includes(email.toLowerCase());
-  localStorage.setItem("xt_is_admin", isAdmin ? "1" : "0");
-
-  const navAdmin = document.getElementById("navAdmin");
-  if (navAdmin) {
-    navAdmin.style.display = isAdmin ? "inline-flex" : "none";
-  }
-
-  showPage("dashboard");
-  openAppPage("overview");
-
-  loadStatusFromApi();
-  loadServersFromApi();
-}
-
 const btnMulai = document.getElementById("btnMulai");
 if (btnMulai) btnMulai.onclick = () => showPage("login");
 
