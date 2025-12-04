@@ -1,65 +1,178 @@
-/* ===== Modal hasil create / renew (WEB) ===== */
+/* =========================
+   HERO WELCOME ala landing page
+   ========================= */
+#welcome {
+  min-height: calc(100vh - 60px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 18px 40px;
+  background: radial-gradient(circle at top, #020617 0, #020617 40%, #020617 100%);
+}
+
+.hero-inner {
+  max-width: 680px;
+  width: 100%;
+}
+
+.hero-kicker {
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #60a5fa;
+  margin-bottom: 10px;
+}
+
+.hero-title {
+  font-size: 30px;
+  line-height: 1.1;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  margin-bottom: 14px;
+}
+
+.hero-subtitle {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #9ca3af;
+  max-width: 520px;
+}
+
+.hero-actions {
+  margin-top: 22px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.hero-main-btn {
+  padding-inline: 22px;
+  padding-block: 10px;
+  font-size: 15px;
+}
+
+/* lebih gede di layar lebar */
+@media (min-width: 768px) {
+  .hero-title {
+    font-size: 40px;
+  }
+  .hero-subtitle {
+    font-size: 15px;
+  }
+}
+
+/* =========================
+   MODAL HASIL (CREATE / RENEW)
+   ========================= */
 .dialog-backdrop {
   position: fixed;
   inset: 0;
-  z-index: 50;
-  display: none;               /* default: sembunyi */
+  z-index: 40;
+  background: rgba(0, 0, 0, 0.65);
+  display: none;            /* default hidden */
   align-items: center;
   justify-content: center;
   padding: 16px;
-  background: rgba(15, 23, 42, 0.80);
-  backdrop-filter: blur(10px);
 }
 
 .dialog-backdrop.show {
-  display: flex;               /* JS akan nambah class "show" */
+  display: flex;            /* ditampilkan saat JS tambah class .show */
 }
 
 .dialog {
+  background: #020617;
+  border-radius: 18px;
   max-width: 520px;
   width: 100%;
-  border-radius: 18px;
-  background: radial-gradient(circle at top, #020617, #020617 40%, #020617);
-  border: 1px solid rgba(148, 163, 184, 0.4);
-  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.9);
-  padding: 16px 16px 14px;
-  position: relative;
+  padding: 16px 16px 18px;
+  box-shadow: 0 20px 60px rgba(15, 23, 42, 0.9);
+  border: 1px solid rgba(148, 163, 184, 0.45);
 }
 
 .dialog h3 {
   margin-bottom: 4px;
-  font-size: 16px;
-  font-weight: 600;
 }
 
-.dialog p.small {
-  margin-bottom: 10px;
-  color: #9ca3af;
-}
-
-/* area config akun */
 .dialog-code {
-  width: 100%;
-  max-height: 320px;
-  overflow: auto;
-  margin-top: 8px;
-  margin-bottom: 12px;
+  margin-top: 10px;
+  background: #020617;
+  color: #e5e7eb;
+  font-family: "JetBrains Mono", "Fira Code", monospace;
   padding: 10px 12px;
   border-radius: 12px;
-  background: #020617;
-  border: 1px solid rgba(31, 41, 55, 0.9);
-  font-family: "JetBrains Mono", "Fira Code", monospace;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  max-height: 60vh;
+  overflow: auto;
+  white-space: pre-wrap; /* biar \n jadi baris baru */
   font-size: 12px;
   line-height: 1.45;
-  white-space: pre-wrap;
-  color: #e5e7eb;
 }
 
-/* baris tombol */
 .dialog-actions {
-  display: grid;
-  grid-template-columns: 1.1fr 1fr;
+  display: flex;
+  flex-direction: column;
   gap: 8px;
+  margin-top: 14px;
+}
+
+/* atur button di modal biar rapi 2 kolom di desktop */
+.dialog-actions .btn.full {
+  width: 100%;
+  margin-top: 0;
+}
+
+@media (min-width: 640px) {
+  .dialog-actions {
+    flex-direction: row;
+  }
+  .dialog-actions .btn.full {
+    width: 50%;
+  }
+}
+/* ===== Modal hasil create / renew ===== */
+.result-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  /* default: sembunyi */
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+/* saat dikasih class .show dari JS -> tampil */
+.result-modal.show {
+  display: flex;
+}
+
+.result-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+}
+
+.result-card {
+  position: relative;
+  max-width: 480px;
+  width: 100%;
+  max-height: 85vh;
+  overflow: auto;
+}
+
+.result-text {
+  width: 100%;
+  min-height: 260px;
+  resize: vertical;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 10px 12px;
+  background: #020617;
+  color: #e5e7eb;
+  font-family: "JetBrains Mono", "Fira Code", monospace;
+  font-size: 12px;
+  line-height: 1.4;
+  white-space: pre-wrap;  /* biar \n jadi baris baru */
 }
 
 /* =========================
