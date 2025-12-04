@@ -129,34 +129,37 @@
         </div>
 
         <!-- BUAT AKUN -->
-        <div id="app-create" class="app-page">
-          <h3>Buat Akun VPN</h3>
-          <p class="muted small">Tombol ini akan menembak endpoint API create akun.</p>
+<div id="app-create" class="app-page">
+  <h3>Buat Akun VPN</h3>
+  <p class="muted small">Tombol ini akan menembak endpoint API create akun.</p>
 
-          <div class="card">
-            <label>Jenis Akun</label>
-            <select id="createType">
-              <option value="ssh">SSH</option>
-              <option value="vmess">VMESS</option>
-              <option value="vless">VLESS</option>
-              <option value="trojan">TROJAN</option>
-            </select>
+  <div class="card">
+    <label>Jenis Akun</label>
+    <select id="createType">
+      <option value="ssh">SSH</option>
+      <option value="vmess">VMESS</option>
+      <option value="vless">VLESS</option>
+      <option value="trojan">TROJAN</option>
+    </select>
 
-            <label>Server</label>
-            <select id="createServer"></select>
+    <label>Server</label>
+    <select id="createServer"></select>
 
-            <label>Username Akun</label>
-            <input id="createUser" type="text" placeholder="misal: uservpn123">
+    <label>Username Akun</label>
+    <input id="createUser" type="text" placeholder="misal: uservpn123">
 
-            <label>Password SSH</label>
-            <input id="createPass" type="password" placeholder="Password akun SSH">
+    <!-- 🔥 Wrapper supaya bisa hide otomatis -->
+    <div id="createPassWrap">
+      <label>Password SSH</label>
+      <input id="createPass" type="password" placeholder="Password akun SSH">
+    </div>
 
-            <label>Masa Aktif (hari)</label>
-            <input id="createDays" type="number" min="1" value="30">
+    <label>Masa Aktif (hari)</label>
+    <input id="createDays" type="number" min="1" value="30">
 
-            <button class="btn primary full" id="btnCreate">Buat Akun</button>
-          </div>
-        </div>
+    <button class="btn primary full" id="btnCreate">Buat Akun</button>
+  </div>
+</div>
 
         <!-- RENEW -->
         <div id="app-renew" class="app-page">
