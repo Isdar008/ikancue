@@ -218,11 +218,29 @@ if (btnAdminAddSaldo) {
 function loadDashboard() {
   const email = localStorage.getItem("xt_email");
   const pass = localStorage.getItem("xt_pass");
-  if (!email || !pass) return showPage("welcome");
+
+  // kalau belum login → langsung ke halaman login
+  if (!email || !pass) {
+    showPage("login");
+    return;
+  }
 
   document.getElementById("userEmailHeader").innerText = email;
   document.getElementById("infoEmail").innerText = email;
   document.getElementById("infoPass").innerText = pass;
+
+  const isAdmin = ADMIN_EMAILS.includes(email.toLowerCase());
+  localStorage.setItem("xt_is_admin", isAdmin ? "1" : "0");
+
+  const navAdmin = document.getElementById("navAdmin");
+  if (navAdmin) navAdmin.style.display = isAdmin ? "inline-flex" : "none";
+
+  showPage("dashboard");
+  openAppPage("overview");
+
+  loadStatusFromApi();
+  loadServersFromApi();
+}
 
   // 🔐 cek apakah email ini admin
   const isAdmin = ADMIN_EMAILS.includes(email.toLowerCase());
