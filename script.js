@@ -155,7 +155,7 @@ function fillServerSelects() {
   selRenew.innerHTML = html;
 }
 // =====================================
-// ADMIN: TAMBAH SALDO MANUAL
+// ADMIN: TAMBAH SALDO MANUAL (PAKAI EMAIL)
 // =====================================
 const btnAdminAddSaldo = document.getElementById("btnAdminAddSaldo");
 if (btnAdminAddSaldo) {
@@ -163,25 +163,32 @@ if (btnAdminAddSaldo) {
     const btn = ev.currentTarget;
 
     const adminEmail = localStorage.getItem("xt_email") || "";
-    const isAdmin = localStorage.getItem("xt_is_admin") === "1";
+    const isAdmin    = localStorage.getItem("xt_is_admin") === "1";
 
-    // isinya sekarang user_id (ANGKA) dari member
-    const targetRaw = document.getElementById("adminTargetUser").value.trim();
-    const targetId  = parseInt(targetRaw, 10);
-    const amount    = parseInt(document.getElementById("adminAmount").value, 10);
-    const note      = document.getElementById("adminNote").value.trim();
+    // 👉 ini email member yang kamu isi di form
+    const targetEmail = document
+      .getElementById("adminTargetUser")
+      .value
+      .trim()
+      .toLowerCase();
+
+    const amount = parseInt(
+      document.getElementById("adminAmount").value,
+      10
+    );
+    const note = document.getElementById("adminNote").value.trim();
 
     if (!adminEmail || !isAdmin) {
       alert("Hanya admin yang boleh menggunakan fitur ini.");
       return;
     }
 
-    if (!targetId || isNaN(targetId) || !amount || amount <= 0) {
-      alert("User ID & nominal wajib diisi dengan benar.");
+    if (!targetEmail || !amount || amount <= 0) {
+      alert("Email member & nominal wajib diisi dengan benar.");
       return;
     }
 
-    if (!confirm(`Tambah saldo ${fmtRupiah(amount)} ke user_id ${targetId}?`)) {
+    if (!confirm(`Tambah saldo ${fmtRupiah(amount)} ke ${targetEmail}?`)) {
       return;
     }
 
@@ -191,10 +198,10 @@ if (btnAdminAddSaldo) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          adminEmail,
-          userId: targetId,  // dipakai di backend
+          adminEmail,         // email admin (buat validasi di backend)
+          username: targetEmail, // 👈 kirim email member ke backend
           amount,
-          note,
+          note
         }),
       });
 
@@ -203,12 +210,8 @@ if (btnAdminAddSaldo) {
         throw new Error(json.error || "Gagal menambah saldo.");
       }
 
-      alert(
-        `Saldo ${fmtRupiah(amount)} berhasil ditambahkan ke user_id ${targetId}.`
-      );
-
+      alert(`Saldo ${fmtRupiah(amount)} berhasil ditambahkan ke ${targetEmail}.`);
       loadTopupHistoryAdmin();
-      loadStatusFromApi();
     } catch (e) {
       alert(e.message || "Gagal menambah saldo.");
     } finally {
