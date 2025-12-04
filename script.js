@@ -191,15 +191,14 @@ if (btnAdminAddSaldo) {
     lockButton(btn, true);
     try {
       const res = await fetch(`${API_BASE}/admin/add-balance`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          adminEmail,
-          targetUsername,
-          amount,
-          note,
-        }),
-      });
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    username: targetUsername,   // ⬅️ pakai targetUsername
+    amount,
+    note,
+  }),
+});
 
       const json = await res.json().catch(() => ({}));
       if (!res.ok || !json.ok) {
