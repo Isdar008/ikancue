@@ -1,135 +1,7 @@
-/* =========================
-   HERO WELCOME ala landing page
-   ========================= */
-#welcome {
-  min-height: calc(100vh - 60px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 32px 18px 40px;
-  background: radial-gradient(circle at top, #020617 0, #020617 40%, #020617 100%);
-}
-
-.hero-inner {
-  max-width: 680px;
-  width: 100%;
-}
-
-.hero-kicker {
-  font-size: 12px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: #60a5fa;
-  margin-bottom: 10px;
-}
-
-.hero-title {
-  font-size: 30px;
-  line-height: 1.1;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  margin-bottom: 14px;
-}
-
-.hero-subtitle {
-  font-size: 14px;
-  line-height: 1.6;
-  color: #9ca3af;
-  max-width: 520px;
-}
-
-.hero-actions {
-  margin-top: 22px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.hero-main-btn {
-  padding-inline: 22px;
-  padding-block: 10px;
-  font-size: 15px;
-}
-
-/* lebih gede di layar lebar */
-@media (min-width: 768px) {
-  .hero-title {
-    font-size: 40px;
-  }
-  .hero-subtitle {
-    font-size: 15px;
-  }
-}
-
-/* =========================
-   MODAL HASIL (CREATE / RENEW) - FINAL
-   ========================= */
-.result-modal {
-  position: fixed;
-  inset: 0;
-  z-index: 999;
-  display: none;             /* default: sembunyi */
-  align-items: center;
-  justify-content: center;
-  padding: 16px;
-}
-
-/* saat JS kasih class .show -> tampil */
-.result-modal.show {
-  display: flex;
-}
-
-.result-backdrop {
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.55);
-  z-index: 1;
-}
-
-.result-card {
-  position: relative;
-  max-width: 480px;
-  width: 100%;
-  max-height: 85vh;
-  overflow: auto;
-  z-index: 2;               /* di atas backdrop, biar tombol bisa diklik */
-  background: #020617;
-  border-radius: 18px;
-  padding: 16px 16px 18px;
-  box-shadow: 0 20px 60px rgba(15, 23, 42, 0.9);
-  border: 1px solid rgba(148, 163, 184, 0.45);
-}
-
-.result-text {
-  width: 100%;
-  min-height: 260px;
-  resize: vertical;
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 10px 12px;
-  background: #020617;
-  color: #e5e7eb;
-  font-family: "JetBrains Mono", "Fira Code", monospace;
-  font-size: 12px;
-  line-height: 1.4;
-  white-space: pre-wrap;  /* biar \n jadi baris baru */
-}
-
-/* tombol di dalam modal */
-.result-card .btn.full {
-  width: 100%;
-  margin-top: 8px;
-}
-
-@media (min-width: 640px) {
-  .result-card .btn.full {
-    width: 48%;
-  }
-
-  .result-card .btn.full:first-child {
-    margin-right: 4%;
-  }
-}
+/* =====================================================
+   XTRIMER PANEL - FINAL THEME
+   Glassmorphism + Hero + sshOcean style modal
+   ===================================================== */
 
 /* =========================
    GLOBAL RESET & BODY
@@ -143,7 +15,10 @@
 }
 
 body {
-  background: #050816;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(37, 99, 235, 0.2), transparent 55%),
+    radial-gradient(circle at 100% 0%, rgba(236, 72, 153, 0.18), transparent 55%),
+    #020617;
   color: #e5e7eb;
   min-height: 100vh;
 }
@@ -262,14 +137,14 @@ p {
 }
 
 .btn.primary {
-  background: linear-gradient(135deg, #2563eb, #4f46e5);
+  background: radial-gradient(circle at 0 0, #4f46e5, #2563eb);
   color: white;
-  box-shadow: 0 10px 25px rgba(37, 99, 235, 0.35);
+  box-shadow: 0 12px 32px rgba(37, 99, 235, 0.7);
 }
 
 .btn.primary:hover {
   transform: translateY(-1px);
-  box-shadow: 0 14px 30px rgba(37, 99, 235, 0.45);
+  box-shadow: 0 16px 40px rgba(37, 99, 235, 0.9);
 }
 
 .btn.secondary {
@@ -283,8 +158,9 @@ p {
 }
 
 .btn.danger {
-  background: #ef4444;
+  background: linear-gradient(135deg, #f97373, #ef4444);
   color: white;
+  box-shadow: 0 10px 26px rgba(248, 113, 113, 0.7);
 }
 
 .btn.small-btn {
@@ -325,43 +201,137 @@ select:focus {
 }
 
 /* =========================
-   APP SHELL
+   HERO WELCOME ala landing page
    ========================= */
-.app-shell {
-  max-width: 1100px;
-  margin: 0 auto;
-  border-radius: 18px;
-  padding: 18px 16px 24px;
-  background: radial-gradient(circle at top, #111827, #020617 65%);
-  box-shadow: 0 20px 60px rgba(15, 23, 42, 0.65);
+#welcome {
+  min-height: calc(100vh - 60px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 18px 40px;
 }
 
-/* HEADER DALAM DASHBOARD */
+.hero-inner {
+  max-width: 680px;
+  width: 100%;
+}
+
+.hero-kicker {
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #60a5fa;
+  margin-bottom: 10px;
+}
+
+.hero-title {
+  font-size: 30px;
+  line-height: 1.1;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  margin-bottom: 14px;
+}
+
+.hero-subtitle {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #9ca3af;
+  max-width: 520px;
+}
+
+.hero-actions {
+  margin-top: 22px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.hero-main-btn {
+  padding-inline: 22px;
+  padding-block: 10px;
+  font-size: 15px;
+  box-shadow: 0 0 25px rgba(59, 130, 246, 0.45);
+}
+
+/* hero mobile */
+@media (max-width: 640px) {
+  #welcome {
+    align-items: flex-start;
+    padding-top: 72px;
+  }
+  .hero-inner {
+    text-align: left;
+  }
+  .hero-title {
+    font-size: 26px;
+  }
+}
+
+@media (min-width: 768px) {
+  .hero-title {
+    font-size: 40px;
+  }
+  .hero-subtitle {
+    font-size: 15px;
+  }
+  #welcome {
+    padding-bottom: 80px;
+  }
+}
+
+/* =========================
+   PANEL FRAME (DASHBOARD)
+   ========================= */
+#dashboard {
+  padding-top: 32px;
+}
+
+/* FRAME PANEL */
+.app-shell {
+  max-width: 1120px;
+  margin: 0 auto 32px;
+  padding: 22px 18px 26px;
+  border-radius: 26px;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(59, 130, 246, 0.35), transparent 55%),
+    radial-gradient(circle at 100% 0%, rgba(244, 63, 94, 0.22), transparent 55%),
+    linear-gradient(135deg, #020617, #020617 35%, #020617);
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  box-shadow:
+    0 22px 65px rgba(15, 23, 42, 0.9),
+    0 0 0 1px rgba(15, 23, 42, 0.9) inset;
+}
+
+/* HEADER DALAM PANEL */
 .app-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  gap: 16px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(51, 65, 85, 0.85);
   margin-bottom: 16px;
 }
 
 .brand {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 
 .logo-dot {
-  width: 26px;
-  height: 26px;
+  width: 30px;
+  height: 30px;
   border-radius: 999px;
-  background: radial-gradient(circle at 30% 20%, #60a5fa, #4f46e5);
-  box-shadow: 0 0 22px rgba(59, 130, 246, 0.7);
+  background: radial-gradient(circle at 25% 25%, #bfdbfe, #3b82f6);
+  box-shadow: 0 0 26px rgba(59, 130, 246, 0.9);
 }
 
 .brand-title {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
 .brand-sub {
@@ -371,9 +341,9 @@ select:focus {
 
 .user-box {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
+  flex-wrap: wrap;
   justify-content: flex-end;
 }
 
@@ -383,39 +353,59 @@ select:focus {
 }
 
 .user-email {
-  font-size: 13px;
-  padding: 4px 9px;
+  padding: 6px 12px;
   border-radius: 999px;
-  background: rgba(15, 23, 42, 0.9);
-  border: 1px solid rgba(148, 163, 184, 0.5);
+  border: 1px solid rgba(148, 163, 184, 0.45);
+  background: radial-gradient(circle at 0 0, #0f172a, #020617);
+  font-size: 13px;
 }
 
 /* =========================
-   NAV
+   NAV DALAM PANEL
    ========================= */
 .app-nav {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 16px;
+  gap: 10px;
+  padding: 10px;
+  margin-bottom: 18px;
+  border-radius: 999px;
+  background: radial-gradient(circle at 50% 0%, rgba(15, 23, 42, 0.95), #020617);
+  border: 1px solid rgba(51, 65, 85, 0.95);
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.85);
 }
 
 .nav-btn {
-  flex: 0 0 auto;
+  position: relative;
+  flex: 1 1 auto;
+  text-align: center;
+  padding: 7px 12px;
   border-radius: 999px;
   border: 1px solid transparent;
-  padding: 6px 14px;
+  background: transparent;
   font-size: 13px;
-  background: rgba(15, 23, 42, 0.9);
-  color: #e5e7eb;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #9ca3af;
   cursor: pointer;
-  transition: background 0.1s ease, border-color 0.1s ease, color 0.1s ease;
+  transition:
+    background 0.13s ease,
+    box-shadow 0.13s ease,
+    color 0.13s ease,
+    transform 0.08s ease;
+}
+
+.nav-btn:hover {
+  color: #e5e7eb;
 }
 
 .nav-btn.active {
-  background: linear-gradient(135deg, #2563eb, #4f46e5);
-  border-color: rgba(191, 219, 254, 0.8);
-  color: white;
+  color: #ffffff;
+  background: radial-gradient(circle at 0% 0%, #4f46e5, #2563eb);
+  box-shadow:
+    0 0 0 1px rgba(191, 219, 254, 0.5),
+    0 18px 35px rgba(37, 99, 235, 0.7);
+  transform: translateY(-1px);
 }
 
 /* =========================
@@ -436,26 +426,46 @@ select:focus {
 /* GRID UNTUK OVERVIEW */
 .grid-2 {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 16px;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: 18px;
 }
 
-/* CARD */
+/* CARD UMUM DALAM PANEL */
 .card {
-  background: rgba(15, 23, 42, 0.9);
-  border-radius: 16px;
-  padding: 14px 14px 16px;
-  border: 1px solid rgba(75, 85, 99, 0.7);
-  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.6);
-  margin-bottom: 14px;
+  background:
+    radial-gradient(circle at 0 0, rgba(59, 130, 246, 0.16), transparent 55%),
+    rgba(15, 23, 42, 0.95);
+  border-radius: 20px;
+  padding: 16px 16px 18px;
+  border: 1px solid rgba(55, 65, 81, 0.9);
+  box-shadow:
+    0 14px 40px rgba(15, 23, 42, 0.9),
+    0 0 0 1px rgba(15, 23, 42, 0.9) inset;
+  backdrop-filter: blur(18px);
 }
 
 .card h3,
 .card h4 {
-  margin-bottom: 8px;
+  margin-bottom: 10px;
+  font-weight: 600;
 }
 
-/* SERVER LIST */
+/* Teks info overview */
+#app-overview .card p {
+  font-size: 13px;
+}
+
+#statusSaldo {
+  font-size: 16px;
+}
+
+#statusLevel {
+  letter-spacing: 0.12em;
+}
+
+/* =========================
+   SERVER LIST
+   ========================= */
 .server-list {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -464,10 +474,11 @@ select:focus {
 
 .server-card {
   position: relative;
-  background: radial-gradient(circle at top left, #1f2937, #020617);
-  border-radius: 16px;
+  background: linear-gradient(150deg, rgba(15, 23, 42, 0.96), rgba(15, 23, 42, 0.85));
+  border-radius: 18px;
   padding: 12px 12px 14px;
-  border: 1px solid rgba(75, 85, 99, 0.8);
+  border: 1px solid rgba(55, 65, 81, 0.8);
+  box-shadow: 0 14px 32px rgba(15, 23, 42, 0.9);
 }
 
 .server-name {
@@ -489,6 +500,8 @@ select:focus {
   padding: 3px 8px;
   border-radius: 999px;
   border: 1px solid transparent;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
 }
 
 .badge.green {
@@ -503,7 +516,9 @@ select:focus {
   border-color: rgba(248, 113, 113, 0.6);
 }
 
-/* LIST RIWAYAT */
+/* =========================
+   LIST RIWAYAT
+   ========================= */
 .dummy-list {
   list-style: none;
   font-size: 13px;
@@ -526,7 +541,6 @@ select:focus {
   margin-bottom: 16px;
 }
 
-/* Bisa pakai grid kalau mau form & history 2 kolom di desktop */
 @media (min-width: 900px) {
   #app-admin .admin-grid {
     display: grid;
@@ -536,350 +550,8 @@ select:focus {
 }
 
 /* =========================
-   RESPONSIVE
+   RESPONSIVE PANEL
    ========================= */
-@media (max-width: 640px) {
-  .site-header-inner {
-    padding-inline: 12px;
-  }
-
-  .app-shell {
-    padding: 14px 12px 20px;
-    border-radius: 0;
-  }
-
-  .app-header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .user-box {
-    justify-content: flex-start;
-  }
-}
-/* =====================================================
-   THEME V2 – NEON / GLASSMORPHISM STYLE
-   ===================================================== */
-
-/* Background full page lebih hidup */
-body {
-  background:
-    radial-gradient(circle at 0% 0%, rgba(37, 99, 235, 0.2), transparent 55%),
-    radial-gradient(circle at 100% 0%, rgba(236, 72, 153, 0.18), transparent 55%),
-    #020617;
-  color: #e5e7eb;
-}
-
-/* HERO lebih center & fokus di mobile */
-#welcome {
-  align-items: flex-start;
-  padding-top: 72px;
-}
-
-@media (max-width: 640px) {
-  #welcome {
-    align-items: flex-start;
-  }
-  .hero-inner {
-    text-align: left;
-  }
-  .hero-title {
-    font-size: 26px;
-  }
-}
-
-/* Tombol utama lebih glowing */
-.hero-main-btn {
-  box-shadow: 0 0 25px rgba(59, 130, 246, 0.45);
-}
-
-/* APP SHELL jadi kartu kaca dengan glow */
-.app-shell {
-  position: relative;
-  margin-top: 32px;
-  border-radius: 22px;
-  padding: 20px 18px 24px;
-  background: linear-gradient(145deg, rgba(15,23,42,0.9), rgba(15,23,42,0.7));
-  border: 1px solid rgba(148, 163, 184, 0.4);
-  box-shadow:
-    0 24px 60px rgba(15, 23, 42, 0.9),
-    0 0 0 1px rgba(15, 23, 42, 0.7);
-  overflow: hidden;
-}
-
-/* blob glow di belakang dashboard */
-.app-shell::before {
-  content: "";
-  position: absolute;
-  inset: -40%;
-  background:
-    radial-gradient(circle at 10% 0%, rgba(59, 130, 246, 0.28), transparent 55%),
-    radial-gradient(circle at 90% 10%, rgba(236, 72, 153, 0.22), transparent 55%);
-  opacity: 0.6;
-  filter: blur(32px);
-  z-index: -1;
-}
-
-/* Header dashboard lebih rapih */
-.app-header {
-  padding-bottom: 6px;
-  border-bottom: 1px solid rgba(15, 23, 42, 0.9);
-}
-
-/* NAV tabs lebih modern */
-.app-nav {
-  margin-top: 10px;
-  padding: 6px;
-  border-radius: 999px;
-  background: rgba(15, 23, 42, 0.8);
-  border: 1px solid rgba(30, 64, 175, 0.6);
-}
-
-.nav-btn {
-  padding-inline: 18px;
-  padding-block: 7px;
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.07em;
-  background: transparent;
-  border-radius: 999px;
-  border: none;
-}
-
-.nav-btn.active {
-  background: radial-gradient(circle at 0 0, #60a5fa, #4f46e5);
-  box-shadow: 0 0 20px rgba(59, 130, 246, 0.6);
-}
-
-/* Card jadi lebih glassy */
-.card {
-  background: linear-gradient(145deg, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.8));
-  border-radius: 18px;
-  border: 1px solid rgba(148, 163, 184, 0.35);
-  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.9);
-}
-
-/* Server card lebih clean */
-.server-card {
-  background: linear-gradient(150deg, rgba(15, 23, 42, 0.96), rgba(15, 23, 42, 0.85));
-  border-radius: 18px;
-  border: 1px solid rgba(55, 65, 81, 0.8);
-  box-shadow: 0 14px 32px rgba(15, 23, 42, 0.9);
-}
-
-/* Badge status server lebih chip-like */
-.badge {
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.09em;
-}
-
-/* Modal config ikut glass style */
-.result-card {
-  background: radial-gradient(circle at top, rgba(15,23,42,0.95), rgba(15,23,42,0.92));
-  border-radius: 20px;
-  border: 1px solid rgba(148, 163, 184, 0.5);
-}
-
-.result-text {
-  background: rgba(15, 23, 42, 0.95);
-}
-
-/* Tombol umum: beri hover halus */
-.btn:hover {
-  transform: translateY(-1px);
-  opacity: 0.96;
-}
-
-/* Sedikit spacing di bawah hero biar nggak nempel layar */
-@media (min-width: 768px) {
-  #welcome {
-    padding-bottom: 80px;
-  }
-                         }
-
-/* =====================================================
-   PANEL V2 – tampilan lebih premium untuk dashboard
-   Tempel di PALING BAWAH style.css
-   ===================================================== */
-
-/* Sedikit jarak di atas panel */
-#dashboard {
-  padding-top: 32px;
-}
-
-/* FRAME PANEL */
-.app-shell {
-  max-width: 1120px;
-  margin: 0 auto 32px;
-  padding: 22px 18px 26px;
-  border-radius: 26px;
-  background:
-    radial-gradient(circle at 0% 0%, rgba(59,130,246,0.35), transparent 55%),
-    radial-gradient(circle at 100% 0%, rgba(244,63,94,0.22), transparent 55%),
-    linear-gradient(135deg, #020617, #020617 35%, #020617);
-  border: 1px solid rgba(148,163,184,0.35);
-  box-shadow:
-    0 22px 65px rgba(15,23,42,0.9),
-    0 0 0 1px rgba(15,23,42,0.9) inset;
-}
-
-/* HEADER DALAM PANEL */
-.app-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  padding-bottom: 14px;
-  border-bottom: 1px solid rgba(51,65,85,0.85);
-  margin-bottom: 16px;
-}
-
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.logo-dot {
-  width: 30px;
-  height: 30px;
-  border-radius: 999px;
-  background:
-    radial-gradient(circle at 25% 25%, #bfdbfe, #3b82f6);
-  box-shadow: 0 0 26px rgba(59,130,246,0.9);
-}
-
-.brand-title {
-  font-size: 18px;
-  font-weight: 600;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-}
-
-.brand-sub {
-  font-size: 12px;
-  color: #9ca3af;
-}
-
-.user-box {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-}
-
-.user-email {
-  padding: 6px 12px;
-  border-radius: 999px;
-  border: 1px solid rgba(148,163,184,0.45);
-  background: radial-gradient(circle at 0 0,#0f172a,#020617);
-  font-size: 13px;
-}
-
-/* NAV BAR DALAM PANEL */
-.app-nav {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  padding: 10px;
-  margin-bottom: 18px;
-  border-radius: 999px;
-  background: radial-gradient(circle at 50% 0%, rgba(15,23,42,0.95), #020617);
-  border: 1px solid rgba(51,65,85,0.95);
-  box-shadow: 0 18px 40px rgba(15,23,42,0.85);
-}
-
-.nav-btn {
-  position: relative;
-  flex: 1 1 auto;
-  text-align: center;
-  padding: 7px 12px;
-  border-radius: 999px;
-  border: 1px solid transparent;
-  background: transparent;
-  font-size: 13px;
-  letter-spacing: .04em;
-  text-transform: uppercase;
-  color: #9ca3af;
-  cursor: pointer;
-  transition:
-    background .13s ease,
-    box-shadow .13s ease,
-    color .13s ease,
-    transform .08s ease;
-}
-
-.nav-btn:hover {
-  color: #e5e7eb;
-}
-
-.nav-btn.active {
-  color: #ffffff;
-  background: radial-gradient(circle at 0% 0%, #4f46e5, #2563eb);
-  box-shadow:
-    0 0 0 1px rgba(191,219,254,0.5),
-    0 18px 35px rgba(37,99,235,0.7);
-  transform: translateY(-1px);
-}
-
-/* CARD UMUM DALAM PANEL */
-.card {
-  background:
-    radial-gradient(circle at 0 0, rgba(59,130,246,0.16), transparent 55%),
-    rgba(15,23,42,0.95);
-  border-radius: 20px;
-  padding: 16px 16px 18px;
-  border: 1px solid rgba(55,65,81,0.9);
-  box-shadow:
-    0 14px 40px rgba(15,23,42,0.9),
-    0 0 0 1px rgba(15,23,42,0.9) inset;
-  backdrop-filter: blur(18px);
-}
-
-.card h3,
-.card h4 {
-  margin-bottom: 10px;
-  font-weight: 600;
-}
-
-/* GRID OVERVIEW */
-.grid-2 {
-  display: grid;
-  grid-template-columns: minmax(0,1.1fr) minmax(0,1fr);
-  gap: 18px;
-}
-
-/* Teks info login & status biar lebih jelas */
-#app-overview .card p {
-  font-size: 13px;
-}
-
-#statusSaldo {
-  font-size: 16px;
-}
-
-#statusLevel {
-  letter-spacing: .12em;
-}
-
-/* BUTTON IN PANEL – bikin lebih glow */
-.btn.primary {
-  background: radial-gradient(circle at 0 0,#4f46e5,#2563eb);
-  box-shadow: 0 12px 32px rgba(37,99,235,0.7);
-}
-
-.btn.primary:hover {
-  box-shadow: 0 16px 40px rgba(37,99,235,0.9);
-}
-
-.btn.danger {
-  background: linear-gradient(135deg,#f97373,#ef4444);
-  box-shadow: 0 10px 26px rgba(248,113,113,0.7);
-}
-
-/* RESPONSIVE PANEL */
 @media (max-width: 768px) {
   .app-shell {
     border-radius: 18px;
@@ -896,10 +568,21 @@ body {
   }
 
   .grid-2 {
-    grid-template-columns: minmax(0,1fr);
+    grid-template-columns: minmax(0, 1fr);
   }
-   }
-/* ===== MODAL HASIL AKUN (SSH / XRAY / TROJAN) ===== */
+}
+
+@media (max-width: 640px) {
+  .site-header-inner {
+    padding-inline: 12px;
+  }
+}
+
+/* =====================================================
+   MODAL HASIL AKUN (sshOcean style)
+   ===================================================== */
+
+/* wrapper modal */
 .result-modal {
   position: fixed;
   inset: 0;
@@ -920,6 +603,7 @@ body {
   background: rgba(0, 0, 0, 0.55);
 }
 
+/* kartu utama modal */
 .result-card {
   position: relative;
   z-index: 1;
@@ -932,7 +616,7 @@ body {
   background: radial-gradient(circle at top, #111827, #020617 65%);
 }
 
-/* header gradient ala sshOcean */
+/* header biru gradient */
 .result-header {
   padding: 16px 18px 14px;
   background: linear-gradient(135deg, #2563eb, #4f46e5);
@@ -952,6 +636,7 @@ body {
   opacity: 0.9;
 }
 
+/* pill kecil di kanan header */
 .result-pill {
   position: absolute;
   right: 16px;
@@ -971,7 +656,7 @@ body {
   margin: 14px 16px 0;
   padding: 9px 11px;
   border-radius: 12px;
-  background: rgba(22, 163, 74, 0.10);
+  background: rgba(22, 163, 74, 0.1);
   border: 1px solid rgba(34, 197, 94, 0.6);
 }
 
@@ -999,7 +684,7 @@ body {
   opacity: 0.9;
 }
 
-/* card putih muda untuk detail akun */
+/* card detail akun */
 .result-detail-card {
   margin: 12px 16px 0;
   border-radius: 16px;
@@ -1007,7 +692,7 @@ body {
   border: 1px solid rgba(148, 163, 184, 0.35);
 }
 
-/* teks akun (monospace) */
+/* teks config akun (monospace) */
 .result-text {
   width: 100%;
   padding: 10px 12px 12px;
@@ -1020,7 +705,7 @@ body {
   white-space: pre-wrap;   /* \n jadi baris baru */
 }
 
-/* tombol bawah */
+/* tombol bawah modal */
 .result-actions {
   display: flex;
   flex-direction: column;
@@ -1037,7 +722,8 @@ body {
   .result-actions {
     flex-direction: row;
   }
+
   .result-actions .btn.full {
     width: 50%;
   }
-   }
+}
