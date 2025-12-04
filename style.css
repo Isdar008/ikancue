@@ -763,7 +763,7 @@ select:focus {
 }
 
 /* tombol bawah modal */
-.result-actions {
+..result-actions {
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -775,12 +775,13 @@ select:focus {
   margin-top: 0;
 }
 
+/* di layar lebar, 3 tombol sejajar dan auto lebar */
 @media (min-width: 640px) {
   .result-actions {
     flex-direction: row;
+    flex-wrap: wrap;
   }
-
   .result-actions .btn.full {
-    width: 50%;
+    flex: 1 1 0;
   }
 }
