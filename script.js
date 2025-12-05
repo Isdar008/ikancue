@@ -220,7 +220,7 @@ if (btnAdminAddSaldo) {
 // =====================================
 function loadDashboard() {
   const email = localStorage.getItem("xt_email");
-  const pass  = localStorage.getItem("xt_pass");
+  const pass = localStorage.getItem("xt_pass");
 
   // kalau belum login → langsung ke halaman login
   if (!email || !pass) {
@@ -228,29 +228,27 @@ function loadDashboard() {
     return;
   }
 
-  // pill email di header (yang hitam di kanan)
-  const headerEmailEl = document.getElementById("userEmailHeader");
-  if (headerEmailEl) headerEmailEl.innerText = email;
+  // header (ini pasti ada)
+  const headerEmail = document.getElementById("userEmailHeader");
+  if (headerEmail) headerEmail.innerText = email;
 
-  // card "Informasi Login" (kalau nanti dihapus, ini tidak error)
+  // box Informasi Login sudah dihapus dari HTML,
+  // jadi cek dulu, kalau elemennya nggak ada ya di-skip
   const infoEmailEl = document.getElementById("infoEmail");
   if (infoEmailEl) infoEmailEl.innerText = email;
 
   const infoPassEl = document.getElementById("infoPass");
   if (infoPassEl) infoPassEl.innerText = pass;
 
-  // flag admin
   const isAdmin = ADMIN_EMAILS.includes(email.toLowerCase());
   localStorage.setItem("xt_is_admin", isAdmin ? "1" : "0");
 
   const navAdmin = document.getElementById("navAdmin");
   if (navAdmin) navAdmin.style.display = isAdmin ? "inline-flex" : "none";
 
-  // tampilkan dashboard + tab overview
   showPage("dashboard");
   openAppPage("overview");
 
-  // load data
   loadStatusFromApi();
   loadServersFromApi();
 }
