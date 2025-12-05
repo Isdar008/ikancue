@@ -102,19 +102,26 @@
 
       <!-- HEADER DASHBOARD -->
       <header class="app-header">
-        <div class="brand">
-          <span class="logo-dot"></span>
-          <div>
-            <div class="brand-title">XTRIMER PANEL</div>
-            <div class="brand-sub">VPN Management</div>
-          </div>
-        </div>
-        <div class="user-box">
-          <span class="user-label">Masuk sebagai</span>
-          <span class="user-email" id="userEmailHeader"></span>
-          <button id="btnLogout" class="btn danger small-btn">Logout</button>
-        </div>
-      </header>
+  <div class="brand">
+    <span class="logo-dot"></span>
+    <div>
+      <div class="brand-title">XTRIMER PANEL</div>
+      <div class="brand-sub">VPN Management</div>
+    </div>
+  </div>
+
+  <div class="user-box">
+    <span class="user-label">Masuk sebagai</span>
+    <span class="user-email" id="userEmailHeader"></span>
+
+    <!-- 🔥 tombol hamburger (muncul di HP aja) -->
+    <button id="btnToggleNav" class="btn-menu" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+
+    <button id="btnLogout" class="btn danger small-btn">Logout</button>
+  </div>
+</header>
 
       <!-- NAV -->
       <nav class="app-nav">
@@ -391,4 +398,4 @@
   <!-- JS PANEL (ganti /panel.js kalau nama file JS kamu beda) -->
   <script src="/script.js" defer></script>
 </body>
-</html>
+                                 </html>
