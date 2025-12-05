@@ -1,7 +1,7 @@
 // =====================================
 // CONFIG
 // =====================================
-const API_BASE = "/api/web";
+const API_BASE = "/api/web"; // panel domain sama
 const ADMIN_EMAILS = [
   "istiqwamantunnel@gmail.com",
 ];
@@ -18,7 +18,7 @@ function lockButton(btn, locked) {
 }
 
 // =====================================
-// PAGE SWITCHER
+// PAGE SWITCHER (LOGIN / DASHBOARD)
 // =====================================
 function showPage(id) {
   document.querySelectorAll(".page").forEach((p) => p.classList.remove("active"));
@@ -29,7 +29,7 @@ function showPage(id) {
 }
 
 // =====================================
-// RESET PASSWORD STEPS
+// RESET PASSWORD STEP (0/1/2)
 // =====================================
 function showResetStep(step) {
   const boxLogin = document.getElementById("loginBox");
@@ -56,22 +56,15 @@ function showResetStep(step) {
 // =====================================
 let cachedServers = [];
 
-// ----- Load Status User -----
+// ---- Load Status ----
 async function loadStatusFromApi() {
   try {
     const email = localStorage.getItem("xt_email") || "";
-
-    if (!email) {
-      document.getElementById("statusSaldo").textContent = "Rp 0";
-      document.getElementById("statusTotalAkun").textContent = "0";
-      document.getElementById("statusLevel").textContent = "MEMBER";
-      return;
-    }
+    if (!email) return;
 
     const res = await fetch(`${API_BASE}/status?email=${encodeURIComponent(email)}`);
     const json = await res.json().catch(() => ({}));
-
-    if (!res.ok || !json.ok) return;
+    if (!json.ok) return;
 
     const d = json.data;
     document.getElementById("statusSaldo").textContent = fmtRupiah(d.saldo);
@@ -82,7 +75,7 @@ async function loadStatusFromApi() {
   }
 }
 
-// ----- Load server -----
+// ---- Load Servers ----
 async function loadServersFromApi() {
   try {
     const res = await fetch(`${API_BASE}/servers`);
@@ -93,7 +86,7 @@ async function loadServersFromApi() {
     renderServers();
     fillServerSelects();
   } catch (e) {
-    console.warn("Gagal load server:", e);
+    console.warn("Gagal load servers:", e);
   }
 }
 
@@ -147,19 +140,48 @@ function fillServerSelects() {
 }
 
 // =====================================
+// ADMIN: TAMBAH SALDO
+// =====================================
+const btnAdminAddSaldo = document.getElementById("btnAdminAddSaldo");
+if (btnAdminAddSaldo) {
+  btnAdminAddSaldo.onclick = async () => {
+    const adminEmail = localStorage.getItem("xt_email");
+    const isAdmin = localStorage.getItem("xt_is_admin") === "1";
+
+    const targetEmail = document.getElementById("adminTargetUser").value.trim().toLowerCase();
+    const amount = parseInt(document.getElementById("adminAmount").value);
+    const note = document.getElementById("adminNote").value.trim();
+
+    if (!isAdmin) return alert("Hanya admin!");
+
+    if (!targetEmail || !amount) return alert("Lengkapi data!");
+
+    const res = await fetch(`${API_BASE}/admin/add-balance`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ adminEmail, targetEmail, amount, note }),
+    });
+
+    const json = await res.json();
+    if (!json.ok) return alert(json.error);
+
+    alert("Saldo berhasil ditambah.");
+    loadTopupHistoryAdmin();
+  };
+}
+
+// =====================================
 // LOGIN SYSTEM
 // =====================================
 function loadDashboard() {
   const email = localStorage.getItem("xt_email");
 
-  // Perbaikan: cukup cek email
   if (!email) {
     showPage("login");
     return;
   }
 
-  const headerEmailEl = document.getElementById("userEmailHeader");
-  if (headerEmailEl) headerEmailEl.innerText = email;
+  document.getElementById("userEmailHeader").innerText = email;
 
   const isAdmin = ADMIN_EMAILS.includes(email.toLowerCase());
   localStorage.setItem("xt_is_admin", isAdmin ? "1" : "0");
@@ -174,45 +196,34 @@ function loadDashboard() {
   loadServersFromApi();
 }
 
+// ---- LOGIN ----
 const btnLogin = document.getElementById("btnLogin");
 if (btnLogin) {
-  btnLogin.addEventListener("click", async (ev) => {
-    const btn = ev.currentTarget;
-    const email = document.getElementById("email").value.trim();
+  btnLogin.onclick = async () => {
+    const email = document.getElementById("email").value.trim().toLowerCase();
     const pass = document.getElementById("password").value.trim();
 
-    if (!email || !pass) return alert("Email & password tidak boleh kosong!");
+    if (!email || !pass) return alert("Email & Password wajib diisi!");
 
-    lockButton(btn, true);
+    const res = await fetch(`${API_BASE}/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password: pass }),
+    });
 
-    try {
-      const res = await fetch(`${API_BASE}/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password: pass }),
-      });
+    const json = await res.json();
+    if (!json.ok) return alert(json.error);
 
-      const json = await res.json();
-
-      if (!json.ok) throw new Error(json.error);
-
-      localStorage.setItem("xt_email", json.data.email);
-      localStorage.setItem("xt_pass", pass);
-
-      loadDashboard();
-    } catch (e) {
-      alert(e.message);
-    }
-
-    lockButton(btn, false);
-  });
+    localStorage.setItem("xt_email", email);
+    loadDashboard();
+  };
 }
 
+// ---- LOGOUT ----
 const btnLogout = document.getElementById("btnLogout");
 if (btnLogout) {
   btnLogout.onclick = () => {
-    localStorage.removeItem("xt_email");
-    localStorage.removeItem("xt_pass");
+    localStorage.clear();
     showPage("login");
   };
 }
@@ -223,101 +234,63 @@ if (btnLogout) {
 const btnForgot = document.getElementById("btnForgot");
 if (btnForgot) {
   btnForgot.onclick = () => {
-    const email = document.getElementById("email").value.trim();
-    const resetEmailInput = document.getElementById("resetEmail");
-    if (email) resetEmailInput.value = email;
+    const emailNow = document.getElementById("email").value.trim();
+    document.getElementById("resetEmail").value = emailNow;
     showResetStep(1);
   };
 }
 
-const btnResetBack1 = document.getElementById("btnResetBack1");
-if (btnResetBack1) btnResetBack1.onclick = () => showResetStep(0);
+document.getElementById("btnResetBack1").onclick = () => showResetStep(0);
+document.getElementById("btnResetBack2").onclick = () => showResetStep(0);
 
-const btnResetBack2 = document.getElementById("btnResetBack2");
-if (btnResetBack2) btnResetBack2.onclick = () => showResetStep(0);
+document.getElementById("btnSendReset").onclick = async () => {
+  const email = document.getElementById("resetEmail").value.trim();
+  if (!email) return alert("Email wajib.");
 
-const btnSendReset = document.getElementById("btnSendReset");
-if (btnSendReset) {
-  btnSendReset.onclick = async (ev) => {
-    const email = document.getElementById("resetEmail").value.trim();
-    if (!email) return alert("Email wajib diisi!");
+  const res = await fetch(`${API_BASE}/request-reset`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email }),
+  });
 
-    lockButton(ev.currentTarget, true);
+  const json = await res.json();
+  if (!json.ok) return alert(json.error);
 
-    try {
-      const res = await fetch(`${API_BASE}/request-reset`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
+  alert("Kode reset dikirim.");
+  showResetStep(2);
+};
 
-      const json = await res.json();
-      if (!json.ok) throw new Error(json.error);
+document.getElementById("btnDoReset").onclick = async () => {
+  const email = document.getElementById("resetEmail").value.trim();
+  const code = document.getElementById("resetCode").value.trim();
+  const newPass = document.getElementById("resetNewPass").value.trim();
+  if (!email || !code || !newPass) return alert("Wajib lengkap!");
 
-      alert("Kode reset sudah dikirim.");
-      showResetStep(2);
-    } catch (e) {
-      alert(e.message);
-    }
+  const res = await fetch(`${API_BASE}/confirm-reset`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, code, newPassword: newPass }),
+  });
 
-    lockButton(ev.currentTarget, false);
-  };
-}
+  const json = await res.json();
+  if (!json.ok) return alert(json.error);
 
-const btnDoReset = document.getElementById("btnDoReset");
-if (btnDoReset) {
-  btnDoReset.onclick = async (ev) => {
-    const email = document.getElementById("resetEmail").value.trim();
-    const code = document.getElementById("resetCode").value.trim();
-    const newPass = document.getElementById("resetNewPass").value.trim();
-
-    if (!email || !code || !newPass)
-      return alert("Semua field wajib diisi.");
-
-    lockButton(ev.currentTarget, true);
-
-    try {
-      const res = await fetch(`${API_BASE}/confirm-reset`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, code, newPassword: newPass }),
-      });
-
-      const json = await res.json();
-      if (!json.ok) throw new Error(json.error);
-
-      alert("Password berhasil direset!");
-
-      // Auto login
-      localStorage.setItem("xt_email", email);
-      localStorage.setItem("xt_pass", newPass);
-
-      loadDashboard();
-    } catch (e) {
-      alert(e.message);
-    }
-
-    lockButton(ev.currentTarget, false);
-  };
-}
+  alert("Password diperbarui.");
+  showResetStep(0);
+};
 
 // =====================================
 // NAVIGATION
 // =====================================
 function openAppPage(name) {
-  document.querySelectorAll(".app-page").forEach((p) =>
-    p.classList.remove("active")
-  );
+  document.querySelectorAll(".app-page").forEach((p) => p.classList.remove("active"));
   document.getElementById("app-" + name).classList.add("active");
 
-  document.querySelectorAll(".nav-btn").forEach((btn) =>
-    btn.classList.remove("active")
-  );
-  const activeBtn = document.querySelector(`.nav-btn[data-target="${name}"]`);
-  if (activeBtn) activeBtn.classList.add("active");
+  document.querySelectorAll(".nav-btn").forEach((btn) => btn.classList.remove("active"));
+  const btn = document.querySelector(`.nav-btn[data-target="${name}"]`);
+  if (btn) btn.classList.add("active");
 
-  const nav = document.querySelector(".app-nav");
-  if (nav) nav.classList.remove("open");
+  document.querySelector(".app-nav").classList.remove("open");
 
   if (name === "topup") loadTopupHistory();
   if (name === "admin") loadTopupHistoryAdmin();
@@ -327,315 +300,255 @@ document.querySelectorAll(".nav-btn").forEach((btn) => {
   btn.onclick = () => openAppPage(btn.dataset.target);
 });
 
-const btnToggleNav = document.getElementById("btnToggleNav");
-if (btnToggleNav) {
-  btnToggleNav.onclick = () => {
-    const nav = document.querySelector(".app-nav");
-    if (nav) nav.classList.toggle("open");
-  };
-}
+document.getElementById("btnToggleNav").onclick = () => {
+  document.querySelector(".app-nav").classList.toggle("open");
+};
 
 // =====================================
-// MODAL RESULT
+// RESULT MODAL
 // =====================================
 let lastModalMessage = "";
 let lastModalType = "";
 
-function showResultModal(title, subtitle, rawMsg, accType) {
-  const overlay = document.getElementById("resultModal");
-  const titleEl = document.getElementById("modalTitle");
-  const subEl = document.getElementById("modalSubtitle");
-  const bodyEl = document.getElementById("modalBody");
-  const pillEl = document.getElementById("modalTypePill");
-  const successTextEl = document.getElementById("modalSuccessText");
+function showResultModal(title, subtitle, body, type) {
+  lastModalMessage = body;
+  lastModalType = type;
 
-  lastModalMessage = rawMsg || "";
-  lastModalType = (accType || "").toLowerCase();
+  document.getElementById("modalTitle").innerText = title;
+  document.getElementById("modalSubtitle").innerText = subtitle;
+  document.getElementById("modalBody").innerHTML = body;
 
-  titleEl.textContent = title;
-  subEl.textContent = subtitle;
-  bodyEl.innerHTML = rawMsg || "";
+  document.getElementById("modalTypePill").innerText =
+    type.toUpperCase() + " PREMIUM";
 
-  const upper = accType.toUpperCase();
-  pillEl.textContent = upper + " PREMIUM";
-
-  successTextEl.textContent = `Akun ${upper} berhasil diproses.`;
-
-  overlay.classList.add("show");
+  document.getElementById("resultModal").classList.add("show");
 }
 
 document.getElementById("modalClose").onclick = () =>
   document.getElementById("resultModal").classList.remove("show");
 
+// ---- COPY ALL ----
 document.getElementById("modalCopy").onclick = async () => {
-  const text = document.getElementById("modalBody").innerText.trim();
-  await navigator.clipboard.writeText(text);
-  alert("Disalin!");
-};
-
-document.getElementById("modalCopyMain").onclick = async () => {
-  const box = document.querySelector("#modalBody .mini-box");
-  const links = document.querySelectorAll("#modalBody .scroll-x");
-
-  let parts = [];
-  if (box) parts.push(box.innerText.trim());
-
-  if (links.length) {
-    parts.push(
-      Array.from(links)
-        .map((el) => el.innerText.trim())
-        .join("\n\n")
-    );
+  const t = document.getElementById("modalBody").innerText.trim();
+  try {
+    await navigator.clipboard.writeText(t);
+    alert("Disalin!");
+  } catch {
+    alert("Tidak bisa auto-copy. Copy manual.");
   }
+};
 
-  const text = parts.join("\n\n");
-  await navigator.clipboard.writeText(text);
-  alert("Detail akun disalin!");
+// ---- COPY DETAIL ----
+document.getElementById("modalCopyMain").onclick = async () => {
+  const text = lastModalMessage;
+  try {
+    await navigator.clipboard.writeText(text);
+    alert("Detail disalin!");
+  } catch {
+    alert("Copy manual.");
+  }
 };
 
 // =====================================
-// SERVICE CARD ACTIONS
+// SERVICE CARD BUTTONS
 // =====================================
-document.querySelectorAll(".service-cta").forEach((btn) => {
-  btn.onclick = () => {
+document.querySelectorAll(".service-cta").forEach((btn) =>
+  btn.addEventListener("click", () => {
     const t = btn.dataset.createType;
     openAppPage("create");
     document.getElementById("createType").value = t;
     updatePasswordVisibility();
-  };
-});
+  })
+);
 
-document.querySelectorAll(".service-cta-renew").forEach((btn) => {
-  btn.onclick = () => {
+document.querySelectorAll(".service-cta-renew").forEach((btn) =>
+  btn.addEventListener("click", () => {
     const t = btn.dataset.renewType;
     openAppPage("renew");
     document.getElementById("renewType").value = t;
-  };
-});
+  })
+);
 
 // =====================================
-// BUAT AKUN
+// SSH PASSWORD FIELD
 // =====================================
-const typeSelect = document.getElementById("createType");
-const passwordFieldWrap = document.getElementById("createPassWrap");
-
 function updatePasswordVisibility() {
-  const t = typeSelect.value.toLowerCase();
-  passwordFieldWrap.style.display = t === "ssh" ? "block" : "none";
+  const t = document.getElementById("createType").value;
+  document.getElementById("createPassWrap").style.display =
+    t === "ssh" ? "block" : "none";
 }
-updatePasswordVisibility();
-typeSelect.onchange = updatePasswordVisibility;
 
-document.getElementById("btnCreate").onclick = async (ev) => {
-  const btn = ev.target;
+updatePasswordVisibility();
+document.getElementById("createType").onchange = updatePasswordVisibility;
+
+// =====================================
+// CREATE ACCOUNT
+// =====================================
+document.getElementById("btnCreate").onclick = async () => {
   const type = document.getElementById("createType").value;
-  const serverId = parseInt(document.getElementById("createServer").value);
+  const serverId = document.getElementById("createServer").value;
   const username = document.getElementById("createUser").value.trim();
-  const password = document.getElementById("createPass")?.value.trim() || "";
-  const days = parseInt(document.getElementById("createDays").value);
+  const password = document.getElementById("createPass").value.trim();
+  const days = document.getElementById("createDays").value;
   const email = localStorage.getItem("xt_email");
 
-  if (!serverId || !username || !days)
-    return alert("Lengkapi form!");
+  if (!username || !serverId || !days) return alert("Lengkapi data!");
 
-  if (type === "ssh" && !password)
-    return alert("Password SSH wajib.");
+  if (type === "ssh" && !password) return alert("Password SSH wajib!");
 
-  lockButton(btn, true);
+  const res = await fetch(`${API_BASE}/create-account`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, type, serverId, username, days, password }),
+  });
 
-  try {
-    const res = await fetch(`${API_BASE}/create-account`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email, type, serverId, username, days, password,
-      }),
-    });
+  const json = await res.json();
+  if (!json.ok) return alert(json.error);
 
-    const json = await res.json();
-    if (!json.ok) throw new Error(json.error);
+  showResultModal(
+    "Akun berhasil dibuat",
+    `Server: ${json.data.serverName} • Harga: ${fmtRupiah(json.data.totalHarga)}`,
+    json.data.message,
+    type
+  );
 
-    showResultModal(
-      "Akun berhasil dibuat",
-      `Server: ${json.data.serverName} • Harga: ${fmtRupiah(json.data.totalHarga)}`,
-      json.data.message,
-      type
-    );
-
-    loadStatusFromApi();
-  } catch (e) {
-    alert("Gagal: " + e.message);
-  }
-
-  lockButton(btn, false);
+  loadStatusFromApi();
 };
 
 // =====================================
-// RENEW AKUN
+// RENEW ACCOUNT
 // =====================================
-document.getElementById("btnRenew").onclick = async (ev) => {
-  const btn = ev.target;
+document.getElementById("btnRenew").onclick = async () => {
   const type = document.getElementById("renewType").value;
-  const serverId = parseInt(document.getElementById("renewServer").value);
+  const serverId = document.getElementById("renewServer").value;
   const username = document.getElementById("renewUser").value.trim();
-  const days = parseInt(document.getElementById("renewDays").value);
+  const days = document.getElementById("renewDays").value;
   const email = localStorage.getItem("xt_email");
 
   if (!serverId || !username || !days)
-    return alert("Lengkapi semua form.");
+    return alert("Lengkapi semua form!");
 
-  lockButton(btn, true);
+  const res = await fetch(`${API_BASE}/renew-account`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, type, serverId, username, days }),
+  });
 
-  try {
-    const res = await fetch(`${API_BASE}/renew-account`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ type, serverId, username, days, email }),
-    });
+  const json = await res.json();
+  if (!json.ok) return alert(json.error);
 
-    const json = await res.json();
-    if (!json.ok) throw new Error(json.error);
+  showResultModal(
+    "Akun berhasil diperpanjang",
+    `Server: ${json.data.serverName} • Harga: ${fmtRupiah(json.data.totalHarga)}`,
+    json.data.message,
+    type
+  );
 
-    showResultModal(
-      "Akun berhasil diperpanjang",
-      `Server: ${json.data.serverName} • Harga: ${fmtRupiah(json.data.totalHarga)}`,
-      json.data.message,
-      type
-    );
-
-    loadStatusFromApi();
-  } catch (e) {
-    alert(e.message);
-  }
-
-  lockButton(btn, false);
+  loadStatusFromApi();
 };
 
 // =====================================
 // TOPUP SYSTEM
 // =====================================
-document.getElementById("btnTopup").onclick = async (ev) => {
-  const btn = ev.target;
+document.getElementById("btnTopup").onclick = async () => {
   const amount = parseInt(document.getElementById("topupAmount").value);
   const email = localStorage.getItem("xt_email");
 
-  if (!amount || amount < 1000) return alert("Minimal topup Rp 1000");
-  if (!email) return alert("Login dulu");
+  if (!amount || !email) return alert("Nominal salah / belum login");
 
-  lockButton(btn, true);
+  const res = await fetch(`${API_BASE}/topup`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, amount }),
+  });
 
-  try {
-    const res = await fetch(`${API_BASE}/topup`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, amount }),
-    });
+  const json = await res.json();
+  if (!json.ok) return alert(json.error);
 
-    const json = await res.json();
-    if (!json.ok) throw new Error(json.error);
+  const data = json.data;
 
-    const data = json.data;
-    const card = document.getElementById("topupPaymentCard");
-    const img = document.getElementById("qrisImage");
-    const info = document.getElementById("paymentInfo");
-    const link = document.getElementById("paymentLink");
+  const card = document.getElementById("topupPaymentCard");
+  const img = document.getElementById("qrisImage");
+  const infoEl = document.getElementById("paymentInfo");
+  const linkEl = document.getElementById("paymentLink");
 
-    info.textContent = `Invoice: ${data.orderId} • Nominal: ${fmtRupiah(data.amount)}`;
+  infoEl.textContent = `Invoice: ${data.orderId}`;
 
-    const qr =
-      data.qrImageBase64 ||
-      data.qrImageUrl ||
-      data.qrisImageUrl ||
-      data.qr_url ||
-      "";
+  img.src =
+    data.qrImageBase64 ||
+    data.qrisImage ||
+    data.qrImage ||
+    data.qrisImageUrl ||
+    "";
+  img.style.display = img.src ? "block" : "none";
 
-    if (qr) {
-      img.src = qr;
-      img.style.display = "block";
-    } else img.style.display = "none";
+  if (data.paymentUrl) {
+    linkEl.href = data.paymentUrl;
+    linkEl.style.display = "inline-block";
+  } else linkEl.style.display = "none";
 
-    if (data.paymentUrl) {
-      link.href = data.paymentUrl;
-      link.style.display = "inline-block";
-    } else link.style.display = "none";
+  card.style.display = "block";
 
-    card.style.display = "block";
-
-    loadTopupHistory();
-  } catch (e) {
-    alert(e.message);
-  }
-
-  lockButton(btn, false);
+  loadTopupHistory();
 };
 
+// ---- HISTORY USER ----
 async function loadTopupHistory() {
   const email = localStorage.getItem("xt_email");
   const list = document.getElementById("topupHistory");
   const empty = document.getElementById("topupHistoryEmpty");
 
   if (!email) {
-    list.innerHTML = "";
-    empty.textContent = "Silakan login.";
+    empty.textContent = "Login dulu.";
     empty.style.display = "block";
     return;
   }
 
-  try {
-    const res = await fetch(`${API_BASE}/topup-history?email=${encodeURIComponent(email)}`);
-    const json = await res.json();
+  const res = await fetch(`${API_BASE}/topup-history?email=${email}`);
+  const json = await res.json();
 
-    if (!json.ok || !json.items.length) {
-      list.innerHTML = "";
-      empty.style.display = "block";
-      return;
-    }
-
-    empty.style.display = "none";
-
-    list.innerHTML = json.items
-      .map((i) => {
-        const waktu = i.created_at ? new Date(i.created_at).toLocaleString("id-ID") : "-";
-        return `<li>#${i.id} • ${fmtRupiah(i.amount)} • ${i.status.toUpperCase()} • ${waktu}</li>`;
-      })
-      .join("");
-  } catch (e) {
-    list.innerHTML = "<li>Gagal load riwayat.</li>";
+  if (!json.ok || !json.items.length) {
+    list.innerHTML = "";
+    empty.style.display = "block";
+    return;
   }
+
+  list.innerHTML = json.items
+    .map((i) => {
+      const w = new Date(i.created_at).toLocaleString("id-ID");
+      return `<li>#${i.id} • ${fmtRupiah(i.amount)} • ${i.status.toUpperCase()} • ${w}</li>`;
+    })
+    .join("");
+
+  empty.style.display = "none";
 }
 
+// ---- HISTORY ADMIN ----
 async function loadTopupHistoryAdmin() {
   const list = document.getElementById("topupHistoryAdmin");
   const empty = document.getElementById("topupHistoryAdminEmpty");
 
-  try {
-    const res = await fetch(`${API_BASE}/topup-history`);
-    const json = await res.json();
+  const res = await fetch(`${API_BASE}/topup-history`);
+  const json = await res.json();
 
-    if (!json.ok || !json.items.length) {
-      list.innerHTML = "";
-      empty.style.display = "block";
-      return;
-    }
-
-    empty.style.display = "none";
-
-    list.innerHTML = json.items
-      .map((i) => {
-        const waktu = i.created_at ? new Date(i.created_at).toLocaleString("id-ID") : "-";
-        return `
-          <li>
-            #${i.id} • ${fmtRupiah(i.amount)} • ${i.status.toUpperCase()} • ${waktu}
-          </li>`;
-      })
-      .join("");
-  } catch (e) {
-    list.innerHTML = "<li>Gagal load history admin.</li>";
+  if (!json.ok || !json.items.length) {
+    list.innerHTML = "";
+    empty.style.display = "block";
+    return;
   }
+
+  list.innerHTML = json.items
+    .map((i) => {
+      const w = new Date(i.created_at).toLocaleString("id-ID");
+      return `<li>#${i.id} • ${fmtRupiah(i.amount)} • ${i.status} • ${w}</li>`;
+    })
+    .join("");
+
+  empty.style.display = "none";
 }
 
 // =====================================
-// AUTO RESTORE SESSION
+// START PANEL
 // =====================================
 document.addEventListener("DOMContentLoaded", () => {
   const email = localStorage.getItem("xt_email");
