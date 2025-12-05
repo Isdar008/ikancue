@@ -573,6 +573,21 @@ document.querySelectorAll(".service-cta").forEach((btn) => {
     }
   });
 });
+// ====== SERVICE CARD CTA RENEW → buka tab Perpanjang & set jenis ======
+document.querySelectorAll(".service-cta-renew").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const t = btn.dataset.renewType || "ssh";
+
+    // pindah ke tab Perpanjang
+    openAppPage("renew");
+
+    // set select jenis akun di form renew
+    const sel = document.getElementById("renewType");
+    if (sel) {
+      sel.value = t;
+    }
+  });
+});
 // ============================
 // HIDE PASSWORD UNTUK NON-SSH
 // ============================
