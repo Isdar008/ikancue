@@ -110,24 +110,24 @@
 
       <!-- ================= HEADER DASHBOARD ================= -->
       <header class="app-header">
-  <div class="brand">
-    <span class="logo-dot"></span>
-    <div>
-      <div class="brand-title">XTRIMER PANEL</div>
-      <div class="brand-sub">VPN Management</div>
-    </div>
-  </div>
+        <div class="brand">
+          <span class="logo-dot"></span>
+          <div>
+            <div class="brand-title">XTRIMER PANEL</div>
+            <div class="brand-sub">VPN Management</div>
+          </div>
+        </div>
 
-  <div class="user-box">
-    <span class="user-email" id="userEmailHeader"></span>
+        <div class="user-box">
+          <span class="user-email" id="userEmailHeader"></span>
 
-    <button id="btnToggleNav" class="btn-menu" aria-label="Menu">
-      <span></span><span></span><span></span>
-    </button>
+          <button id="btnToggleNav" class="btn-menu" aria-label="Menu">
+            <span></span><span></span><span></span>
+          </button>
 
-    <button id="btnLogout" class="btn danger small-btn">Logout</button>
-  </div>
-</header>
+          <button id="btnLogout" class="btn danger small-btn">Logout</button>
+        </div>
+      </header>
 
       <!-- ===================== NAVIGATION ==================== -->
       <nav class="app-nav">
@@ -147,14 +147,7 @@
         <!-- =============== TAB: OVERVIEW ==================== -->
         <div id="app-overview" class="app-page active">
           <div class="grid-2">
-            <!-- BOX INFO LOGIN -->
-            <div class="card">
-              <h3>Informasi Login</h3>
-              <p>Email: <span id="infoEmail"></span></p>
-              <p>Password: <span id="infoPass"></span></p>
-            </div>
-
-            <!-- BOX STATUS AKUN -->
+            <!-- HANYA BOX STATUS AKUN -->
             <div class="card">
               <h3>Status Akun</h3>
               <p>Saldo: <strong id="statusSaldo">Rp 0</strong></p>
@@ -164,7 +157,7 @@
             </div>
           </div>
 
-          <!-- SERVICE CARDS  -->
+          <!-- SERVICE CARDS -->
 <div class="service-grid">
   <!-- SSH -->
   <div class="service-card service-ssh">
@@ -447,7 +440,7 @@
 
       <!-- ALERT SUCCESS -->
       <div class="result-success">
-        <div class="result-success-icon"></div>
+        <div class="result-success-icon">✔</div>
         <div class="result-success-text">
           <strong>Success!</strong>
           <span id="modalSuccessText">
