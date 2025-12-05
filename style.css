@@ -1370,6 +1370,21 @@ select:focus {
     gap: 8px;
   }
 }
+.service-features li {
+  list-style: none;
+  position: relative;
+  padding-left: 22px;
+}
+
+.service-features li::before {
+  content: "✔";
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 13px;
+  color: #4ac9ff;
+  font-weight: bold;
+}
 /* warna aksen per layanan (optional) */
 .service-ssh .service-badge { background:#6366f1; }
 .service-vmess .service-badge { background:#22c55e; }
