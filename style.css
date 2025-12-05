@@ -1062,6 +1062,41 @@ select:focus {
   box-shadow: 0 8px 18px rgba(37, 99, 235, 0.35);
   opacity: 0.95;
 }
+/* wrapper biar rapi sejajar */
+.service-actions {
+  display: flex;
+  margin-top: 16px;
+  gap: 10px;
+}
+
+/* style tombol kecil */
+.service-btn {
+  flex: 1;
+  padding: 10px 0;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  color: #fff;
+  transition: 0.15s ease;
+}
+
+/* warna create */
+.service-btn.create {
+  background: linear-gradient(90deg, #2563eb, #4f46e5);
+}
+
+/* warna renew (biru lebih gelap sedikit) */
+.service-btn.renew {
+  background: linear-gradient(90deg, #1d4ed8, #4338ca);
+}
+
+/* hover kecil */
+.service-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.35);
+}
 /* warna aksen per layanan (optional) */
 .service-ssh .service-badge { background:#6366f1; }
 .service-vmess .service-badge { background:#22c55e; }
