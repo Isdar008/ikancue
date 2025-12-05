@@ -1090,3 +1090,19 @@ select:focus {
   min-width: 28px;
   text-align: left;
 }
+.logo-dot {
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  background: radial-gradient(circle at 25% 25%, #1e293b, #0f172a);
+  border: 1px solid rgba(148, 163, 184, 0.7);
+  box-shadow: 0 0 26px rgba(59, 130, 246, 0.9);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 16px;
+  letter-spacing: 0.04em;
+  color: #bfdbfe;           /* warna X */
+}
