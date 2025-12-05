@@ -961,7 +961,61 @@ select:focus {
   transform: translateY(1px);
   box-shadow: 0 4px 12px rgba(37,99,235,0.5);
 }
+/* ===== HAMBURGER MENU (MOBILE) ===== */
+.btn-menu {
+  display: none;            /* default: sembunyi di desktop */
+  width: 34px;
+  height: 30px;
+  border-radius: 999px;
+  border: 1px solid rgba(148,163,184,0.7);
+  background: rgba(15,23,42,0.95);
+  padding: 0 6px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+}
 
+.btn-menu span {
+  display: block;
+  width: 16px;
+  height: 2px;
+  border-radius: 999px;
+  background: #e5e7eb;
+}
+
+/* NAV default (desktop) tetap seperti sekarang */
+/* Tambahkan mode open untuk mobile */
+.app-nav.open {
+  display: flex;
+}
+
+/* Override untuk layar kecil */
+@media (max-width: 768px) {
+  .btn-menu {
+    display: inline-flex;      /* baru muncul di HP */
+  }
+
+  .app-nav {
+    margin-top: 8px;
+    padding: 8px 10px;
+    border-radius: 16px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+    display: none;             /* default: hidden, pakai .open utk tampil */
+  }
+
+  .app-nav.open {
+    display: flex;
+  }
+
+  .nav-btn {
+    width: 100%;
+    text-align: left;
+    justify-content: flex-start;
+  }
+}
 /* warna aksen per layanan (optional) */
 .service-ssh .service-badge { background:#6366f1; }
 .service-vmess .service-badge { background:#22c55e; }
