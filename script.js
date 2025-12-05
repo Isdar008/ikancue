@@ -407,7 +407,12 @@ function openAppPage(name) {
   document.getElementById("app-" + name).classList.add("active");
 
   document.querySelectorAll(".nav-btn").forEach(btn => btn.classList.remove("active"));
-  document.querySelector(`.nav-btn[data-target="${name}"]`).classList.add("active");
+  const activeBtn = document.querySelector(`.nav-btn[data-target="${name}"]`);
+  if (activeBtn) activeBtn.classList.add("active");
+
+  // kalau di HP dan nav lagi kebuka → tutup setelah pilih menu
+  const nav = document.querySelector(".app-nav");
+  if (nav) nav.classList.remove("open");
 
   if (name === "topup") {
     loadTopupHistory();
@@ -419,6 +424,15 @@ function openAppPage(name) {
 document.querySelectorAll(".nav-btn").forEach((btn) => {
   btn.onclick = () => openAppPage(btn.dataset.target);
 });
+
+// ====== TOGGLE HAMBURGER NAV (MOBILE) ======
+const btnToggleNav = document.getElementById("btnToggleNav");
+if (btnToggleNav) {
+  btnToggleNav.onclick = () => {
+    const nav = document.querySelector(".app-nav");
+    if (nav) nav.classList.toggle("open");
+  };
+}
 
 // =====================================
 // MODAL HASIL (CREATE / RENEW)
