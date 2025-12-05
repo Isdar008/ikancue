@@ -8,7 +8,7 @@
   <!-- CSS utama -->
   <link rel="stylesheet" href="/style.css">
 
-  <!-- OVERRIDE KECIL BIAR LOGIN BISA DIKLIK & MODAL GAK NUTUP SEMUA -->
+  <!-- OVERRIDE KECIL: login bisa diklik & modal tidak nutup semua -->
   <style>
     /* pastikan halaman login ada di atas elemen lain */
     #login.page {
@@ -16,7 +16,7 @@
       z-index: 10;
     }
 
-    /* modal hasil akun: default bener-bener hilang & tidak blok klik */
+    /* modal hasil akun */
     .result-modal {
       position: fixed;
       inset: 0;
@@ -35,7 +35,9 @@
 </head>
 <body>
 
-  <!-- GLOBAL TOP BAR -->
+  <!-- =========================================================
+       GLOBAL TOP BAR
+  ========================================================== -->
   <header class="site-header">
     <div class="site-header-inner">
       <div class="site-title-wrap">
@@ -48,11 +50,15 @@
     </div>
   </header>
 
-  <!-- LOGIN PAGE (default kalau belum login) -->
+  <!-- =========================================================
+       LOGIN PAGE (default kalau belum login)
+  ========================================================== -->
   <section id="login" class="page active">
     <div class="container">
       <h2>Login Panel</h2>
-      <p class="muted small">Gunakan email asli kamu. Satu email = satu akun panel.</p>
+      <p class="muted small">
+        Gunakan email asli kamu. Satu email = satu akun panel.
+      </p>
 
       <!-- FORM LOGIN BIASA -->
       <div id="loginBox">
@@ -60,7 +66,7 @@
         <input id="password" type="password" placeholder="Masukkan password">
 
         <button id="btnLogin" class="btn primary full">Masuk</button>
-        <!-- tombol kembali sudah tidak perlu -->
+        <!-- tombol kembali sudah tidak dipakai -->
         <button id="btnBack" class="btn secondary full" style="display:none;">Kembali</button>
 
         <button id="btnForgot" class="btn secondary full" style="margin-top:8px;">
@@ -96,34 +102,36 @@
     </div>
   </section>
 
-  <!-- DASHBOARD PAGE -->
+  <!-- =========================================================
+       DASHBOARD PAGE
+  ========================================================== -->
   <section id="dashboard" class="page">
     <div class="app-shell">
 
-      <!-- HEADER DASHBOARD -->
+      <!-- ================= HEADER DASHBOARD ================= -->
       <header class="app-header">
-  <div class="brand">
-    <span class="logo-dot"></span>
-    <div>
-      <div class="brand-title">XTRIMER PANEL</div>
-      <div class="brand-sub">VPN Management</div>
-    </div>
-  </div>
+        <div class="brand">
+          <span class="logo-dot"></span>
+          <div>
+            <div class="brand-title">XTRIMER PANEL</div>
+            <div class="brand-sub">VPN Management</div>
+          </div>
+        </div>
 
-  <div class="user-box">
-    <span class="user-label">Masuk sebagai</span>
-    <span class="user-email" id="userEmailHeader"></span>
+        <div class="user-box">
+          <span class="user-label">Masuk sebagai</span>
+          <span class="user-email" id="userEmailHeader"></span>
 
-    <!-- 🔥 tombol hamburger (muncul di HP aja) -->
-    <button id="btnToggleNav" class="btn-menu" aria-label="Menu">
-      <span></span><span></span><span></span>
-    </button>
+          <!-- tombol titik 3 / hamburger (muncul di HP) -->
+          <button id="btnToggleNav" class="btn-menu" aria-label="Menu">
+            <span></span><span></span><span></span>
+          </button>
 
-    <button id="btnLogout" class="btn danger small-btn">Logout</button>
-  </div>
-</header>
+          <button id="btnLogout" class="btn danger small-btn">Logout</button>
+        </div>
+      </header>
 
-      <!-- NAV -->
+      <!-- ===================== NAVIGATION ==================== -->
       <nav class="app-nav">
         <button class="nav-btn active" data-target="overview">Overview</button>
         <button class="nav-btn" data-target="servers">Server</button>
@@ -135,16 +143,20 @@
         </button>
       </nav>
 
-      <!-- MAIN -->
+      <!-- ======================= MAIN ======================== -->
       <main class="app-main">
-        <!-- OVERVIEW -->
+
+        <!-- =============== TAB: OVERVIEW ==================== -->
         <div id="app-overview" class="app-page active">
           <div class="grid-2">
+            <!-- BOX INFO LOGIN -->
             <div class="card">
               <h3>Informasi Login</h3>
               <p>Email: <span id="infoEmail"></span></p>
               <p>Password: <span id="infoPass"></span></p>
             </div>
+
+            <!-- BOX STATUS AKUN -->
             <div class="card">
               <h3>Status Akun</h3>
               <p>Saldo: <strong id="statusSaldo">Rp 0</strong></p>
@@ -153,92 +165,98 @@
               <p class="muted small">Data diambil dari API backend.</p>
             </div>
           </div>
+
+          <!-- SERVICE CARDS ala FighterTunnel -->
+          <div class="service-grid">
+            <!-- SSH -->
+            <div class="service-card service-ssh">
+              <div class="service-icon-circle">&gt;_</div>
+              <div class="service-title">SSH</div>
+              <div class="service-badge">Premium speed</div>
+
+              <ul class="service-features">
+                <li>Simple &amp; Secure</li>
+                <li>Multiple login allowed</li>
+                <li>Protocol TCP/UDP</li>
+                <li>SSL/TLS support</li>
+              </ul>
+
+              <button class="service-cta" data-create-type="ssh">
+                Buat Akun SSH
+              </button>
+            </div>
+
+            <!-- VMESS -->
+            <div class="service-card service-vmess">
+              <div class="service-icon-circle">VM</div>
+              <div class="service-title">VMESS</div>
+              <div class="service-badge">Xray TLS/WS</div>
+
+              <ul class="service-features">
+                <li>Low ping &amp; stabil</li>
+                <li>Support TLS &amp; gRPC</li>
+                <li>Cocok untuk gaming</li>
+                <li>Full speed ISP</li>
+              </ul>
+
+              <button class="service-cta" data-create-type="vmess">
+                Buat Akun VMESS
+              </button>
+            </div>
+
+            <!-- VLESS -->
+            <div class="service-card service-vless">
+              <div class="service-icon-circle">VL</div>
+              <div class="service-title">VLESS</div>
+              <div class="service-badge">No Encrypt Header</div>
+
+              <ul class="service-features">
+                <li>Lebih ringan dari VMESS</li>
+                <li>Support TLS / Non-TLS</li>
+                <li>Support gRPC</li>
+                <li>Cocok untuk SSH over Xray</li>
+              </ul>
+
+              <button class="service-cta" data-create-type="vless">
+                Buat Akun VLESS
+              </button>
+            </div>
+
+            <!-- TROJAN -->
+            <div class="service-card service-trojan">
+              <div class="service-icon-circle">TR</div>
+              <div class="service-title">TROJAN</div>
+              <div class="service-badge">SNI Friendly</div>
+
+              <ul class="service-features">
+                <li>Mirip HTTPS biasa</li>
+                <li>Support TLS / gRPC</li>
+                <li>Stabil untuk streaming</li>
+                <li>Enkripsi kuat</li>
+              </ul>
+
+              <button class="service-cta" data-create-type="trojan">
+                Buat Akun TROJAN
+              </button>
+            </div>
+          </div>
         </div>
-           <!-- SERVICE CARDS ala FighterTunnel -->
-<div class="service-grid">
-  <!-- SSH -->
-  <div class="service-card service-ssh">
-    <div class="service-icon-circle">>&lowbar;</div>
-    <div class="service-title">SSH</div>
-    <div class="service-badge">Premium Speed</div>
 
-    <ul class="service-features">
-      <li>Simple &amp; Secure</li>
-      <li>Multiple login allowed</li>
-      <li>Protocol TCP/UDP</li>
-      <li>SSL/TLS support</li>
-    </ul>
-
-    <button class="service-cta" data-create-type="ssh">
-      Buat Akun SSH
-    </button>
-  </div>
-
-  <!-- VMESS -->
-  <div class="service-card service-vmess">
-    <div class="service-icon-circle">VM</div>
-    <div class="service-title">VMESS</div>
-    <div class="service-badge">XRay TLS/WS</div>
-
-    <ul class="service-features">
-      <li>Low ping &amp; stabil</li>
-      <li>Support TLS &amp; gRPC</li>
-      <li>Cocok untuk gaming</li>
-      <li>Full speed ISP</li>
-    </ul>
-
-    <button class="service-cta" data-create-type="vmess">
-      Buat Akun VMESS
-    </button>
-  </div>
-
-  <!-- VLESS -->
-  <div class="service-card service-vless">
-    <div class="service-icon-circle">VL</div>
-    <div class="service-title">VLESS</div>
-    <div class="service-badge">No Encrypt Header</div>
-
-    <ul class="service-features">
-      <li>Lebih ringan dari VMESS</li>
-      <li>Support TLS / Non-TLS</li>
-      <li>Support gRPC</li>
-      <li>Cocok untuk SSH over XRay</li>
-    </ul>
-
-    <button class="service-cta" data-create-type="vless">
-      Buat Akun VLESS
-    </button>
-  </div>
-
-  <!-- TROJAN -->
-  <div class="service-card service-trojan">
-    <div class="service-icon-circle">TR</div>
-    <div class="service-title">TROJAN</div>
-    <div class="service-badge">SNI Friendly</div>
-
-    <ul class="service-features">
-      <li>Mirip HTTPS biasa</li>
-      <li>Support TLS / gRPC</li>
-      <li>Stabil untuk streaming</li>
-      <li>Enkripsi kuat</li>
-    </ul>
-
-    <button class="service-cta" data-create-type="trojan">
-      Buat Akun TROJAN
-    </button>
-  </div>
-</div>
-        <!-- SERVER LIST -->
+        <!-- =============== TAB: SERVER LIST ================= -->
         <div id="app-servers" class="app-page">
           <h3>Daftar Server</h3>
-          <p class="muted small">Data diambil dari tabel <code>Server</code> di backend.</p>
+          <p class="muted small">
+            Data diambil dari tabel <code>Server</code> di backend.
+          </p>
           <div id="serverList" class="server-list"></div>
         </div>
 
-        <!-- BUAT AKUN -->
+        <!-- =============== TAB: BUAT AKUN ================== -->
         <div id="app-create" class="app-page">
           <h3>Buat Akun VPN</h3>
-          <p class="muted small">Tombol ini akan menembak endpoint API create akun.</p>
+          <p class="muted small">
+            Tombol ini akan menembak endpoint API create akun.
+          </p>
 
           <div class="card">
             <label>Jenis Akun</label>
@@ -268,7 +286,7 @@
           </div>
         </div>
 
-        <!-- RENEW -->
+        <!-- =============== TAB: RENEW ====================== -->
         <div id="app-renew" class="app-page">
           <h3>Perpanjang Akun</h3>
           <p class="muted small">Terhubung ke endpoint renew backend.</p>
@@ -295,10 +313,12 @@
           </div>
         </div>
 
-        <!-- TOPUP -->
+        <!-- =============== TAB: TOPUP ====================== -->
         <div id="app-topup" class="app-page">
           <h3>Topup Saldo</h3>
-          <p class="muted small">Bisa dihubungkan ke sistem QRIS / Pakasir yang sudah ada.</p>
+          <p class="muted small">
+            Bisa dihubungkan ke sistem QRIS / Pakasir yang sudah ada.
+          </p>
 
           <div class="card">
             <label>Nominal Topup (Rp)</label>
@@ -308,7 +328,9 @@
 
           <div class="card" id="topupPaymentCard" style="display:none;">
             <h4>QRIS Pembayaran</h4>
-            <p class="muted small">Scan QR di bawah ini dengan aplikasi e-wallet / m-banking kamu.</p>
+            <p class="muted small">
+              Scan QR di bawah ini dengan aplikasi e-wallet / m-banking kamu.
+            </p>
             <div style="text-align:center; margin:12px 0;">
               <img id="qrisImage" src="" alt="QRIS"
                    style="max-width:220px; width:100%; border-radius:12px; display:none;">
@@ -326,29 +348,36 @@
           </div>
         </div>
 
-        <!-- ADMIN -->
+        <!-- =============== TAB: ADMIN ====================== -->
         <div id="app-admin" class="app-page">
           <h3>Admin Panel</h3>
-          <p class="muted small">Halaman ini hanya muncul untuk email admin yang terdaftar.</p>
+          <p class="muted small">
+            Halaman ini hanya muncul untuk email admin yang terdaftar.
+          </p>
 
           <div class="admin-grid">
             <div class="card">
               <h4>Tambah Saldo Manual</h4>
               <p class="muted small">
-                Masukkan <strong>Email user panel</strong> & nominal saldo.
+                Masukkan <strong>Email user panel</strong> &amp; nominal saldo.
               </p>
               <label>Email User</label>
               <input id="adminTargetUser" type="email" placeholder="misal: user@gmail.com">
+
               <label>Nominal (Rp)</label>
               <input id="adminAmount" type="number" min="1000" step="1000" value="10000">
+
               <label>Catatan (opsional)</label>
               <input id="adminNote" type="text" placeholder="misal: bonus, koreksi, dsb.">
+
               <button class="btn primary full" id="btnAdminAddSaldo">Tambah Saldo</button>
             </div>
 
             <div class="card">
               <h4>Riwayat Topup Panel</h4>
-              <p class="muted small">Menampilkan 20 transaksi topup terakhir di sistem.</p>
+              <p class="muted small">
+                Menampilkan 20 transaksi topup terakhir di sistem.
+              </p>
               <ul id="topupHistoryAdmin" class="dummy-list"></ul>
               <p id="topupHistoryAdminEmpty" class="muted small">
                 Belum ada riwayat topup.
@@ -356,11 +385,14 @@
             </div>
           </div>
         </div>
+
       </main>
     </div>
   </section>
 
-  <!-- MODAL HASIL AKUN (CREATE & RENEW) -->
+  <!-- =========================================================
+       MODAL HASIL AKUN (CREATE & RENEW)
+  ========================================================== -->
   <div id="resultModal" class="result-modal">
     <div class="result-backdrop"></div>
 
@@ -372,9 +404,9 @@
         <p id="modalSubtitle" class="result-subtitle"></p>
       </div>
 
-      <!-- ALERT SUCCESS HIJAU -->
+      <!-- ALERT SUCCESS -->
       <div class="result-success">
-        <div class="result-success-icon"></div>
+        <div class="result-success-icon">✔</div>
         <div class="result-success-text">
           <strong>Success!</strong>
           <span id="modalSuccessText">
@@ -389,13 +421,17 @@
       </div>
 
       <!-- TOMBOL AKSI -->
-<div class="result-actions">
-  <button id="modalCopy" class="btn secondary full">Salin Semua</button>
-  <button id="modalCopyMain" class="btn secondary full">Salin Detail Akun</button>
-  <button id="modalClose" class="btn primary full">Tutup</button>
-</div>
+      <div class="result-actions">
+        <button id="modalCopy" class="btn secondary full">Salin Semua</button>
+        <button id="modalCopyMain" class="btn secondary full">Salin Detail Akun</button>
+        <button id="modalClose" class="btn primary full">Tutup</button>
+      </div>
+    </div>
+  </div>
 
-  <!-- JS PANEL (ganti /panel.js kalau nama file JS kamu beda) -->
+  <!-- =========================================================
+       JS PANEL
+  ========================================================== -->
   <script src="/script.js" defer></script>
 </body>
-                                 </html>
+</html>
