@@ -14,6 +14,10 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
 
+  <!-- favicon / icon utama (optional tapi bagus) -->
+  <link rel="icon" type="image/png" href="/icons/icon-192.png">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+
   <!-- OVERRIDE KECIL: login bisa diklik & modal tidak nutup semua -->
   <style>
     /* pastikan halaman login ada di atas elemen lain */
@@ -39,7 +43,6 @@
     }
   </style>
 </head>
-
 <body>
   <!-- =========================================================
        GLOBAL TOP BAR
@@ -149,11 +152,9 @@
 
       <!-- ======================= MAIN ======================== -->
       <main class="app-main">
-
         <!-- =============== TAB: OVERVIEW ==================== -->
         <div id="app-overview" class="app-page active">
           <div class="grid-2">
-            <!-- HANYA BOX STATUS AKUN -->
             <div class="card status-card">
               <h3>Status Akun</h3>
               <div class="status-grid">
@@ -192,18 +193,8 @@
               </ul>
 
               <div class="service-actions">
-                <button
-                  class="service-btn create service-cta"
-                  data-create-type="ssh"
-                >
-                  Create
-                </button>
-                <button
-                  class="service-btn renew service-cta-renew"
-                  data-renew-type="ssh"
-                >
-                  Renew
-                </button>
+                <button class="service-btn create service-cta" data-create-type="ssh">Create</button>
+                <button class="service-btn renew service-cta-renew" data-renew-type="ssh">Renew</button>
               </div>
             </div>
 
@@ -221,18 +212,8 @@
               </ul>
 
               <div class="service-actions">
-                <button
-                  class="service-btn create service-cta"
-                  data-create-type="vmess"
-                >
-                  Create
-                </button>
-                <button
-                  class="service-btn renew service-cta-renew"
-                  data-renew-type="vmess"
-                >
-                  Renew
-                </button>
+                <button class="service-btn create service-cta" data-create-type="vmess">Create</button>
+                <button class="service-btn renew service-cta-renew" data-renew-type="vmess">Renew</button>
               </div>
             </div>
 
@@ -250,18 +231,8 @@
               </ul>
 
               <div class="service-actions">
-                <button
-                  class="service-btn create service-cta"
-                  data-create-type="vless"
-                >
-                  Create
-                </button>
-                <button
-                  class="service-btn renew service-cta-renew"
-                  data-renew-type="vless"
-                >
-                  Renew
-                </button>
+                <button class="service-btn create service-cta" data-create-type="vless">Create</button>
+                <button class="service-btn renew service-cta-renew" data-renew-type="vless">Renew</button>
               </div>
             </div>
 
@@ -279,22 +250,12 @@
               </ul>
 
               <div class="service-actions">
-                <button
-                  class="service-btn create service-cta"
-                  data-create-type="trojan"
-                >
-                  Create
-                </button>
-                <button
-                  class="service-btn renew service-cta-renew"
-                  data-renew-type="trojan"
-                >
-                  Renew
-                </button>
+                <button class="service-btn create service-cta" data-create-type="trojan">Create</button>
+                <button class="service-btn renew service-cta-renew" data-renew-type="trojan">Renew</button>
               </div>
             </div>
           </div>
-        </div> <!-- /#app-overview -->
+        </div>
 
         <!-- =============== TAB: SERVER LIST ================= -->
         <div id="app-servers" class="app-page">
@@ -327,7 +288,6 @@
             <label>Username Akun</label>
             <input id="createUser" type="text" placeholder="misal: uservpn123">
 
-            <!-- wrapper supaya bisa di-hide kalau non SSH -->
             <div id="createPassWrap">
               <label>Password SSH</label>
               <input id="createPass" type="password" placeholder="Password akun SSH">
@@ -455,14 +415,12 @@
     <div class="result-backdrop"></div>
 
     <div class="result-card">
-      <!-- HEADER GRADIENT -->
       <div class="result-header">
         <h3 id="modalTitle">Akun berhasil dibuat</h3>
         <span id="modalTypePill" class="result-pill">SSH PREMIUM</span>
         <p id="modalSubtitle" class="result-subtitle"></p>
       </div>
 
-      <!-- ALERT SUCCESS -->
       <div class="result-success">
         <div class="result-success-icon">✔</div>
         <div class="result-success-text">
@@ -473,12 +431,10 @@
         </div>
       </div>
 
-      <!-- CARD DETAIL AKUN -->
       <div class="result-detail-card">
         <div id="modalBody" class="result-text"></div>
       </div>
 
-      <!-- TOMBOL AKSI -->
       <div class="result-actions">
         <button id="modalCopy" class="btn secondary full">Salin Semua</button>
         <button id="modalCopyMain" class="btn secondary full">Salin Detail Akun</button>
@@ -487,9 +443,19 @@
     </div>
   </div>
 
-  <!-- =========================================================
-       JS PANEL
-  ========================================================== -->
+  <!-- JS PANEL -->
   <script src="/script.js" defer></script>
+
+  <!-- REGISTER SERVICE WORKER (SATU AJA) -->
+  <script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker
+        .register('/sw.js')
+        .then(() => console.log('Service Worker registered'))
+        .catch(err => console.error('SW register error', err));
+    });
+  }
+  </script>
 </body>
 </html>
