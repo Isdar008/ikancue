@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ISTIQWAMAN TUNNEL - Dashboard</title>
+  <title>XTRIMER TUNNEL - Dashboard</title>
 
   <!-- CSS utama -->
   <link rel="stylesheet" href="/style.css">
@@ -41,7 +41,7 @@
   <header class="site-header">
     <div class="site-header-inner">
       <div class="site-title-wrap">
-        <div class="site-title">XTRIMER PANEL</div>
+        <div class="site-title">XTRIMER TUNNEL</div>
         <div class="site-tagline">Simple VPN Dashboard</div>
       </div>
       <div class="site-right">
@@ -110,13 +110,13 @@
 
       <!-- ================= HEADER DASHBOARD ================= -->
       <header class="app-header">
-        <div class="brand">
-          <span class="logo-dot"></span>
-          <div>
-            <div class="brand-title">XTRIMER PANEL</div>
-            <div class="brand-sub">VPN Management</div>
-          </div>
-        </div>
+  <div class="brand">
+    <div class="logo-dot">X</div>
+    <div>
+      <div class="brand-title">XTRIMER PANEL</div>
+      <div class="brand-sub">VPN Management</div>
+    </div>
+  </div>
 
         <div class="user-box">
           <span class="user-email" id="userEmailHeader"></span>
@@ -147,149 +147,147 @@
         <!-- =============== TAB: OVERVIEW ==================== -->
         <div id="app-overview" class="app-page active">
           <div class="grid-2">
-            <!-- HANYA BOX STATUS AKUN -->
-            <div class="card status-card">
-              <h3>Status Akun</h3>
-              <div class="status-grid">
-                <div class="status-item">
-                  <span class="status-label">Saldo</span>
-                  <span class="status-value" id="statusSaldo">Rp 0</span>
-                </div>
-                <div class="status-item">
-                  <span class="status-label">Level</span>
-                  <span class="status-value badge-level" id="statusLevel">MEMBER</span>
-                </div>
-              </div>
+  <!-- HANYA BOX STATUS AKUN -->
+  <div class="card status-card">
+    <h3>Status Akun</h3>
+    <div class="status-grid">
+      <div class="status-item">
+        <span class="status-label">Saldo</span>
+        <span class="status-value" id="statusSaldo">Rp 0</span>
+      </div>
+      <div class="status-item">
+        <span class="status-label">Level</span>
+        <span class="status-value badge-level" id="statusLevel">MEMBER</span>
+      </div>
+    </div>
 
-              <div class="status-extra">
-                <span class="status-extra-label">Total Akun Dibuat</span>
-                <span class="status-extra-value" id="statusTotalAkun">0</span>
-              </div>
+    <div class="status-extra">
+      <span class="status-extra-label">Total Akun Dibuat</span>
+      <span class="status-extra-value" id="statusTotalAkun">0</span>
+    </div>
 
-              <p class="muted small">Data diambil dari API backend.</p>
-            </div>
-          </div>
+    <p class="muted small">Data diambil dari API backend.</p>
+  </div>
+</div>
 
           <!-- SERVICE CARDS -->
-          <div class="service-grid">
-            <!-- SSH -->
-            <div class="service-card service-ssh">
-              <div class="service-icon-circle">&gt;_</div>
-              <div class="service-title">SSH</div>
-              <div class="service-badge">Premium speed</div>
+<div class="service-grid">
+  <!-- SSH -->
+  <div class="service-card service-ssh">
+    <div class="service-icon-circle">&gt;_</div>
+    <div class="service-title">SSH</div>
+    <div class="service-badge">Premium speed</div>
 
-              <ul class="service-features">
-                <li>Simple &amp; Secure</li>
-                <li>Multiple login allowed</li>
-                <li>Protocol TCP/UDP</li>
-                <li>SSL/TLS support</li>
-              </ul>
+    <ul class="service-features">
+      <li>Simple &amp; Secure</li>
+      <li>Multiple login allowed</li>
+      <li>Protocol TCP/UDP</li>
+      <li>SSL/TLS support</li>
+    </ul>
 
-              <div class="service-actions">
-                <button
-                  class="service-btn create service-cta"
-                  data-create-type="ssh"
-                >
-                  Create
-                </button>
-                <button
-                  class="service-btn renew service-cta-renew"
-                  data-renew-type="ssh"
-                >
-                  Renew
-                </button>
-              </div>
-            </div>
+    <div class="service-actions">
+      <button
+        class="service-btn create service-cta"
+        data-create-type="ssh"
+      >
+        Create
+      </button>
+      <button
+        class="service-btn renew service-cta-renew"
+        data-renew-type="ssh"
+      >
+        Renew
+      </button>
+    </div>
+  </div>
 
-            <!-- VMESS -->
-            <div class="service-card service-vmess">
-              <div class="service-icon-circle">VM</div>
-              <div class="service-title">VMESS</div>
-              <div class="service-badge">Xray TLS/WS</div>
+  <!-- VMESS -->
+  <div class="service-card service-vmess">
+    <div class="service-icon-circle">VM</div>
+    <div class="service-title">VMESS</div>
+    <div class="service-badge">Xray TLS/WS</div>
 
-              <ul class="service-features">
-                <li>Low ping &amp; stabil</li>
-                <li>Support TLS &amp; gRPC</li>
-                <li>Cocok untuk gaming</li>
-                <li>Full speed ISP</li>
-              </ul>
+    <ul class="service-features">
+      <li>Low ping &amp; stabil</li>
+      <li>Support TLS &amp; gRPC</li>
+      <li>Cocok untuk gaming</li>
+      <li>Full speed ISP</li>
+    </ul>
 
-              <div class="service-actions">
-                <button
-                  class="service-btn create service-cta"
-                  data-create-type="vmess"
-                >
-                  Create
-                </button>
-                <button
-                  class="service-btn renew service-cta-renew"
-                  data-renew-type="vmess"
-                >
-                  Renew
-                </button>
-              </div>
-            </div>
+    <div class="service-actions">
+      <button
+        class="service-btn create service-cta"
+        data-create-type="vmess"
+      >
+        Create
+      </button>
+      <button
+        class="service-btn renew service-cta-renew"
+        data-renew-type="vmess"
+      >
+        Renew
+      </button>
+    </div>
+  </div>
 
-            <!-- VLESS -->
-            <div class="service-card service-vless">
-              <div class="service-icon-circle">VL</div>
-              <div class="service-title">VLESS</div>
-              <div class="service-badge">No Encrypt Header</div>
+  <!-- VLESS -->
+  <div class="service-card service-vless">
+    <div class="service-icon-circle">VL</div>
+    <div class="service-title">VLESS</div>
+    <div class="service-badge">No Encrypt Header</div>
 
-              <ul class="service-features">
-                <li>Lebih ringan dari VMESS</li>
-                <li>Support TLS / Non-TLS</li>
-                <li>Support gRPC</li>
-                <li>Cocok untuk SSH over Xray</li>
-              </ul>
+    <ul class="service-features">
+      <li>Lebih ringan dari VMESS</li>
+      <li>Support TLS / Non-TLS</li>
+      <li>Support gRPC</li>
+      <li>Cocok untuk SSH over Xray</li>
+    </ul>
 
-              <div class="service-actions">
-                <button
-                  class="service-btn create service-cta"
-                  data-create-type="vless"
-                >
-                  Create
-                </button>
-                <button
-                  class="service-btn renew service-cta-renew"
-                  data-renew-type="vless"
-                >
-                  Renew
-                </button>
-              </div>
-            </div>
+    <div class="service-actions">
+      <button
+        class="service-btn create service-cta"
+        data-create-type="vless"
+      >
+        Create
+      </button>
+      <button
+        class="service-btn renew service-cta-renew"
+        data-renew-type="vless"
+      >
+        Renew
+      </button>
+    </div>
+  </div>
 
-            <!-- TROJAN -->
-            <div class="service-card service-trojan">
-              <div class="service-icon-circle">TR</div>
-              <div class="service-title">TROJAN</div>
-              <div class="service-badge">SNI Friendly</div>
+  <!-- TROJAN -->
+  <div class="service-card service-trojan">
+    <div class="service-icon-circle">TR</div>
+    <div class="service-title">TROJAN</div>
+    <div class="service-badge">SNI Friendly</div>
 
-              <ul class="service-features">
-                <li>Mirip HTTPS biasa</li>
-                <li>Support TLS / gRPC</li>
-                <li>Stabil untuk streaming</li>
-                <li>Enkripsi kuat</li>
-              </ul>
+    <ul class="service-features">
+      <li>Mirip HTTPS biasa</li>
+      <li>Support TLS / gRPC</li>
+      <li>Stabil untuk streaming</li>
+      <li>Enkripsi kuat</li>
+    </ul>
 
-              <div class="service-actions">
-                <button
-                  class="service-btn create service-cta"
-                  data-create-type="trojan"
-                >
-                  Create
-                </button>
-                <button
-                  class="service-btn renew service-cta-renew"
-                  data-renew-type="trojan"
-                >
-                  Renew
-                </button>
-              </div>
-            </div>
-          </div> <!-- end .service-grid -->
-
-        </div> <!-- end #app-overview -->
+    <div class="service-actions">
+      <button
+        class="service-btn create service-cta"
+        data-create-type="trojan"
+      >
+        Create
+      </button>
+      <button
+        class="service-btn renew service-cta-renew"
+        data-renew-type="trojan"
+      >
+        Renew
+      </button>
+    </div>
+  </div>
+</div>
 
         <!-- =============== TAB: SERVER LIST ================= -->
         <div id="app-servers" class="app-page">
