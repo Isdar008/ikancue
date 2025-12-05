@@ -119,10 +119,8 @@
         </div>
 
         <div class="user-box">
-          <span class="user-label">Masuk sebagai</span>
           <span class="user-email" id="userEmailHeader"></span>
 
-          <!-- tombol titik 3 / hamburger (muncul di HP) -->
           <button id="btnToggleNav" class="btn-menu" aria-label="Menu">
             <span></span><span></span><span></span>
           </button>
@@ -149,14 +147,7 @@
         <!-- =============== TAB: OVERVIEW ==================== -->
         <div id="app-overview" class="app-page active">
           <div class="grid-2">
-            <!-- BOX INFO LOGIN -->
-            <div class="card">
-              <h3>Informasi Login</h3>
-              <p>Email: <span id="infoEmail"></span></p>
-              <p>Password: <span id="infoPass"></span></p>
-            </div>
-
-            <!-- BOX STATUS AKUN -->
+            <!-- HANYA BOX STATUS AKUN -->
             <div class="card">
               <h3>Status Akun</h3>
               <p>Saldo: <strong id="statusSaldo">Rp 0</strong></p>
@@ -184,6 +175,9 @@
               <button class="service-cta" data-create-type="ssh">
                 Buat Akun SSH
               </button>
+              <button class="service-cta-renew" data-renew-type="ssh">
+                Perpanjang SSH
+              </button>
             </div>
 
             <!-- VMESS -->
@@ -201,6 +195,9 @@
 
               <button class="service-cta" data-create-type="vmess">
                 Buat Akun VMESS
+              </button>
+              <button class="service-cta-renew" data-renew-type="vmess">
+                Perpanjang VMESS
               </button>
             </div>
 
@@ -220,6 +217,9 @@
               <button class="service-cta" data-create-type="vless">
                 Buat Akun VLESS
               </button>
+              <button class="service-cta-renew" data-renew-type="vless">
+                Perpanjang VLESS
+              </button>
             </div>
 
             <!-- TROJAN -->
@@ -237,6 +237,9 @@
 
               <button class="service-cta" data-create-type="trojan">
                 Buat Akun TROJAN
+              </button>
+              <button class="service-cta-renew" data-renew-type="trojan">
+                Perpanjang TROJAN
               </button>
             </div>
           </div>
