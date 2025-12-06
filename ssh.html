@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SSH Protocol - Istiqwaman Tunnel</title>
     <style>
+        /* CSS yang sama persis dengan yang Anda berikan (untuk konsistensi desain) */
         * {
             margin: 0;
             padding: 0;
@@ -46,6 +47,7 @@
         }
 
         .protocol-icon {
+            /* Mengubah ikon di sini (misalnya: menggunakan emoji kunci/gembok) */
             font-size: 5em;
             margin-bottom: 20px;
         }
@@ -227,9 +229,9 @@
         <a href="index.html" class="back-btn">← Kembali ke Beranda</a>
 
         <div class="protocol-header">
-            <div class="protocol-icon">🔐</div>
+            <div class="protocol-icon">🔑</div>
             <h1>SSH Protocol</h1>
-            <p class="subtitle">Secure Shell - Koneksi Aman & Terenkripsi</p>
+            <p class="subtitle">Secure Shell - Koneksi Aman, Stabil & Fleksibel</p>
         </div>
 
         <div class="content-grid">
@@ -252,13 +254,13 @@
             <div class="info-card">
                 <h2>⚡ Fitur SSH</h2>
                 <ul class="feature-list">
-                    <li>SSH Websocket Support</li>
-                    <li>SSL/TLS Encryption</li>
-                    <li>Port 22, 80, 443, 8080</li>
+                    <li>SSH Dropbear & OpenSSH</li>
+                    <li>Support **WebSocket** & **SSL/TLS**</li>
+                    <li>Port **22, 80, 443** (Pilihan Fleksibel)</li>
                     <li>Unlimited Bandwidth</li>
-                    <li>Multi Login (3 Devices)</li>
-                    <li>No TORRENT</li>
-                    <li>Auto Create Account</li>
+                    <li>Koneksi Cepat & Stabil</li>
+                    <li>Custom User & Password</li>
+                    <li>Trial Akun 1 Hari</li>
                     <li>24/7 Active Server</li>
                 </ul>
             </div>
@@ -284,35 +286,37 @@
             <h2>📱 Cara Menggunakan</h2>
             <div class="tutorial-step">
                 <span class="step-number">1</span>
-                <strong>Download Aplikasi</strong><br>
-                Download HTTP Injector / HTTP Custom / HA Tunnel Plus dari PlayStore
+                <strong>Download Aplikasi Tunnel</strong><br>
+                Gunakan HTTP Injector / HTTP Custom / KPN Tunnel Rev (Android)
             </div>
             <div class="tutorial-step">
                 <span class="step-number">2</span>
-                <strong>Pesan Akun</strong><br>
-                Hubungi admin dan pilih paket yang diinginkan
+                <strong>Pesan Akun SSH</strong><br>
+                Hubungi admin, pilih durasi paket yang diinginkan
             </div>
             <div class="tutorial-step">
                 <span class="step-number">3</span>
-                <strong>Terima Akun</strong><br>
-                Admin akan mengirimkan detail akun SSH Anda
+                <strong>Terima Detail Akun</strong><br>
+                Admin akan mengirimkan Host/IP, Port, User & Password SSH
             </div>
             <div class="tutorial-step">
                 <span class="step-number">4</span>
                 <strong>Setting Aplikasi</strong><br>
-                Masukkan detail akun ke aplikasi yang sudah didownload
+                Masukkan detail akun dan setting Payload/Custom Header di aplikasi
             </div>
             <div class="tutorial-step">
                 <span class="step-number">5</span>
-                <strong>Connect & Enjoy</strong><br>
-                Tekan connect dan nikmati internet unlimited!
+                <strong>Connect & Nikmati</strong><br>
+                Tekan Connect dan rasakan kecepatan internet yang stabil!
             </div>
         </div>
     </div>
 
     <script>
         function order(protocol, duration, price) {
+            // Logika pemesanan ke WhatsApp seperti di contoh SSH Anda
             const message = `Halo Admin, saya ingin order:\n\nProtocol: ${protocol}\nDurasi: ${duration}\nHarga: Rp ${price}`;
+            // Ganti 6281234567890 dengan nomor WhatsApp Anda
             const whatsappUrl = `https://wa.me/6281234567890?text=${encodeURIComponent(message)}`;
             window.open(whatsappUrl, '_blank');
         }
