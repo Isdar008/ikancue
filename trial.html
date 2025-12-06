@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trial Gratis - Istiqwaman Tunnel</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .back-btn {
+            display: inline-block;
+            color: white;
+            text-decoration: none;
+            margin-bottom: 20px;
+            font-size: 1.1em;
+        }
+
+        .trial-card {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+        .trial-icon {
+            font-size: 5em;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        .info-box {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #667eea;
+            text-align: left;
+        }
+
+        .info-box ul {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+
+        .info-box li {
+            margin: 5px 0;
+        }
+
+        .protocol-select {
+            margin: 30px 0;
+        }
+
+        select {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.1em;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .create-btn {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: transform 0.3s;
+        }
+
+        .create-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .create-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .result-section {
+            display: none;
+            margin-top: 30px;
+        }
+
+        .account-detail {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            position: relative;
+            text-align: left;
+        }
+
+        .account-detail strong {
+            color: #667eea;
+        }
+
+        .copy-btn {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 5px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+
+        .copy-btn:hover {
+            background: #5568d3;
+        }
+
+        .timer {
+            background: #ffe6e6;
+            color: #d32f2f;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .success-icon {
+            font-size: 4em;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="order.html" class="back-btn">← Kembali</a>
+
+        <div class="trial-card">
+            <div class="trial-icon">🎁</div>
+            <h1>Trial Gratis 60 Menit</h1>
+            <p>Coba VPN kami secara GRATIS selama 60 menit!</p>
+
+            <div class="info-box">
+                <strong>🎯 Benefit Trial:</strong>
+                <ul>
+                    <li>✓ Akses penuh semua server</li>
+                    <li>✓ Unlimited bandwidth</li>
+                    <li>✓ Kecepatan maksimal</li>
+                    <li>✓ Tanpa registrasi</li>
+                    <li>✓ Langsung aktif</li>
+                </ul>
+            </div>
+
+            <div class="protocol-select" id="selectSection">
+                <label><strong>Pilih Protocol:</strong></label>
+                <select id="protocolSelect">
+                    <option value="">-- Pilih Protocol --</option>
+                    <option value="ssh">SSH</option>
+                    <option value="vmess">VMess</option>
+                    <option value="vless">VLess</option>
+                    <option value="trojan">Trojan</option>
+                    <option value="shadowsocks">Shadowsocks</option>
+                </select>
+
+                <button class="create-btn" onclick="createTrial()">🚀 Buat Akun Trial</button>
+            </div>
+
+            <div class="loading" id="loadingSection" style="display:none;">
+                <div class="spinner"></div>
+                <p>Sedang membuat akun trial...</p>
+            </div>
+
+            <div class="result-section" id="resultSection">
+                <div class="success-icon">✅</div>
+                <h2 style="color: #4CAF50;">Trial Berhasil Dibuat!</h2>
+                <div class="timer" id="timer">Waktu tersisa: 60:00</div>
+                <div id="accountDetails"></div>
+                <button class="create-btn" onclick="window.location.href='order.html'" style="margin-top: 20px;">
+                    💳 Upgrade ke Premium
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'https://api.rmpremium.cloud';
+        const API_KEY = 'YOUR_API_KEY_HERE'; // Ganti dengan API key Anda
+
+        // Check URL params
+        const urlParams = new URLSearchParams(window.location.search);
+        const preselectedProtocol = urlParams.get('protocol');
+        if (preselectedProtocol) {
+            document.getElementById('protocolSelect').value = preselectedProtocol;
+        }
+
+        let timerInterval;
+
+        async function createTrial() {
+            const protocol = document.getElementById('protocolSelect').value;
+            
+            if (!protocol) {
+                alert('Pilih protocol terlebih dahulu!');
+                return;
+            }
+
+            // Show loading
+            document.getElementById('selectSection').style.display = 'none';
+            document.getElementById('loadingSection').style.display = 'block';
+
+            try {
+                const endpoint = `/trial${protocol}`;
+                const response = await fetch(`${API_BASE}${endpoint}?auth=${API_KEY}`);
+                const data = await response.json();
+
+                if (data.status === 'success') {
+                    displayTrialResult(data.data, protocol);
+                    startTimer();
+                } else {
+                    throw new Error(data.error || 'Gagal membuat trial');
+                }
+            } catch (error) {
+                alert('Error: ' + error.message);
+                document.getElementById('selectSection').style.display = 'block';
+                document.getElementById('loadingSection').style.display = 'none';
+            }
+        }
+
+        function displayTrialResult(data, protocol) {
+            const accountDetails = document.getElementById('accountDetails');
+            let html = '';
+
+            if (protocol === 'ssh') {
+                html = `
+                    <div class="account-detail">
+                        <strong>Username:</strong> ${data.username}
+                        <button class="copy-btn" onclick="copyText('${data.username}')">Copy</button>
+                    </div>
+                    <div class="account-detail">
+                        <strong>Password:</strong> ${data.password}
+                        <button class="copy-btn" onclick="copyText('${data.password}')">Copy</button>
+                    </div>
+                    <div class="account-detail">
+                        <strong>Domain:</strong> ${data.domain}
+                        <button class="copy-btn" onclick="copyText('${data.domain}')">Copy</button>
+                    </div>
+                    <div class="account-detail">
+                        <strong>Expired:</strong> ${data.expiration}
+                    </div>
+                `;
+
+                if (data.ports) {
+                    html += `<div class="account-detail">
+                        <strong>Ports:</strong> ${JSON.stringify(data.ports)}
+                    </div>`;
+                }
+            } else {
+                html = `
+                    <div class="account-detail">
+                        <strong>Username:</strong> ${data.username}
+                        <button class="copy-btn" onclick="copyText('${data.username}')">Copy</button>
+                    </div>
+                    <div class="account-detail">
+                        <strong>UUID:</strong> ${data.uuid}
+                        <button class="copy-btn" onclick="copyText('${data.uuid}')">Copy</button>
+                    </div>
+                    <div class="account-detail">
+                        <strong>Domain:</strong> ${data.domain}
+                        <button class="copy-btn" onclick="copyText('${data.domain}')">Copy</button>
+                    </div>
+                    <div class="account-detail">
+                        <strong>Expired:</strong> ${data.expiration}
+                    </div>
+                `;
+
+                if (data.link_tls) {
+                    html += `<div class="account-detail">
+                        <strong>Link TLS:</strong> <a href="${data.link_tls}" target="_blank">Open</a>
+                        <button class="copy-btn" onclick="copyText('${data.link_tls}')">Copy</button>
+                    </div>`;
+                }
+                if (data.link_ntls) {
+                    html += `<div class="account-detail">
+                        <strong>Link Non-TLS:</strong> <a href="${data.link_ntls}" target="_blank">Open</a>
+                        <button class="copy-btn" onclick="copyText('${data.link_ntls}')">Copy</button>
+                    </div>`;
+                }
+                if (data.link_grpc) {
+                    html += `<div class="account-detail">
+                        <strong>Link gRPC:</strong> <a href="${data.link_grpc}" target="_blank">Open</a>
+                        <button class="copy-btn" onclick="copyText('${data.link_grpc}')">Copy</button>
+                    </div>`;
+                }
+            }
+
+            accountDetails.innerHTML = html;
+            document.getElementById('loadingSection').style.display = 'none';
+            document.getElementById('resultSection').style.display = 'block';
+        }
+
+        function startTimer() {
+            let timeLeft = 3600; // 60 minutes in seconds
+            const timerElement = document.getElementById('timer');
+
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                
+                timerElement.textContent = `Waktu tersisa: ${minutes}:${seconds.toString().padStart(2, '0')}`;
+
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    timerElement.textContent = 'Trial Expired!';
+                    timerElement.style.background = '#d32f2f';
+                    timerElement.style.color = 'white';
+                }
+            }, 1000);
+        }
+
+        function copyText(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Berhasil di-copy!');
+            });
+        }
+    </script>
+</body>
+</html>
