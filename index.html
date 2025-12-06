@@ -55,6 +55,10 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
             transition: transform 0.3s, box-shadow 0.3s;
             animation: slideUp 0.6s;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: block;
         }
 
         .service-card:hover {
@@ -106,6 +110,68 @@
             font-size: 1.3em;
             font-weight: bold;
             color: #f5576c;
+        }
+
+        .view-detail-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: transform 0.3s;
+            font-size: 1em;
+        }
+
+        .view-detail-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .cta-section {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 40px;
+        }
+
+        .cta-section h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 2em;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        .cta-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 40px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1em;
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: inline-block;
+        }
+
+        .cta-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .cta-btn.trial {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
         }
 
         .features {
@@ -204,6 +270,10 @@
             .services {
                 grid-template-columns: 1fr;
             }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
@@ -214,8 +284,17 @@
             <p class="tagline">Premium VPN Service - Fast, Secure & Affordable</p>
         </header>
 
+        <div class="cta-section">
+            <h2>🎯 Mulai Sekarang!</h2>
+            <p style="color: #666; margin-bottom: 20px;">Pilih cara terbaik untuk memulai menggunakan layanan VPN kami</p>
+            <div class="cta-buttons">
+                <a href="trial.html" class="cta-btn trial">🎁 Coba Trial Gratis (60 Menit)</a>
+                <a href="order.html" class="cta-btn">💳 Order Langsung</a>
+            </div>
+        </div>
+
         <div class="services">
-            <div class="service-card">
+            <a href="ssh.html" class="service-card">
                 <div class="service-icon">🔐</div>
                 <h3 class="service-title">SSH</h3>
                 <p class="service-desc">Secure Shell dengan enkripsi tinggi untuk koneksi yang aman dan stabil</p>
@@ -229,9 +308,10 @@
                         <span class="price-amount">Rp 10.000</span>
                     </div>
                 </div>
-            </div>
+                <button class="view-detail-btn">Lihat Detail →</button>
+            </a>
 
-            <div class="service-card">
+            <a href="vmess.html" class="service-card">
                 <div class="service-icon">⚡</div>
                 <h3 class="service-title">VMess</h3>
                 <p class="service-desc">V2Ray protocol dengan performa tinggi dan bypass yang handal</p>
@@ -245,9 +325,10 @@
                         <span class="price-amount">Rp 10.000</span>
                     </div>
                 </div>
-            </div>
+                <button class="view-detail-btn">Lihat Detail →</button>
+            </a>
 
-            <div class="service-card">
+            <a href="vless.html" class="service-card">
                 <div class="service-icon">🛡️</div>
                 <h3 class="service-title">VLess</h3>
                 <p class="service-desc">Protocol ringan dengan overhead minimal untuk kecepatan maksimal</p>
@@ -261,9 +342,10 @@
                         <span class="price-amount">Rp 10.000</span>
                     </div>
                 </div>
-            </div>
+                <button class="view-detail-btn">Lihat Detail →</button>
+            </a>
 
-            <div class="service-card">
+            <a href="trojan.html" class="service-card">
                 <div class="service-icon">🔒</div>
                 <h3 class="service-title">Trojan</h3>
                 <p class="service-desc">Protocol modern dengan kemampuan bypass internet positif terbaik</p>
@@ -277,7 +359,8 @@
                         <span class="price-amount">Rp 10.000</span>
                     </div>
                 </div>
-            </div>
+                <button class="view-detail-btn">Lihat Detail →</button>
+            </a>
         </div>
 
         <div class="features">
@@ -297,8 +380,8 @@
         <div class="contact">
             <h2>📱 Hubungi Kami</h2>
             <p style="margin-bottom: 20px; color: #666;">Pesan sekarang dan dapatkan akses instant!</p>
-            <a href="#" class="contact-btn" onclick="alert('Silakan hubungi admin melalui WhatsApp atau Telegram'); return false;">💬 WhatsApp</a>
-            <a href="#" class="contact-btn" onclick="alert('Silakan hubungi admin melalui Telegram'); return false;">✈️ Telegram</a>
+            <a href="https://wa.me/6281234567890" class="contact-btn" target="_blank">💬 WhatsApp</a>
+            <a href="https://t.me/istiqwamantunnel" class="contact-btn" target="_blank">✈️ Telegram</a>
         </div>
 
         <footer>
