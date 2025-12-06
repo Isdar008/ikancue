@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order - Istiqwaman Tunnel</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .back-btn {
+            display: inline-block;
+            color: white;
+            text-decoration: none;
+            margin-bottom: 20px;
+            font-size: 1.1em;
+        }
+
+        .order-card {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            color: #667eea;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            color: #333;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border 0.3s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .price-info {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #667eea;
+        }
+
+        .price-info h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .submit-btn:hover {
+            transform: scale(1.02);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .result-card {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            display: none;
+        }
+
+        .success-icon {
+            text-align: center;
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+
+        .account-detail {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            position: relative;
+        }
+
+        .account-detail strong {
+            color: #667eea;
+        }
+
+        .copy-btn {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 5px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+
+        .copy-btn:hover {
+            background: #5568d3;
+        }
+
+        .error-msg {
+            background: #ffe6e6;
+            color: #d32f2f;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #d32f2f;
+        }
+
+        .trial-btn {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .trial-btn:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-btn">← Kembali</a>
+
+        <div class="order-card" id="orderForm">
+            <h1>🚀 Order VPN Account</h1>
+
+            <form id="createAccountForm">
+                <div class="form-group">
+                    <label>Protocol *</label>
+                    <select id="protocol" required>
+                        <option value="">Pilih Protocol</option>
+                        <option value="ssh">SSH</option>
+                        <option value="vmess">VMess</option>
+                        <option value="vless">VLess</option>
+                        <option value="trojan">Trojan</option>
+                        <option value="shadowsocks">Shadowsocks</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Username *</label>
+                    <input type="text" id="username" placeholder="Masukkan username" required>
+                </div>
+
+                <div class="form-group" id="passwordGroup">
+                    <label>Password * (khusus SSH)</label>
+                    <input type="text" id="password" placeholder="Masukkan password">
+                </div>
+
+                <div class="form-group">
+                    <label>Durasi *</label>
+                    <select id="duration" required>
+                        <option value="">Pilih Durasi</option>
+                        <option value="15">15 Hari - Rp 5.000</option>
+                        <option value="30">30 Hari - Rp 10.000</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>IP Limit *</label>
+                    <select id="iplimit" required>
+                        <option value="2">2 Device</option>
+                        <option value="3">3 Device</option>
+                        <option value="5">5 Device</option>
+                    </select>
+                </div>
+
+                <div class="form-group" id="quotaGroup" style="display:none;">
+                    <label>Quota * (GB)</label>
+                    <input type="number" id="quota" placeholder="Contoh: 50" value="50">
+                </div>
+
+                <div class="price-info">
+                    <h3>Total Pembayaran</h3>
+                    <p id="priceDisplay" style="font-size: 1.5em; font-weight: bold; color: #f5576c;">Rp 0</p>
+                </div>
+
+                <button type="button" class="trial-btn" onclick="tryTrial()">🎁 Coba Trial Gratis Dulu (60 Menit)</button>
+
+                <button type="submit" class="submit-btn">💳 Buat Pesanan</button>
+            </form>
+        </div>
+
+        <div class="result-card" id="resultCard">
+            <div class="success-icon">✅</div>
+            <h2 style="text-align: center; color: #667eea; margin-bottom: 30px;">Akun Berhasil Dibuat!</h2>
+            <div id="accountDetails"></div>
+            <button class="submit-btn" onclick="window.location.reload()" style="margin-top: 30px;">Buat Pesanan Baru</button>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'https://api.rmpremium.cloud';
+        const API_KEY = 'YOUR_API_KEY_HERE'; // Ganti dengan API key Anda
+
+        // Show/hide password and quota fields based on protocol
+        document.getElementById('protocol').addEventListener('change', function() {
+            const protocol = this.value;
+            const passwordGroup = document.getElementById('passwordGroup');
+            const quotaGroup = document.getElementById('quotaGroup');
+            
+            if (protocol === 'ssh') {
+                passwordGroup.style.display = 'block';
+                quotaGroup.style.display = 'none';
+            } else if (protocol) {
+                passwordGroup.style.display = 'none';
+                quotaGroup.style.display = 'block';
+            }
+        });
+
+        // Update price display
+        document.getElementById('duration').addEventListener('change', function() {
+            const duration = this.value;
+            const priceDisplay = document.getElementById('priceDisplay');
+            
+            if (duration === '15') {
+                priceDisplay.textContent = 'Rp 5.000';
+            } else if (duration === '30') {
+                priceDisplay.textContent = 'Rp 10.000';
+            }
+        });
+
+        // Try trial function
+        function tryTrial() {
+            const protocol = document.getElementById('protocol').value;
+            if (!protocol) {
+                alert('Pilih protocol terlebih dahulu!');
+                return;
+            }
+            window.location.href = `trial.html?protocol=${protocol}`;
+        }
+
+        // Handle form submission
+        document.getElementById('createAccountForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const protocol = document.getElementById('protocol').value;
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const duration = document.getElementById('duration').value;
+            const iplimit = document.getElementById('iplimit').value;
+            const quota = document.getElementById('quota').value;
+
+            // Validation
+            if (!protocol || !username || !duration || !iplimit) {
+                alert('Mohon lengkapi semua field!');
+                return;
+            }
+
+            if (protocol === 'ssh' && !password) {
+                alert('Password wajib diisi untuk SSH!');
+                return;
+            }
+
+            // Show loading
+            const submitBtn = e.target.querySelector('.submit-btn');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<div class="spinner"></div> Membuat akun...';
+
+            try {
+                let endpoint = '';
+                let params = new URLSearchParams({
+                    auth: API_KEY,
+                    user: username,
+                    exp: duration,
+                    iplimit: iplimit
+                });
+
+                if (protocol === 'ssh') {
+                    endpoint = '/createssh';
+                    params.append('password', password);
+                } else {
+                    params.append('quota', quota);
+                    if (protocol === 'vmess') endpoint = '/createvmess';
+                    else if (protocol === 'vless') endpoint = '/createvless';
+                    else if (protocol === 'trojan') endpoint = '/createtrojan';
+                    else if (protocol === 'shadowsocks') endpoint = '/createshadowsocks';
+                }
+
+                const response = await fetch(`${API_BASE}${endpoint}?${params}`);
+                const data = await response.json();
+
+                if (data.status === 'success') {
+                    displayResult(data.data, protocol);
+                } else {
+                    throw new Error(data.error || 'Gagal membuat akun');
+                }
+            } catch (error) {
+                alert('Error: ' + error.message);
+                submitBtn.disabled = false;
+                submitBtn.textContent = '💳 Buat Pesanan';
+            }
+        });
+
+        function displayResult(data, protocol) {
+            const orderForm = document.getElementById('orderForm');
+            const resultCard = document.getElementById('resultCard');
+            const accountDetails = document.getElementById('accountDetails');
+
+            let html = '';
+
+            if (protocol === 'ssh') {
+                html = `
+                    <div class="account-detail">
+                        <strong>Username:</strong> ${data.username}
+                        <button class="copy-btn" onclick="copyText('${data.username}')">Copy</button>
+                    </div>
+                    <div class="account-detail">
+                        <strong>Password:</strong> ${data.password}
+                        <button class="copy-btn" onclick="copyText('${data.password}')">Copy</button>
+                    </div>
+                    <div class="account-detail">
+                        <strong>Domain:</strong> ${data.domain}
+                        <button class="copy-btn" onclick="copyText('${data.domain}')">Copy</button>
+                    </div>
+                    <div class="account-detail">
+                        <strong>Expired:</strong> ${data.expired}
+                    </div>
+                    <div class="account-detail">
+                        <strong>IP Limit:</strong> ${data.ip_limit}
+                    </div>
+                    <div class="account-detail">
+                        <strong>Public Key:</strong> ${data.pubkey}
+                        <button class="copy-btn" onclick="copyText('${data.pubkey}')">Copy</button>
+                    </div>
+                `;
+            } else {
+                html = `
+                    <div class="account-detail">
+                        <strong>Username:</strong> ${data.username}
+                        <button class="copy-btn" onclick="copyText('${data.username}')">Copy</button>
+                    </div>
+                    <div class="account-detail">
+                        <strong>UUID:</strong> ${data.uuid}
+                        <button class="copy-btn" onclick="copyText('${data.uuid}')">Copy</button>
+                    </div>
+                    <div class="account-detail">
+                        <strong>Domain:</strong> ${data.domain}
+                        <button class="copy-btn" onclick="copyText('${data.domain}')">Copy</button>
+                    </div>
+                    <div class="account-detail">
+                        <strong>Expired:</strong> ${data.expired}
+                    </div>
+                    <div class="account-detail">
+                        <strong>Quota:</strong> ${data.quota} GB
+                    </div>
+                    <div class="account-detail">
+                        <strong>IP Limit:</strong> ${data.ip_limit}
+                    </div>
+                `;
+
+                if (data.vmess_tls_link) {
+                    html += `<div class="account-detail">
+                        <strong>VMess TLS:</strong> <a href="${data.vmess_tls_link}" target="_blank">Link</a>
+                        <button class="copy-btn" onclick="copyText('${data.vmess_tls_link}')">Copy</button>
+                    </div>`;
+                }
+                if (data.vless_tls_link) {
+                    html += `<div class="account-detail">
+                        <strong>VLess TLS:</strong> <a href="${data.vless_tls_link}" target="_blank">Link</a>
+                        <button class="copy-btn" onclick="copyText('${data.vless_tls_link}')">Copy</button>
+                    </div>`;
+                }
+                if (data.trojan_tls_link) {
+                    html += `<div class="account-detail">
+                        <strong>Trojan TLS:</strong> <a href="${data.trojan_tls_link}" target="_blank">Link</a>
+                        <button class="copy-btn" onclick="copyText('${data.trojan_tls_link}')">Copy</button>
+                    </div>`;
+                }
+            }
+
+            accountDetails.innerHTML = html;
+            orderForm.style.display = 'none';
+            resultCard.style.display = 'block';
+        }
+
+        function copyText(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Berhasil di-copy!');
+            });
+        }
+    </script>
+</body>
+</html>
